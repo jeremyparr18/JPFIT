@@ -1,0 +1,16 @@
+JP FIT WEBSITE VERSION 13 — COMPLETE ASSETS
+
+UPLOAD TO GITHUB
+1. Open this ZIP and extract it.
+2. Open the folder jp-fit-website-v13-complete.
+3. Upload ALL of these items to the ROOT of your GitHub repository:
+   - index.html
+   - checkout.html
+   - assets folder
+4. Commit the changes.
+5. Vercel will redeploy automatically.
+
+IMPORTANT
+Do not upload the ZIP itself.
+Do not upload only index.html and checkout.html.
+The assets folder contains the logo, stage photos, and transformations.
