@@ -57,8 +57,12 @@ authForm.addEventListener("submit",async e=>{
  }
  submit.disabled=false;
 });
-function redirect(){
- const next=new URLSearchParams(location.search).get("next")||"client-portal.html";
- location.href=decodeURIComponent(next);
+async function redirect(){
+ const requested=new URLSearchParams(location.search).get("next");
+ if(requested){location.href=decodeURIComponent(requested);return}
+ const user=await jpGetUser();
+ if(!user){location.href="auth.html";return}
+ const {data:profile}=await jpSupabase.from("profiles").select("role").eq("id",user.id).maybeSingle();
+ location.href=profile&&["coach","admin"].includes(profile.role)?"coach-dashboard.html":"client-portal.html";
 }
 </script></body></html>

@@ -1,25 +1,19 @@
-JP FIT VERSION 22 — CUSTOM WORKOUT TEMPLATES + EXERCISE MEDIA
+JP FIT VERSION 23 — PROGRAM-STYLE WORKOUT UI
 
-STEP 1 — DATABASE
-1. Open Supabase -> SQL Editor.
-2. Create a NEW query.
-3. Paste all contents of SUPABASE-V22-MEDIA-TEMPLATES.sql.
-4. Run the query.
+NO NEW SQL REQUIRED.
 
-STEP 2 — WEBSITE
-Upload all Version 22 files to the root of GitHub and commit.
+CHANGES
+- Coaches and clients now share auth.html.
+- Coach/admin accounts route to coach-dashboard.html automatically.
+- Client accounts route to client-portal.html automatically.
+- Workout builder now uses a compact program-style row layout.
+- Thumbnail/media appears on the left.
+- Exercise name appears beside it.
+- One editable description field controls the client-facing instructions.
+- Rest guidance has its own right-side field.
+- Clicking the exercise name opens the exercise library editor.
+- Client workout display matches the same compact layout.
+- Version 22 custom templates, media uploads, and files remain included.
 
-NEW FEATURES
-- Click any exercise card to edit it.
-- Edit exercise description, cues, category, muscle, equipment, difficulty, sets, reps, tempo, rest, and weight guidance.
-- Upload a photo or video to the exercise.
-- Upload a supporting file such as a PDF.
-- Exercise search results show a thumbnail to the left of the exercise name.
-- Added exercises keep the thumbnail in the workout builder.
-- Client workouts display the photo/video, full instructions, and file link.
-- Save any built workout as a custom reusable template.
-- Load or delete saved templates from My Workout Templates.
-
-MEDIA STORAGE
-Files upload to the Supabase Storage bucket named exercise-media.
-The SQL creates the bucket and coach-only upload policies.
+UPLOAD
+Upload all files to the root of GitHub and commit.

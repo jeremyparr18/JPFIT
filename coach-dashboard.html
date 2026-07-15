@@ -37,6 +37,28 @@
 @media(max-width:800px){.template-library{grid-template-columns:1fr 1fr}.upload-row{grid-template-columns:1fr}}
 @media(max-width:600px){.template-library{grid-template-columns:1fr}.exercise{grid-template-columns:52px 1fr}.exercise-thumb{width:52px;height:52px}}
 
+
+.program-builder{margin-top:16px;border:1px solid #303030;border-radius:16px;overflow:hidden;background:#141414}
+.program-builder-head{padding:16px 18px;border-bottom:1px solid #303030;background:#181818}
+.program-builder-head h3{font-size:1.9rem;margin:0 0 5px}
+.program-builder-head p{margin:0;color:#888;font-size:.74rem}
+.program-row{display:grid;grid-template-columns:58px minmax(170px,1fr) minmax(260px,2fr) 190px 42px;align-items:center;border-top:1px solid #2c2c2c;min-height:66px}
+.program-row:first-child{border-top:0}
+.program-thumb{width:46px;height:46px;margin-left:9px;border-radius:8px;background:#0d0d0d;border:1px solid #343434;overflow:hidden;display:grid;place-items:center;color:#666;font-size:.58rem}
+.program-thumb img,.program-thumb video{width:100%;height:100%;object-fit:cover}
+.program-name{padding:12px 10px;font-weight:800;cursor:pointer}
+.program-description{padding:9px 10px;border-left:1px solid #2b2b2b;border-right:1px solid #2b2b2b}
+.program-description textarea{width:100%;min-height:44px;resize:vertical;background:#0f0f0f;color:#fff;border:1px solid #333;border-radius:8px;padding:9px;font-size:.76rem}
+.program-rest{padding:12px 10px;color:#ddd;font-size:.76rem}
+.program-rest input{width:100%;margin-top:5px;background:#0f0f0f;color:#fff;border:1px solid #333;border-radius:8px;padding:8px}
+.program-remove{border:0;background:none;color:#888;font-size:1.2rem;cursor:pointer}
+.program-meta{font-size:.68rem;color:#777;margin-top:3px}
+.simple-editor-note{background:#202000;border-left:4px solid #caff38;padding:11px;border-radius:9px;margin-top:12px;font-size:.75rem}
+@media(max-width:700px){
+ .program-row{grid-template-columns:48px 1fr 34px}
+ .program-description,.program-rest{grid-column:1/-1;border:0;border-top:1px solid #2b2b2b}
+}
+
 </style></head><body>
 <div class="loading" id="loading"><div class="spin"></div></div>
 <div class="shell">
@@ -63,7 +85,14 @@
   <button class="btn" id="save-template" type="button">Save as My Template</button>
 </div>
 <div class="form-grid"><label class="field">Client<select id="builder-client"></select></label><label class="field">Workout title<input id="workout-title" placeholder="Upper Body A"></label><label class="field">Scheduled date<input id="workout-date" type="date"></label><label class="field">Preset template<select id="template-select"></select></label><label class="field full">Coach notes<textarea id="workout-notes" rows="3"></textarea></label></div>
-<div class="builder" id="builder-list"><div class="empty">Add exercises from the Exercise Library or load a template.</div></div>
+<div class="program-builder">
+  <div class="program-builder-head">
+    <h3>Workout Exercises</h3>
+    <p>Edit the client-facing description directly. Click an exercise name to edit its library details or media.</p>
+  </div>
+  <div id="builder-list"><div class="empty" style="padding:18px">Add exercises from the Exercise Library or load a template.</div></div>
+</div>
+<div class="simple-editor-note">Use the description box for the exact instructions the client should follow—sets, reps, tempo, pauses, drop sets, supersets, or technique notes. Rest time stays in the separate field on the right.</div>
 <button class="btn" id="assign-workout" style="margin-top:14px">Assign Workout</button><div class="notice" id="workout-notice"></div>
 <div class="section-head"><h2>My Workout Templates</h2></div>
 <div class="template-library" id="template-library"></div>
@@ -173,11 +202,8 @@
        name:x.name,
        sets:x.default_sets,
        reps:x.default_reps,
-       tempo:x.tempo||"",
+       description:x.written_description||`${x.default_sets} sets × ${x.default_reps}${x.coaching_cues?` · ${x.coaching_cues}`:""}`,
        rest:x.rest_guidance||"",
-       weightGuidance:x.weight_guidance||"",
-       description:x.written_description||"",
-       coachingCues:x.coaching_cues||x.coaching_cue||"",
        mediaUrl:x.media_url||"",
        mediaType:x.media_type||"",
        attachmentUrl:x.attachment_url||""
@@ -288,7 +314,53 @@
 
 $("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
  $("load-template").onclick=()=>{const t=(templates||[]).find(x=>x.id===$("template-select").value);if(!t)return;builderExercises=(Array.isArray(t.exercises)?t.exercises:[...t.exercises]).map(normalizeExercise);$("workout-title").value=t.name;renderBuilder()};
- function renderBuilder(){$("builder-list").innerHTML=builderExercises.length?builderExercises.map((x,i)=>`<div class="builder-row"><strong>${x.name}</strong><input data-i="${i}" data-k="sets" value="${x.sets}"><input data-i="${i}" data-k="reps" value="${x.reps}"><button class="btn dark remove" data-i="${i}">×</button></div>`).join(""):'<div class="empty">Add exercises or load a preset template.</div>';document.querySelectorAll(".builder-row input").forEach(inp=>inp.oninput=()=>builderExercises[+inp.dataset.i][inp.dataset.k]=inp.value);document.querySelectorAll(".remove").forEach(b=>b.onclick=()=>{builderExercises.splice(+b.dataset.i,1);renderBuilder()})}
+function normalizeExercise(x){
+   const sets=x.sets??3;
+   const reps=x.reps??"8-12";
+   return {
+     name:x.name||"Exercise",
+     sets,
+     reps,
+     description:x.description||x.instructions||[
+       `${sets} sets × ${reps}`,
+       x.tempo?`Tempo ${x.tempo}`:"",
+       x.weightGuidance?`Weight ${x.weightGuidance}`:"",
+       x.coachingCues||x.cue||x.coaching_cues||""
+     ].filter(Boolean).join(" · "),
+     rest:x.rest||x.rest_guidance||"",
+     mediaUrl:x.mediaUrl||x.media_url||"",
+     mediaType:x.mediaType||x.media_type||"",
+     attachmentUrl:x.attachmentUrl||x.attachment_url||""
+   };
+ }
+ function renderBuilder(){
+   builderExercises=builderExercises.map(normalizeExercise);
+   $("builder-list").innerHTML=builderExercises.length?builderExercises.map((x,i)=>`
+     <div class="program-row">
+       <div class="program-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name}">`):"<span>No media</span>"}</div>
+       <div class="program-name" data-library-edit="${i}">
+         ${x.name}
+         <div class="program-meta">${x.sets||"—"} sets · ${x.reps||"—"}</div>
+       </div>
+       <div class="program-description">
+         <textarea data-desc="${i}" placeholder="Client instructions, sets, reps, tempo, pauses, cues...">${x.description||""}</textarea>
+       </div>
+       <div class="program-rest">
+         Rest
+         <input data-rest="${i}" value="${x.rest||""}" placeholder="Example: 45 sec">
+       </div>
+       <button class="program-remove" data-remove="${i}" type="button">×</button>
+     </div>`).join(""):'<div class="empty" style="padding:18px">Add exercises from the Exercise Library or load a template.</div>';
+
+   document.querySelectorAll("[data-desc]").forEach(el=>el.oninput=()=>builderExercises[+el.dataset.desc].description=el.value);
+   document.querySelectorAll("[data-rest]").forEach(el=>el.oninput=()=>builderExercises[+el.dataset.rest].rest=el.value);
+   document.querySelectorAll("[data-remove]").forEach(btn=>btn.onclick=()=>{builderExercises.splice(+btn.dataset.remove,1);renderBuilder()});
+   document.querySelectorAll("[data-library-edit]").forEach(el=>el.onclick=()=>{
+     const item=builderExercises[+el.dataset.libraryEdit];
+     const libraryItem=(exercises||[]).find(x=>x.name===item.name);
+     if(libraryItem){document.querySelector('[data-panel="library"]').click();openLibraryEditor(libraryItem)}
+   });
+ }
  
  function renderTemplateLibrary(){
    $("template-library").innerHTML=(templates||[]).map(t=>`

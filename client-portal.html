@@ -16,6 +16,18 @@
 .notice{display:none;border-left:4px solid var(--lime);background:#202020;padding:12px;border-radius:9px;margin-top:12px;font-size:.75rem}.empty{color:#777;font-size:.8rem;padding:15px 0}
 @media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{height:auto;position:relative}.nav{grid-template-columns:repeat(3,1fr)}.sidebar-bottom{margin-top:18px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.main{padding:18px}.topbar{align-items:flex-start;gap:12px;flex-direction:column}.nav{grid-template-columns:1fr 1fr}.grid,.form-grid,.macro-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero h2{font-size:2.7rem}}
+
+.client-program{border:1px solid #2e2e2e;border-radius:16px;overflow:hidden;margin-top:12px}
+.client-program-head{padding:15px 17px;background:#181818;border-bottom:1px solid #2e2e2e}
+.client-program-row{display:grid;grid-template-columns:54px minmax(170px,1fr) minmax(260px,2fr) 170px;align-items:center;border-top:1px solid #292929;min-height:64px}
+.client-program-row:first-child{border-top:0}
+.client-program-thumb{width:44px;height:44px;margin-left:7px;border-radius:7px;background:#0d0d0d;overflow:hidden;display:grid;place-items:center;color:#666;font-size:.56rem}
+.client-program-thumb img,.client-program-thumb video{width:100%;height:100%;object-fit:cover}
+.client-program-name{padding:10px;font-weight:800}
+.client-program-desc{padding:10px;border-left:1px solid #292929;border-right:1px solid #292929;color:#ddd;font-size:.76rem}
+.client-program-rest{padding:10px;color:#ddd;font-size:.74rem}
+@media(max-width:650px){.client-program-row{grid-template-columns:48px 1fr}.client-program-desc,.client-program-rest{grid-column:1/-1;border:0;border-top:1px solid #292929}}
+
 </style>
 </head>
 <body>
@@ -138,17 +150,21 @@
  }
  function renderWorkouts(rows=workouts||[]){
    $("workout-list").innerHTML=rows.length?rows.map(w=>{
-     const exercises=Array.isArray(w.exercises)?w.exercises:[];
-     const exerciseHtml=exercises.map(x=>`
-       <div style="margin-top:10px;padding:12px;background:#111;border-radius:12px">
-         ${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video controls style="width:100%;max-width:420px;border-radius:12px;margin-bottom:10px"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name||"Exercise"}" style="width:100%;max-width:420px;border-radius:12px;margin-bottom:10px">`):""}
-         <strong>${x.name||"Exercise"} · ${x.sets||"—"} sets × ${x.reps||"—"}</strong>
-         <span>${x.tempo?`Tempo: ${x.tempo} · `:""}${x.rest?`Rest: ${x.rest} · `:""}${x.weightGuidance?`Weight: ${x.weightGuidance}`:""}</span>
-         ${x.description?`<p>${x.description}</p>`:""}
-         ${x.coachingCues?`<p><strong>Coach cues:</strong> ${x.coachingCues}</p>`:""}
-         ${x.attachmentUrl?`<p><a class="btn dark" target="_blank" rel="noopener" href="${x.attachmentUrl}">Open Exercise File</a></p>`:""}
+     const exerciseRows=(Array.isArray(w.exercises)?w.exercises:[]).map(x=>`
+       <div class="client-program-row">
+         <div class="client-program-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name||"Exercise"}">`):"<span>No media</span>"}</div>
+         <div class="client-program-name">${x.name||"Exercise"}</div>
+         <div class="client-program-desc">${x.description||`${x.sets||"—"} sets × ${x.reps||"—"}`}</div>
+         <div class="client-program-rest">${x.rest?`✋ Rest ${x.rest}`:""}</div>
        </div>`).join("");
-     return `<div class="list-item"><strong>${w.title}</strong><span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span><p>${w.coach_notes||""}</p>${exerciseHtml}</div>`;
+     return `<div class="client-program">
+       <div class="client-program-head">
+         <strong>${w.title}</strong>
+         <span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span>
+         ${w.coach_notes?`<p>${w.coach_notes}</p>`:""}
+       </div>
+       ${exerciseRows}
+     </div>`;
    }).join(""):'<div class="empty">No workouts assigned yet.</div>';
    if(rows.length){$("next-workout-copy").textContent=rows[0].title;$("next-workout-status").textContent=rows[0].status}
  }
