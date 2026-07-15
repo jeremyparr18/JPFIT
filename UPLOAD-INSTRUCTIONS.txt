@@ -38,3 +38,27 @@ UPLOAD TO GITHUB
 STRIPE SUCCESS REDIRECT
 Inside each Stripe Payment Link, set the post-payment redirect URL to:
 https://trainwithjpfit.com/welcome.html
+
+
+VERSION 16 — DEVELOPER MODE
+
+HOW TO TEST WITHOUT STRIPE
+Visit:
+https://trainwithjpfit.com/checkout.html?test=true
+
+Developer mode will:
+- Show a visible developer-mode badge
+- Allow normal plan and agreement testing
+- Show a floating Developer button
+- Prefill a test enrollment
+- Jump directly to the signature page
+- Simulate a successful payment
+- Redirect to welcome.html?test=true
+- Carry developer mode into the intake form
+
+KEYBOARD SHORTCUT
+Ctrl + Shift + J opens the Developer Tools panel while test mode is active.
+
+IMPORTANT
+Developer mode is activated only when the URL contains ?test=true.
+Normal visitors using the regular checkout URL still go to real Stripe Checkout.

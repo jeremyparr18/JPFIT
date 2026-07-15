@@ -31,9 +31,29 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
 @media(max-width:950px){.shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.sidebar-copy{margin:30px 0}.steps{grid-template-columns:repeat(3,1fr)}.main{padding:22px}.review-grid{grid-template-columns:1fr}.membership{position:static}.agreement-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.card{padding:24px 16px}.option-grid,.form-grid,.next-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.steps{grid-template-columns:1fr 1fr}.topline{align-items:flex-start;gap:12px;flex-direction:column}.progress-wrap{width:100%}.actions{flex-direction:column-reverse}.actions .btn{width:100%}}
 @media print{body{background:#fff}.sidebar,.topline,.actions,.legal-warning,.consent-list,.signature-box .field,.back-home{display:none!important}.shell{display:block}.main{padding:0}.card{box-shadow:none;border:0;padding:0}.step{display:none!important}.step[data-step="5"]{display:block!important}.review-grid{display:block}.membership{display:none}.contract{max-height:none;overflow:visible;border:0}.print-only{display:block}}
+
+.dev-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#caff38;color:#111;text-align:center;padding:8px 14px;font-size:.72rem;font-weight:900;letter-spacing:.12em;box-shadow:0 4px 18px rgba(0,0,0,.2)}
+.dev-mode .dev-banner{display:block}
+.dev-mode .shell{padding-top:34px}
+.dev-tools-toggle{display:none;position:fixed;right:18px;bottom:18px;z-index:998;border:0;background:#111;color:#caff38;border-radius:999px;padding:12px 16px;font-weight:900;cursor:pointer;box-shadow:0 14px 35px rgba(0,0,0,.25)}
+.dev-mode .dev-tools-toggle{display:block}
+.dev-panel{display:none;position:fixed;right:18px;bottom:72px;z-index:998;width:min(360px,calc(100% - 36px));background:#111;color:#fff;border:1px solid #333;border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.dev-panel.open{display:block}
+.dev-panel h3{font-size:1.5rem;margin-bottom:10px}
+.dev-panel p{font-size:.72rem;color:#999}
+.dev-panel label{display:block;font-size:.72rem;font-weight:800;margin-top:10px}
+.dev-panel select{width:100%;margin-top:5px;padding:10px;border-radius:9px;border:1px solid #333;background:#1b1b1b;color:#fff}
+.dev-panel button{width:100%;margin-top:12px;border:0;border-radius:999px;padding:11px;background:#caff38;color:#111;font-weight:900;cursor:pointer}
+.fake-payment-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,8,8,.96);color:#fff;place-items:center;text-align:center;padding:24px}
+.fake-payment-overlay.show{display:grid}
+.fake-payment-card{width:min(460px,100%);background:#151515;border:1px solid #2e2e2e;border-radius:24px;padding:30px}
+.fake-loader{height:10px;background:#2a2a2a;border-radius:999px;overflow:hidden;margin:22px 0}
+.fake-loader i{display:block;height:100%;width:0;background:#caff38;transition:width 1.4s ease}
+.fake-loader.run i{width:100%}
+
 </style>
 </head>
-<body>
+<body><div class="dev-banner">JP FIT DEVELOPER MODE — NO REAL PAYMENT WILL BE PROCESSED</div>
 <div class="shell">
 <aside class="sidebar">
   <a class="brand" href="index.html"><img src="assets/jp-fit-logo.jpg" alt="JP Fit logo"><div><strong>JP FIT</strong><span>PREMIUM COACHING</span></div></a>
@@ -320,6 +340,16 @@ document.getElementById("accept-and-pay").addEventListener("click",()=>{
 });
 document.getElementById("return-sign").addEventListener("click",()=>go(5));
 document.getElementById("stripe-button").addEventListener("click",()=>{
+ if(developerMode){
+   const overlay=document.getElementById("fake-payment-overlay");
+   const loader=document.getElementById("fake-loader");
+   const status=document.getElementById("fake-payment-status");
+   overlay.classList.add("show");
+   requestAnimationFrame(()=>loader.classList.add("run"));
+   setTimeout(()=>status.textContent="✓ Test payment approved",1500);
+   setTimeout(()=>location.href="welcome.html?test=true",2300);
+   return;
+ }
  const lookup=state.service==="online"?`${state.service}|${state.term}`:`${state.service}|${state.frequency}`;
  const link=stripeLinks[lookup];
  if(!link){alert("This Stripe option is not connected. Please contact JP Fit.");return}
@@ -327,6 +357,108 @@ document.getElementById("stripe-button").addEventListener("click",()=>{
 });
 if(state.service)buildFrequencies();
 updateReview();
+
+const developerMode = new URLSearchParams(window.location.search).get("test") === "true";
+if(developerMode){
+  document.body.classList.add("dev-mode");
+  const badge = document.querySelector(".dev-banner");
+  if(badge) badge.style.display = "block";
+}
+
+document.getElementById("dev-tools-toggle")?.addEventListener("click",()=>{
+  document.getElementById("dev-panel").classList.toggle("open");
+});
+
+function applyDeveloperSelections(){
+  const g=document.getElementById("dev-goal").value;
+  const s=document.getElementById("dev-service").value;
+  const f=document.getElementById("dev-frequency").value;
+  const t=document.getElementById("dev-term").value;
+
+  state.goal=g; state.service=s; state.term=t;
+  buildFrequencies();
+  state.frequency = Object.keys(plans[s].prices).includes(f) ? f : Object.keys(plans[s].prices)[0];
+  state.price=currentPrice();
+
+  document.querySelectorAll('#goal-options .option-card').forEach(c=>{
+    const input=c.querySelector("input");
+    const active=input.value===g;
+    c.classList.toggle("selected",active); input.checked=active;
+  });
+  document.querySelectorAll('#service-options .option-card').forEach(c=>{
+    const input=c.querySelector("input");
+    const active=input.value===s;
+    c.classList.toggle("selected",active); input.checked=active;
+  });
+  document.querySelectorAll('#frequency-options .option-card').forEach(c=>{
+    const input=c.querySelector("input");
+    const active=input.value===state.frequency;
+    c.classList.toggle("selected",active); input.checked=active;
+  });
+  document.querySelectorAll('.agreement-grid .option-card').forEach(c=>{
+    const input=c.querySelector("input");
+    const active=input.value===t;
+    c.classList.toggle("selected",active); input.checked=active;
+  });
+
+  document.querySelector('[data-step="1"] .next').disabled=false;
+  document.querySelector('[data-step="2"] .next').disabled=false;
+  document.querySelector('[data-step="3"] .next').disabled=false;
+  document.querySelector('[data-step="4"] .next').disabled=false;
+  updateReview();
+  toast("Developer test enrollment prefilled");
+}
+
+document.getElementById("dev-prefill")?.addEventListener("click",applyDeveloperSelections);
+
+document.getElementById("dev-jump-sign")?.addEventListener("click",()=>{
+  applyDeveloperSelections();
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById("client-name").value="Jeremy Parr";
+  document.getElementById("client-email").value="jeremyparr18@gmail.com";
+  document.getElementById("client-phone").value="740-424-9397";
+  document.getElementById("client-address").value="Test Address";
+  document.getElementById("emergency-name").value="Test Contact";
+  document.getElementById("emergency-phone").value="555-555-5555";
+  document.getElementById("start-date").value=today;
+  document.getElementById("accept-contract").checked=true;
+  document.getElementById("health-confirm").checked=true;
+  document.getElementById("electronic-consent").checked=true;
+  document.getElementById("signature-input").value="Jeremy Parr";
+  document.getElementById("signature-preview").textContent="Jeremy Parr";
+  updateReview(); validateSignature(); go(5);
+  document.getElementById("dev-panel").classList.remove("open");
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="j" && developerMode){
+    e.preventDefault();
+    document.getElementById("dev-panel").classList.toggle("open");
+  }
+});
+
 </script>
+
+<button class="dev-tools-toggle" id="dev-tools-toggle">⚙ Developer</button>
+<div class="dev-panel" id="dev-panel">
+  <h3>Developer Tools</h3>
+  <p>Quickly prefill the enrollment flow for testing.</p>
+  <label>Goal<select id="dev-goal"><option>Fat Loss</option><option>Muscle Building</option><option>Strength</option><option>General Fitness</option></select></label>
+  <label>Service<select id="dev-service"><option value="inperson30">30-Minute Sessions</option><option value="inperson60">60-Minute Sessions</option><option value="mobile">Mobile Training</option><option value="online">Online Coaching</option></select></label>
+  <label>Frequency<select id="dev-frequency"><option>1x / Week</option><option>2x / Week</option><option>3x / Week</option><option>4x / Week</option></select></label>
+  <label>Agreement<select id="dev-term"><option>Month-to-Month</option><option>6-Month Agreement</option><option>12-Month Agreement</option></select></label>
+  <button id="dev-prefill">Prefill Test Enrollment</button>
+  <button id="dev-jump-sign">Jump to Signature</button>
+</div>
+<div class="fake-payment-overlay" id="fake-payment-overlay">
+  <div class="fake-payment-card">
+    <span class="eyebrow" style="color:#caff38">SIMULATED CHECKOUT</span>
+    <h2 style="font-size:2.6rem;margin-top:8px">Processing Test Payment</h2>
+    <p style="color:#999">No money is being charged.</p>
+    <div class="fake-loader" id="fake-loader"><i></i></div>
+    <strong id="fake-payment-status">Connecting...</strong>
+  </div>
+</div>
+
 </body>
 </html>
