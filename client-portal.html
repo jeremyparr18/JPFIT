@@ -141,10 +141,12 @@
      const exercises=Array.isArray(w.exercises)?w.exercises:[];
      const exerciseHtml=exercises.map(x=>`
        <div style="margin-top:10px;padding:12px;background:#111;border-radius:12px">
+         ${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video controls style="width:100%;max-width:420px;border-radius:12px;margin-bottom:10px"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name||"Exercise"}" style="width:100%;max-width:420px;border-radius:12px;margin-bottom:10px">`):""}
          <strong>${x.name||"Exercise"} · ${x.sets||"—"} sets × ${x.reps||"—"}</strong>
          <span>${x.tempo?`Tempo: ${x.tempo} · `:""}${x.rest?`Rest: ${x.rest} · `:""}${x.weightGuidance?`Weight: ${x.weightGuidance}`:""}</span>
          ${x.description?`<p>${x.description}</p>`:""}
          ${x.coachingCues?`<p><strong>Coach cues:</strong> ${x.coachingCues}</p>`:""}
+         ${x.attachmentUrl?`<p><a class="btn dark" target="_blank" rel="noopener" href="${x.attachmentUrl}">Open Exercise File</a></p>`:""}
        </div>`).join("");
      return `<div class="list-item"><strong>${w.title}</strong><span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span><p>${w.coach_notes||""}</p>${exerciseHtml}</div>`;
    }).join(""):'<div class="empty">No workouts assigned yet.</div>';

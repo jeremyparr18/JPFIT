@@ -1,26 +1,25 @@
-JP FIT VERSION 21 — EDITABLE EXERCISE DETAILS
+JP FIT VERSION 22 — CUSTOM WORKOUT TEMPLATES + EXERCISE MEDIA
 
-NO NEW SQL IS REQUIRED.
+STEP 1 — DATABASE
+1. Open Supabase -> SQL Editor.
+2. Create a NEW query.
+3. Paste all contents of SUPABASE-V22-MEDIA-TEMPLATES.sql.
+4. Run the query.
 
-NEW WORKOUT BUILDER FEATURES
-- Click any exercise already added to the workout.
-- An Exercise Details editor opens.
-- Edit:
-  • Exercise name
-  • Written description
-  • Coaching cues
-  • Sets
-  • Reps
-  • Tempo
-  • Rest period
-  • Weight guidance
-- Save the exercise details before assigning the workout.
-- Details are stored inside the workout assignment in Supabase.
-- Clients see the full details in their Workouts section.
+STEP 2 — WEBSITE
+Upload all Version 22 files to the root of GitHub and commit.
 
-UPLOAD
-Upload all Version 21 files to the root of GitHub and commit.
-Vercel will redeploy automatically.
+NEW FEATURES
+- Click any exercise card to edit it.
+- Edit exercise description, cues, category, muscle, equipment, difficulty, sets, reps, tempo, rest, and weight guidance.
+- Upload a photo or video to the exercise.
+- Upload a supporting file such as a PDF.
+- Exercise search results show a thumbnail to the left of the exercise name.
+- Added exercises keep the thumbnail in the workout builder.
+- Client workouts display the photo/video, full instructions, and file link.
+- Save any built workout as a custom reusable template.
+- Load or delete saved templates from My Workout Templates.
 
-COACH DASHBOARD
-https://trainwithjpfit.com/coach-dashboard.html
+MEDIA STORAGE
+Files upload to the Supabase Storage bucket named exercise-media.
+The SQL creates the bucket and coach-only upload policies.
