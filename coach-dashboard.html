@@ -59,6 +59,21 @@
  .program-description,.program-rest{grid-column:1/-1;border:0;border-top:1px solid #2b2b2b}
 }
 
+
+.new-workout-btn{background:var(--lime);color:#111}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1200;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop.open{display:flex}
+.modal-card{width:min(560px,100%);background:#171717;border:1px solid #343434;border-radius:24px;padding:24px}
+.modal-card h2{font-size:2.5rem;margin:0 0 10px}.modal-card p{color:#929292;font-size:.82rem}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin-top:7px;padding:13px;border:1px solid #393939;border-radius:11px;background:#0f0f0f;color:#fff}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.template-workout-list{display:grid;gap:10px;margin-top:15px}
+.template-workout-row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;background:#181818;border:1px solid #303030;border-radius:15px;padding:12px}
+.template-workout-preview{height:58px;border-radius:10px;background:#0f0f0f;border:1px solid #333;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;overflow:hidden}
+.template-workout-preview div{background:#222}
+.template-workout-row strong,.template-workout-row span{display:block}.template-workout-row span{font-size:.72rem;color:#888}
+.template-workout-row .row-actions{display:flex;gap:7px;flex-wrap:wrap}
+@media(max-width:650px){.template-workout-row{grid-template-columns:1fr}.template-workout-preview{width:100px}}
 </style></head><body>
 <div class="loading" id="loading"><div class="spin"></div></div>
 <div class="shell">
@@ -78,7 +93,7 @@
 </section>
 
 <section class="panel" id="builder">
-<div class="section-head"><h2>Workout Builder</h2></div>
+<div class="section-head"><h2>Workout Builder</h2><button class="btn new-workout-btn" id="open-new-workout" type="button">+ Custom Template</button></div>
 <div class="template-bar">
   
   <button class="btn dark" id="load-template" type="button">Load Template</button>
@@ -87,7 +102,7 @@
 <div class="form-grid"><label class="field">Client<select id="builder-client"></select></label><label class="field">Workout title<input id="workout-title" placeholder="Upper Body A"></label><label class="field">Scheduled date<input id="workout-date" type="date"></label><label class="field">Preset template<select id="template-select"></select></label><label class="field full">Coach notes<textarea id="workout-notes" rows="3"></textarea></label></div>
 <div class="program-builder">
   <div class="program-builder-head">
-    <h3>Workout Exercises</h3>
+    <h3 id="program-builder-title">Workout Exercises</h3>
     <p>Edit the client-facing description directly. Click an exercise name to edit its library details or media.</p>
   </div>
   <div id="builder-list"><div class="empty" style="padding:18px">Add exercises from the Exercise Library or load a template.</div></div>
@@ -95,7 +110,7 @@
 <div class="simple-editor-note">Use the description box for the exact instructions the client should follow—sets, reps, tempo, pauses, drop sets, supersets, or technique notes. Rest time stays in the separate field on the right.</div>
 <button class="btn" id="assign-workout" style="margin-top:14px">Assign Workout</button><div class="notice" id="workout-notice"></div>
 <div class="section-head"><h2>My Workout Templates</h2></div>
-<div class="template-library" id="template-library"></div>
+<div class="template-workout-list" id="template-library"></div>
 
 </section>
 
@@ -144,7 +159,7 @@
  const user=await jpRequireUser("auth.html");if(!user)return;
  const {data:me}=await jpSupabase.from("profiles").select("*").eq("id",user.id).single();
  if(!me||!["coach","admin"].includes(me.role)){alert("Coach access required.");location.href="client-portal.html";return}
- const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;
+ const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;let currentWorkoutType="Regular";
  document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
  $("signout").onclick=jpSignOut;
 
@@ -312,7 +327,24 @@
    }catch(err){alert(err.message||String(err))}
  };
 
-$("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
+
+ const newWorkoutModal=$("new-workout-modal");
+ $("open-new-workout").onclick=()=>{ $("new-workout-name").value="";$("new-workout-type").value="Regular";$("new-workout-summary").value="";newWorkoutModal.classList.add("open");setTimeout(()=>$("new-workout-name").focus(),50); };
+ $("cancel-new-workout").onclick=()=>newWorkoutModal.classList.remove("open");
+ newWorkoutModal.onclick=e=>{if(e.target===newWorkoutModal)newWorkoutModal.classList.remove("open")};
+ $("start-new-workout").onclick=()=>{
+   const name=$("new-workout-name").value.trim();
+   if(!name){alert("Enter a workout name first.");return}
+   currentWorkoutType=$("new-workout-type").value;
+   $("workout-title").value=name;$("workout-notes").value=$("new-workout-summary").value.trim();
+   builderExercises=[];renderBuilder();newWorkoutModal.classList.remove("open");
+   document.querySelector('[data-panel="builder"]').click();
+   if($("program-builder-title")) $("program-builder-title").textContent=`${currentWorkoutType}: ${name}`;
+   $("workout-notice").style.display="block";
+   $("workout-notice").textContent=`${name} created. Add exercises, then save it as a template.`;
+ };
+
+ $("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
  $("load-template").onclick=()=>{const t=(templates||[]).find(x=>x.id===$("template-select").value);if(!t)return;builderExercises=(Array.isArray(t.exercises)?t.exercises:[...t.exercises]).map(normalizeExercise);$("workout-title").value=t.name;renderBuilder()};
 function normalizeExercise(x){
    const sets=x.sets??3;
@@ -363,30 +395,13 @@ function normalizeExercise(x){
  }
  
  function renderTemplateLibrary(){
-   $("template-library").innerHTML=(templates||[]).map(t=>`
-     <div class="template-card">
-       <strong>${t.name}</strong>
-       <span>${t.goal||"Custom"} · ${t.level||"Custom"} · ${(t.exercises||[]).length} exercises</span>
-       <div class="actions">
-         <button class="btn dark use-template" data-id="${t.id}" type="button">Use</button>
-         <button class="btn dark delete-template" data-id="${t.id}" type="button">Delete</button>
-       </div>
-     </div>`).join("")||'<div class="empty">No saved templates yet.</div>';
-   document.querySelectorAll(".use-template").forEach(b=>b.onclick=()=>{
-     const t=(templates||[]).find(x=>x.id===b.dataset.id);
-     builderExercises=(t.exercises||[]).map(normalizeExercise);
-     $("workout-title").value=t.name;
-     renderBuilder();
-   });
-   document.querySelectorAll(".delete-template").forEach(b=>b.onclick=async()=>{
-     if(!confirm("Delete this workout template?")) return;
-     const {error}=await jpSupabase.from("workout_templates").delete().eq("id",b.dataset.id);
-     if(error) return alert(error.message);
-     const i=templates.findIndex(x=>x.id===b.dataset.id);
-     if(i>=0) templates.splice(i,1);
-     $("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
-     renderTemplateLibrary();
-   });
+   $("template-library").innerHTML=(templates||[]).map(t=>`<div class="template-workout-row">
+     <div class="template-workout-preview"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+     <div><strong>${t.name}</strong><span>${t.goal||"Custom"} · ${t.level||"Custom"} · ${(t.exercises||[]).length} exercises</span></div>
+     <div class="row-actions"><button class="btn dark use-template" data-id="${t.id}" type="button">Open</button><button class="btn dark delete-template" data-id="${t.id}" type="button">Delete</button></div>
+   </div>`).join("")||'<div class="empty">No saved templates yet. Click Custom Template to build one.</div>';
+   document.querySelectorAll(".use-template").forEach(b=>b.onclick=()=>{const t=(templates||[]).find(x=>x.id===b.dataset.id);builderExercises=(t.exercises||[]).map(normalizeExercise);$("workout-title").value=t.name;if($("program-builder-title"))$("program-builder-title").textContent=t.name;renderBuilder();document.querySelector('[data-panel="builder"]').click();});
+   document.querySelectorAll(".delete-template").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this workout template?"))return;const {error}=await jpSupabase.from("workout_templates").delete().eq("id",b.dataset.id);if(error)return alert(error.message);const i=templates.findIndex(x=>x.id===b.dataset.id);if(i>=0)templates.splice(i,1);$("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");renderTemplateLibrary();});
  }
  renderTemplateLibrary();
 
@@ -396,7 +411,7 @@ function normalizeExercise(x){
    const existing=(templates||[]).find(t=>t.name.toLowerCase()===name.toLowerCase());
    const payload={
      name,
-     goal:"Custom",
+     goal:currentWorkoutType||"Custom",
      level:"Custom",
      duration_minutes:null,
      exercises:builderExercises.map(normalizeExercise),
@@ -412,7 +427,7 @@ function normalizeExercise(x){
    $("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
    renderTemplateLibrary();
    $("workout-notice").style.display="block";
-   $("workout-notice").textContent="Workout saved to My Templates.";
+   $("workout-notice").textContent="Workout saved to My Templates.";if($("program-builder-title"))$("program-builder-title").textContent=name;
  };
 
 $("assign-workout").onclick=async()=>{const client=$("builder-client").value,title=$("workout-title").value.trim();if(!client||!title||!builderExercises.length)return alert("Choose a client, title, and exercises.");const {error}=await jpSupabase.from("workout_assignments").insert({user_id:client,title,scheduled_date:$("workout-date").value||null,exercises:builderExercises,coach_notes:$("workout-notes").value||null,status:"assigned"});if(error)return alert(error.message);$("workout-notice").style.display="block";$("workout-notice").textContent="Workout assigned successfully.";builderExercises=[];renderBuilder();};
@@ -426,4 +441,16 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
  $("coach-message-form").onsubmit=async e=>{e.preventDefault();if(!messageClient)return alert("Choose a client.");const body=$("coach-message-input").value.trim();const {data,error}=await jpSupabase.from("messages").insert({sender_id:user.id,recipient_id:messageClient,client_id:messageClient,body}).select().single();if(error)return alert(error.message);messages.push(data);$("coach-message-input").value="";renderConversation()};
  $("loading").classList.add("hide");
 })();
-</script></body></html>
+</script>
+<div class="modal-backdrop" id="new-workout-modal">
+  <div class="modal-card">
+    <h2>Build New Workout</h2>
+    <p>Name the workout first. After you continue, the builder opens and you can add exercises from the library.</p>
+    <label class="field">Workout name<input id="new-workout-name" placeholder="Example: Legs — Hamstring & Glute Focus"></label>
+    <label class="field" style="margin-top:12px">Workout type<select id="new-workout-type"><option>Regular</option><option>Circuit</option><option>Interval</option></select></label>
+    <label class="field" style="margin-top:12px">Optional workout summary<textarea id="new-workout-summary" rows="3" placeholder="General instructions or focus"></textarea></label>
+    <div class="modal-actions"><button class="btn dark" id="cancel-new-workout" type="button">Cancel</button><button class="btn" id="start-new-workout" type="button">Start Building</button></div>
+  </div>
+</div>
+
+</body></html>

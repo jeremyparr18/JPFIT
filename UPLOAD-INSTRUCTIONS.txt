@@ -1,19 +1,15 @@
-JP FIT VERSION 23 — PROGRAM-STYLE WORKOUT UI
+JP FIT VERSION 24 — CUSTOM TEMPLATE FLOW
 
 NO NEW SQL REQUIRED.
 
-CHANGES
-- Coaches and clients now share auth.html.
-- Coach/admin accounts route to coach-dashboard.html automatically.
-- Client accounts route to client-portal.html automatically.
-- Workout builder now uses a compact program-style row layout.
-- Thumbnail/media appears on the left.
-- Exercise name appears beside it.
-- One editable description field controls the client-facing instructions.
-- Rest guidance has its own right-side field.
-- Clicking the exercise name opens the exercise library editor.
-- Client workout display matches the same compact layout.
-- Version 22 custom templates, media uploads, and files remain included.
+1. Open Coach Dashboard.
+2. Go to Workout Builder.
+3. Click + Custom Template.
+4. Enter workout name, type, and optional summary.
+5. Click Start Building.
+6. Add exercises from the Exercise Library.
+7. Edit descriptions and rest guidance.
+8. Click Save as My Template.
 
-UPLOAD
-Upload all files to the root of GitHub and commit.
+Saved templates appear in My Workout Templates with Open and Delete buttons.
+Upload all Version 24 files to the GitHub root and commit.
