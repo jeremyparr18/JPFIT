@@ -1,16 +1,26 @@
-JP FIT WEBSITE VERSION 13 — COMPLETE ASSETS
+JP FIT WEBSITE VERSION 14 — STRIPE CONNECTED
+
+WHAT IS CONNECTED
+- All four 30-minute training payment links
+- All four 60-minute training payment links
+- All four mobile-training payment links
+- Online coaching 6-month payment link
+- Online coaching 12-month payment link
+- Calendly consultation link
+- All website photos and logo
+
+IMPORTANT ABOUT AGREEMENTS
+For in-person and mobile services, the Stripe link is determined by frequency.
+The Month-to-Month, 6-Month, or 12-Month selection must also be documented in the signed JP Fit agreement.
+
+Online month-to-month does not have a matching Stripe link yet. The site asks the visitor to choose 6 or 12 months.
 
 UPLOAD TO GITHUB
-1. Open this ZIP and extract it.
-2. Open the folder jp-fit-website-v13-complete.
-3. Upload ALL of these items to the ROOT of your GitHub repository:
-   - index.html
-   - checkout.html
-   - assets folder
-4. Commit the changes.
+1. Extract this ZIP.
+2. Open jp-fit-website-v14-stripe.
+3. Upload index.html, checkout.html, and the complete assets folder to the ROOT of JPFIT.
+4. Commit changes.
 5. Vercel will redeploy automatically.
+6. Test every checkout option before sharing publicly.
 
-IMPORTANT
-Do not upload the ZIP itself.
-Do not upload only index.html and checkout.html.
-The assets folder contains the logo, stage photos, and transformations.
+Never upload Stripe secret keys to GitHub.

@@ -135,9 +135,9 @@ body{margin:0;background:var(--paper);font-family:Inter,sans-serif;color:#111}
         </div>
       </div>
 
-      <button class="pay-btn" id="pay-button">START MY TRANSFORMATION</button>
+      <button class="pay-btn" id="pay-button">CONTINUE TO SECURE STRIPE CHECKOUT</button>
       <a class="booking-btn" href="https://calendly.com/jeremyparr18/30min" target="_blank" rel="noopener">BOOK MY FREE 30-MINUTE CONSULTATION</a>
-      <div class="notice">Stripe links are not connected yet. Until then, this button creates a pre-filled enrollment email.</div>
+      <div class="notice"><strong>Secure Stripe checkout is connected.</strong> Your selected agreement is recorded on this enrollment page; the recurring payment page handles your biweekly billing.</div>
       <p class="fine-print">Biweekly means one charge every 14 days. Six months is approximately 13 charges. Twelve months is approximately 26 charges. Month-to-month continues until canceled under the signed agreement.</p>
       <a class="back" href="index.html">← Return to JP Fit</a>
     </div>
@@ -169,7 +169,25 @@ const plans = {
   }
 };
 
-const stripeLinks = {};
+const stripeLinks = {
+  "inperson30|1x / Week": "https://buy.stripe.com/5kQ8wPfoG8iE0vT3EP5Rm00",
+  "inperson30|2x / Week": "https://buy.stripe.com/cNi8wP2BUeH2emJ2AL5Rm01",
+  "inperson30|3x / Week": "https://buy.stripe.com/eVqbJ190i2Yk3I50sD5Rm02",
+  "inperson30|4x / Week": "https://buy.stripe.com/00w8wPekC8iE4M92AL5Rm03",
+
+  "inperson60|1x / Week": "https://buy.stripe.com/4gMeVd3FYaqM3I51wH5Rm05",
+  "inperson60|2x / Week": "https://buy.stripe.com/28E8wP1xQgPa6Uh7V55Rm09",
+  "inperson60|3x / Week": "https://buy.stripe.com/aFacN56Sa56semJejt5Rm08",
+  "inperson60|4x / Week": "https://buy.stripe.com/4gM9AT90ifL6fqN1wH5Rm04",
+
+  "mobile|1x / Week": "https://buy.stripe.com/8x2aEXgsK56s1zX6R15Rm06",
+  "mobile|2x / Week": "https://buy.stripe.com/28E5kD1xQgPabaxcbl5Rm0a",
+  "mobile|3x / Week": "https://buy.stripe.com/cNifZh6SabuQbax8Z95Rm0d",
+  "mobile|4x / Week": "https://buy.stripe.com/9B66oH1xQ42obax5MX5Rm0b",
+
+  "online|6-Month Agreement": "https://buy.stripe.com/9B6aEX0tM42o3I5a3d5Rm0c",
+  "online|12-Month Agreement": "https://buy.stripe.com/7sYaEXa4m2YkdiFb7h5Rm07"
+};
 
 const query = new URLSearchParams(location.search);
 let key = query.get("plan");
@@ -231,28 +249,22 @@ update();
 
 document.getElementById("pay-button").addEventListener("click", () => {
   const price = currentPrice();
-  const lookup = `${key}|${selectedFrequency}|${term.value}`;
+  const lookup = key === "online"
+    ? `${key}|${term.value}`
+    : `${key}|${selectedFrequency}`;
   const stripe = stripeLinks[lookup];
 
   if(stripe){
-    location.href = stripe;
+    window.location.href = stripe;
     return;
   }
 
-  const subject = encodeURIComponent(`JP Fit enrollment: ${plan.title}`);
-  const body = encodeURIComponent(
-`Hi Jeremy,
+  if(key === "online" && term.value === "Month-to-Month"){
+    alert("Online coaching month-to-month checkout is not connected yet. Please choose the 6-month or 12-month agreement, or book a free consultation.");
+    return;
+  }
 
-I would like to enroll in JP Fit.
-
-Plan: ${plan.title}
-Frequency: ${selectedFrequency}
-Agreement: ${term.value}
-Biweekly payment: $${price}
-
-Please send me the secure payment link and agreement.`
-  );
-  location.href = `mailto:jeremyparr18@gmail.com?subject=${subject}&body=${body}`;
+  alert("This payment option is not connected yet. Please book a free consultation or contact Jeremy.");
 });
 </script>
 </body>
