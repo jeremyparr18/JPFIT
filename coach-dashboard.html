@@ -42,7 +42,7 @@
 .program-builder-head{padding:16px 18px;border-bottom:1px solid #303030;background:#181818}
 .program-builder-head h3{font-size:1.9rem;margin:0 0 5px}
 .program-builder-head p{margin:0;color:#888;font-size:.74rem}
-.program-row{display:grid;grid-template-columns:58px minmax(170px,1fr) minmax(260px,2fr) 190px 42px;align-items:center;border-top:1px solid #2c2c2c;min-height:66px}
+.program-row{display:grid;grid-template-columns:32px 58px minmax(170px,1fr) minmax(260px,2fr) 190px 42px;align-items:center;border-top:1px solid #2c2c2c;min-height:66px}
 .program-row:first-child{border-top:0}
 .program-thumb{width:46px;height:46px;margin-left:9px;border-radius:8px;background:#0d0d0d;border:1px solid #343434;overflow:hidden;display:grid;place-items:center;color:#666;font-size:.58rem}
 .program-thumb img,.program-thumb video{width:100%;height:100%;object-fit:cover}
@@ -74,16 +74,43 @@
 .template-workout-row strong,.template-workout-row span{display:block}.template-workout-row span{font-size:.72rem;color:#888}
 .template-workout-row .row-actions{display:flex;gap:7px;flex-wrap:wrap}
 @media(max-width:650px){.template-workout-row{grid-template-columns:1fr}.template-workout-preview{width:100px}}
+
+.quick-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.folder-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:end;margin:16px 0}
+.folder-toolbar input,.folder-toolbar select{padding:11px;border:1px solid #353535;background:#101010;color:#fff;border-radius:10px}
+.folder-group{margin-top:18px}.folder-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.folder-title h3{font-size:1.7rem;margin:0}
+.visual-template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.visual-template-card{background:#181818;border:1px solid #303030;border-radius:17px;overflow:hidden;transition:.18s transform,.18s border-color}
+.visual-template-card:hover{transform:translateY(-2px);border-color:#caff38}
+.template-cover{height:112px;background:linear-gradient(135deg,#222,#101010);display:grid;place-items:center;overflow:hidden}
+.template-cover img{width:100%;height:100%;object-fit:cover}.template-cover strong{font-family:"Barlow Condensed";font-size:2rem;color:#caff38}
+.template-info{padding:14px}.template-info strong,.template-info span{display:block}.template-info span{font-size:.7rem;color:#888;margin-top:3px}.template-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.favorite-btn{border:0;background:none;color:#777;font-size:1.25rem;cursor:pointer}.favorite-btn.on{color:#caff38}
+.exercise{position:relative}.exercise:hover video{opacity:1}.exercise-thumb video{opacity:.85}
+.drag-handle{cursor:grab;color:#777;font-size:1.1rem;text-align:center}.program-row.dragging{opacity:.45}.program-row.drag-over{box-shadow:inset 0 3px 0 #caff38}
+.drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:1290}.drawer-backdrop.open{display:block}
+.exercise-drawer{position:fixed;right:-520px;top:0;bottom:0;width:min(500px,100%);background:#141414;border-left:1px solid #333;z-index:1300;padding:22px;overflow:auto;transition:right .25s ease}
+.exercise-drawer.open{right:0}.drawer-head{display:flex;justify-content:space-between;align-items:center}.drawer-head h2{font-size:2.4rem;margin:0}.drawer-media{aspect-ratio:16/9;background:#0c0c0c;border:1px solid #333;border-radius:15px;overflow:hidden;display:grid;place-items:center;margin:15px 0;color:#777}.drawer-media img,.drawer-media video{width:100%;height:100%;object-fit:cover}
+.drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.drawer-grid .wide{grid-column:1/-1}.drawer-grid label{font-size:.72rem;font-weight:800}.drawer-grid input,.drawer-grid textarea{width:100%;margin-top:6px;padding:10px;border:1px solid #353535;background:#0d0d0d;color:#fff;border-radius:9px}
+.favorite-filter{display:flex;align-items:center;gap:7px;color:#aaa;font-size:.75rem}
+@media(max-width:900px){.visual-template-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.visual-template-grid,.drawer-grid{grid-template-columns:1fr}.drawer-grid .wide{grid-column:auto}}
+
 </style></head><body>
 <div class="loading" id="loading"><div class="spin"></div></div>
 <div class="shell">
 <aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH</strong></div>
-<nav class="nav"><button class="active" data-panel="overview">Overview</button><button data-panel="clients">Clients</button><button data-panel="builder">Workout Builder</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Check-Ins</button><button data-panel="inbox">Messages</button></nav>
+<nav class="nav"><button class="active" data-panel="overview">Overview</button><button data-panel="clients">Clients</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Check-Ins</button><button data-panel="inbox">Messages</button></nav>
 <div class="bottom"><button class="signout" id="signout">Sign Out</button></div></aside>
 <main class="main"><div class="top"><h1 id="title">Coach Dashboard</h1><div class="coach-pill">Jeremy · JP Fit</div></div>
 
 <section class="panel active" id="overview">
-<div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
+<div class="quick-actions">
+<button class="btn" onclick="document.querySelector('[data-panel=builder]').click();setTimeout(()=>document.getElementById('open-new-workout').click(),50)">+ New Workout</button>
+<button class="btn dark" onclick="document.querySelector('[data-panel=library]').click();setTimeout(()=>document.getElementById('new-exercise').click(),50)">+ New Exercise</button>
+<button class="btn dark" onclick="document.querySelector('[data-panel=clients]').click()">View Clients</button>
+<button class="btn dark" onclick="document.querySelector('[data-panel=checkins]').click()">Review Check-Ins</button>
+</div><div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
 <div class="section-head"><h2>Recently Enrolled</h2></div><div class="list" id="recent-list"></div>
 </section>
 
@@ -93,7 +120,7 @@
 </section>
 
 <section class="panel" id="builder">
-<div class="section-head"><h2>Workout Builder</h2><button class="btn new-workout-btn" id="open-new-workout" type="button">+ Custom Template</button></div>
+<div class="section-head"><h2>Program Studio</h2><button class="btn new-workout-btn" id="open-new-workout" type="button">+ Custom Template</button></div>
 <div class="template-bar">
   
   <button class="btn dark" id="load-template" type="button">Load Template</button>
@@ -116,7 +143,7 @@
 
 <section class="panel" id="library">
 <div class="section-head"><h2>Exercise Library</h2><a class="btn dark" target="_blank" rel="noopener" href="https://www.acefitness.org/resources/everyone/exercise-library/">View ACE Library</a></div>
-<div class="library-controls"><input id="exercise-search" placeholder="Search exercises..."><select id="category-filter"><option value="">All categories</option></select><select id="equipment-filter"><option value="">All equipment</option></select></div>
+<div class="library-controls"><input id="exercise-search" placeholder="Search exercises..."><select id="category-filter"><option value="">All categories</option></select><select id="equipment-filter"><option value="">All equipment</option></select><label class="favorite-filter"><input id="favorite-filter" type="checkbox"> Favorites only</label></div>
 <div class="exercise-grid" id="exercise-grid"></div>
 <div class="library-editor" id="library-editor">
   <div class="exercise-editor-head">
@@ -159,7 +186,7 @@
  const user=await jpRequireUser("auth.html");if(!user)return;
  const {data:me}=await jpSupabase.from("profiles").select("*").eq("id",user.id).single();
  if(!me||!["coach","admin"].includes(me.role)){alert("Coach access required.");location.href="client-portal.html";return}
- const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;let currentWorkoutType="Regular";
+ const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;let currentWorkoutType="Regular";let currentWorkoutFolder="Unfiled";let currentWorkoutMinutes=null;
  document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
  $("signout").onclick=jpSignOut;
 
@@ -194,8 +221,8 @@
    return `<img src="${x.media_url}" alt="${x.name}">`;
  }
  function renderExercises(){
-   const q=$("exercise-search").value.toLowerCase(),c=$("category-filter").value,eq=$("equipment-filter").value;
-   const rows=(exercises||[]).filter(x=>(!q||x.name.toLowerCase().includes(q)||(x.primary_muscle||"").toLowerCase().includes(q))&&(!c||x.category===c)&&(!eq||x.equipment===eq));
+   const q=$("exercise-search").value.toLowerCase(),c=$("category-filter").value,eq=$("equipment-filter").value,fav=$("favorite-filter").checked;
+   const rows=(exercises||[]).filter(x=>(!q||x.name.toLowerCase().includes(q)||(x.primary_muscle||"").toLowerCase().includes(q))&&(!c||x.category===c)&&(!eq||x.equipment===eq)&&(!fav||x.is_favorite));
    $("exercise-grid").innerHTML=rows.map(x=>`
      <div class="exercise" data-edit-id="${x.id}">
        <div class="exercise-thumb">${thumbHtml(x)}</div>
@@ -203,12 +230,19 @@
          <div style="display:flex;align-items:center;gap:8px"><div class="exercise-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name}">`):"<span>No media</span>"}</div><strong>${x.name}</strong></div>
          <span>${x.category} · ${x.primary_muscle} · ${x.equipment}</span>
          <span>${x.default_sets} sets · ${x.default_reps}</span>
-         <div class="exercise-actions">
+         <div class="exercise-actions"><button class="favorite-btn ${x.is_favorite?"on":""}" data-favorite="${x.id}" type="button">★</button>
            <button class="btn dark edit-ex" data-id="${x.id}" type="button">Edit</button>
            <button class="btn add-ex" data-id="${x.id}" type="button">Add to Workout</button>
          </div>
        </div>
      </div>`).join("")||'<div class="empty">No matching exercises.</div>';
+
+   
+   document.querySelectorAll("[data-favorite]").forEach(b=>b.onclick=async e=>{
+     e.stopPropagation();const x=(exercises||[]).find(v=>v.id===b.dataset.favorite);
+     const {data,error}=await jpSupabase.from("exercise_library").update({is_favorite:!x.is_favorite,updated_at:new Date().toISOString()}).eq("id",x.id).select().single();
+     if(error)return alert(error.message);Object.assign(x,data);renderExercises();
+   });
 
    document.querySelectorAll(".add-ex").forEach(b=>b.onclick=e=>{
      e.stopPropagation();
@@ -233,10 +267,10 @@
    });
    document.querySelectorAll(".exercise").forEach(card=>card.onclick=()=>{
      const x=(exercises||[]).find(ex=>ex.id===card.dataset.editId);
-     openLibraryEditor(x);
+     openDrawer(x);
    });
  }
- ["exercise-search","category-filter","equipment-filter"].forEach(id=>$(id).oninput=renderExercises);
+ ["exercise-search","category-filter","equipment-filter","favorite-filter"].forEach(id=>$(id).oninput=renderExercises);
  renderExercises();
 
  
@@ -246,6 +280,13 @@
    if((type||"").startsWith("video")) box.innerHTML=`<video controls><source src="${url}"></video>`;
    else box.innerHTML=`<img src="${url}" alt="Exercise media">`;
  }
+ 
+ let drawerExercise=null;
+ function openDrawer(x){drawerExercise=x;$("drawer-title").textContent=x.name;const vals={name:x.name,equipment:x.equipment,primary:x.primary_muscle,secondary:x.secondary_muscle,pattern:x.movement_pattern,difficulty:x.difficulty,sets:x.default_sets,reps:x.default_reps,tempo:x.tempo,rest:x.rest_guidance,rpe:x.default_rpe,weight:x.weight_guidance,description:x.written_description,cues:x.coaching_cues,mistakes:x.common_mistakes,progression:x.progression,regression:x.regression,alternative:x.alternative_exercise};Object.entries(vals).forEach(([k,v])=>{const el=$("d-"+k);if(el)el.value=v||""});$("drawer-media").innerHTML=x.media_url?((x.media_type||"").startsWith("video")?`<video controls autoplay muted loop><source src="${x.media_url}"></video>`:`<img src="${x.media_url}">`):"No media";$("drawer-backdrop").classList.add("open");$("exercise-drawer").classList.add("open")}
+ function closeDrawer(){$("drawer-backdrop").classList.remove("open");$("exercise-drawer").classList.remove("open")}
+ $("drawer-close").onclick=closeDrawer;$("drawer-backdrop").onclick=closeDrawer;
+ $("drawer-save").onclick=async()=>{if(!drawerExercise)return;const payload={name:$("d-name").value,equipment:$("d-equipment").value,primary_muscle:$("d-primary").value,secondary_muscle:$("d-secondary").value||null,movement_pattern:$("d-pattern").value||null,difficulty:$("d-difficulty").value,default_sets:+$("d-sets").value||3,default_reps:$("d-reps").value,tempo:$("d-tempo").value||null,rest_guidance:$("d-rest").value||null,default_rpe:$("d-rpe").value||null,weight_guidance:$("d-weight").value||null,written_description:$("d-description").value||null,coaching_cues:$("d-cues").value||null,common_mistakes:$("d-mistakes").value||null,progression:$("d-progression").value||null,regression:$("d-regression").value||null,alternative_exercise:$("d-alternative").value||null,updated_at:new Date().toISOString()};const {data,error}=await jpSupabase.from("exercise_library").update(payload).eq("id",drawerExercise.id).select().single();if(error)return alert(error.message);Object.assign(drawerExercise,data);renderExercises();closeDrawer()};
+
  function openLibraryEditor(x){
    selectedLibraryExercise=x||null;
    $("library-editor-title").textContent=x?`Edit: ${x.name}`:"New Custom Exercise";
@@ -329,13 +370,13 @@
 
 
  const newWorkoutModal=$("new-workout-modal");
- $("open-new-workout").onclick=()=>{ $("new-workout-name").value="";$("new-workout-type").value="Regular";$("new-workout-summary").value="";newWorkoutModal.classList.add("open");setTimeout(()=>$("new-workout-name").focus(),50); };
+ $("open-new-workout").onclick=()=>{ $("new-workout-name").value="";$("new-workout-type").value="Regular";$("new-workout-summary").value="";$("new-workout-folder").value="";$("new-workout-minutes").value="";newWorkoutModal.classList.add("open");setTimeout(()=>$("new-workout-name").focus(),50); };
  $("cancel-new-workout").onclick=()=>newWorkoutModal.classList.remove("open");
  newWorkoutModal.onclick=e=>{if(e.target===newWorkoutModal)newWorkoutModal.classList.remove("open")};
  $("start-new-workout").onclick=()=>{
    const name=$("new-workout-name").value.trim();
    if(!name){alert("Enter a workout name first.");return}
-   currentWorkoutType=$("new-workout-type").value;
+   currentWorkoutType=$("new-workout-type").value;currentWorkoutFolder=$("new-workout-folder").value.trim()||"Unfiled";currentWorkoutMinutes=+$("new-workout-minutes").value||null;
    $("workout-title").value=name;$("workout-notes").value=$("new-workout-summary").value.trim();
    builderExercises=[];renderBuilder();newWorkoutModal.classList.remove("open");
    document.querySelector('[data-panel="builder"]').click();
@@ -368,7 +409,7 @@ function normalizeExercise(x){
  function renderBuilder(){
    builderExercises=builderExercises.map(normalizeExercise);
    $("builder-list").innerHTML=builderExercises.length?builderExercises.map((x,i)=>`
-     <div class="program-row">
+     <div class="program-row" draggable="true" data-drag-index="${i}"><div class="drag-handle">⋮⋮</div>
        <div class="program-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name}">`):"<span>No media</span>"}</div>
        <div class="program-name" data-library-edit="${i}">
          ${x.name}
@@ -387,6 +428,15 @@ function normalizeExercise(x){
    document.querySelectorAll("[data-desc]").forEach(el=>el.oninput=()=>builderExercises[+el.dataset.desc].description=el.value);
    document.querySelectorAll("[data-rest]").forEach(el=>el.oninput=()=>builderExercises[+el.dataset.rest].rest=el.value);
    document.querySelectorAll("[data-remove]").forEach(btn=>btn.onclick=()=>{builderExercises.splice(+btn.dataset.remove,1);renderBuilder()});
+   
+   document.querySelectorAll("[data-drag-index]").forEach(row=>{
+     row.ondragstart=()=>{row.classList.add("dragging");event.dataTransfer.setData("text/plain",row.dataset.dragIndex)};
+     row.ondragend=()=>document.querySelectorAll(".program-row").forEach(r=>r.classList.remove("dragging","drag-over"));
+     row.ondragover=e=>{e.preventDefault();row.classList.add("drag-over")};
+     row.ondragleave=()=>row.classList.remove("drag-over");
+     row.ondrop=e=>{e.preventDefault();const from=+e.dataTransfer.getData("text/plain"),to=+row.dataset.dragIndex;if(from!==to){const [moved]=builderExercises.splice(from,1);builderExercises.splice(to,0,moved);renderBuilder()}};
+   });
+
    document.querySelectorAll("[data-library-edit]").forEach(el=>el.onclick=()=>{
      const item=builderExercises[+el.dataset.libraryEdit];
      const libraryItem=(exercises||[]).find(x=>x.name===item.name);
@@ -395,13 +445,18 @@ function normalizeExercise(x){
  }
  
  function renderTemplateLibrary(){
-   $("template-library").innerHTML=(templates||[]).map(t=>`<div class="template-workout-row">
-     <div class="template-workout-preview"><div></div><div></div><div></div><div></div><div></div><div></div></div>
-     <div><strong>${t.name}</strong><span>${t.goal||"Custom"} · ${t.level||"Custom"} · ${(t.exercises||[]).length} exercises</span></div>
-     <div class="row-actions"><button class="btn dark use-template" data-id="${t.id}" type="button">Open</button><button class="btn dark delete-template" data-id="${t.id}" type="button">Delete</button></div>
-   </div>`).join("")||'<div class="empty">No saved templates yet. Click Custom Template to build one.</div>';
-   document.querySelectorAll(".use-template").forEach(b=>b.onclick=()=>{const t=(templates||[]).find(x=>x.id===b.dataset.id);builderExercises=(t.exercises||[]).map(normalizeExercise);$("workout-title").value=t.name;if($("program-builder-title"))$("program-builder-title").textContent=t.name;renderBuilder();document.querySelector('[data-panel="builder"]').click();});
-   document.querySelectorAll(".delete-template").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this workout template?"))return;const {error}=await jpSupabase.from("workout_templates").delete().eq("id",b.dataset.id);if(error)return alert(error.message);const i=templates.findIndex(x=>x.id===b.dataset.id);if(i>=0)templates.splice(i,1);$("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");renderTemplateLibrary();});
+   const grouped=(templates||[]).reduce((acc,t)=>{const f=t.folder_name||"Unfiled";(acc[f]??=[]).push(t);return acc},{});
+   $("template-library").innerHTML=Object.keys(grouped).sort().map(folder=>`
+     <section class="folder-group"><div class="folder-title"><h3>📁 ${folder}</h3><span class="empty">${grouped[folder].length} workouts</span></div>
+     <div class="visual-template-grid">${grouped[folder].map(t=>`
+       <article class="visual-template-card">
+         <div class="template-cover">${t.cover_url?`<img src="${t.cover_url}" alt="${t.name}">`:`<strong>${(t.workout_type||t.goal||"WORKOUT").toUpperCase()}</strong>`}</div>
+         <div class="template-info"><strong>${t.name}</strong><span>${t.workout_type||t.goal||"Regular"} · ${(t.exercises||[]).length} exercises · ${t.estimated_minutes?`${t.estimated_minutes} min`:"No time set"}</span>
+         <div class="template-actions"><button class="btn dark use-template" data-id="${t.id}">Open</button><button class="btn dark assign-template" data-id="${t.id}">Assign</button><button class="btn dark delete-template" data-id="${t.id}">Delete</button></div></div>
+       </article>`).join("")}</div></section>`).join("")||'<div class="empty">No saved templates yet.</div>';
+   document.querySelectorAll(".use-template").forEach(b=>b.onclick=()=>{const t=templates.find(x=>x.id===b.dataset.id);builderExercises=(t.exercises||[]).map(normalizeExercise);$("workout-title").value=t.name;$("workout-notes").value=t.summary||"";currentWorkoutFolder=t.folder_name||"Unfiled";currentWorkoutType=t.workout_type||"Regular";currentWorkoutMinutes=t.estimated_minutes||null;if($("program-builder-title"))$("program-builder-title").textContent=t.name;renderBuilder();document.querySelector('[data-panel="builder"]').click()});
+   document.querySelectorAll(".assign-template").forEach(b=>b.onclick=()=>{const t=templates.find(x=>x.id===b.dataset.id);builderExercises=(t.exercises||[]).map(normalizeExercise);$("workout-title").value=t.name;renderBuilder();document.querySelector('[data-panel="builder"]').click();$("builder-client").focus()});
+   document.querySelectorAll(".delete-template").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this workout template?"))return;const {error}=await jpSupabase.from("workout_templates").delete().eq("id",b.dataset.id);if(error)return alert(error.message);templates.splice(templates.findIndex(x=>x.id===b.dataset.id),1);renderTemplateLibrary()});
  }
  renderTemplateLibrary();
 
@@ -415,7 +470,7 @@ function normalizeExercise(x){
      level:"Custom",
      duration_minutes:null,
      exercises:builderExercises.map(normalizeExercise),
-     created_by:user.id
+     created_by:user.id,folder_name:currentWorkoutFolder||"Unfiled",workout_type:currentWorkoutType||"Regular",summary:$("workout-notes").value||null,estimated_minutes:currentWorkoutMinutes
    };
    let result;
    if(existing) result=await jpSupabase.from("workout_templates").update(payload).eq("id",existing.id).select().single();
@@ -448,9 +503,29 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
     <p>Name the workout first. After you continue, the builder opens and you can add exercises from the library.</p>
     <label class="field">Workout name<input id="new-workout-name" placeholder="Example: Legs — Hamstring & Glute Focus"></label>
     <label class="field" style="margin-top:12px">Workout type<select id="new-workout-type"><option>Regular</option><option>Circuit</option><option>Interval</option></select></label>
-    <label class="field" style="margin-top:12px">Optional workout summary<textarea id="new-workout-summary" rows="3" placeholder="General instructions or focus"></textarea></label>
+    <label class="field" style="margin-top:12px">Folder<input id="new-workout-folder" placeholder="Example: Hypertrophy"></label><label class="field" style="margin-top:12px">Estimated minutes<input id="new-workout-minutes" type="number" placeholder="45"></label><label class="field" style="margin-top:12px">Optional workout summary<textarea id="new-workout-summary" rows="3" placeholder="General instructions or focus"></textarea></label>
     <div class="modal-actions"><button class="btn dark" id="cancel-new-workout" type="button">Cancel</button><button class="btn" id="start-new-workout" type="button">Start Building</button></div>
   </div>
 </div>
+
+
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="exercise-drawer" id="exercise-drawer">
+<div class="drawer-head"><h2 id="drawer-title">Exercise</h2><button class="btn dark" id="drawer-close">Close</button></div>
+<div class="drawer-media" id="drawer-media">No media</div>
+<div class="drawer-grid">
+<label>Exercise name<input id="d-name"></label><label>Equipment<input id="d-equipment"></label>
+<label>Primary muscle<input id="d-primary"></label><label>Secondary muscle<input id="d-secondary"></label>
+<label>Movement pattern<input id="d-pattern"></label><label>Difficulty<input id="d-difficulty"></label>
+<label>Default sets<input id="d-sets"></label><label>Default reps<input id="d-reps"></label>
+<label>Tempo<input id="d-tempo"></label><label>Default rest<input id="d-rest"></label>
+<label>Default RPE<input id="d-rpe"></label><label>Weight guidance<input id="d-weight"></label>
+<label class="wide">Description<textarea id="d-description" rows="3"></textarea></label>
+<label class="wide">Coaching cues<textarea id="d-cues" rows="3"></textarea></label>
+<label class="wide">Common mistakes<textarea id="d-mistakes" rows="3"></textarea></label>
+<label>Progression<input id="d-progression"></label><label>Regression<input id="d-regression"></label>
+<label class="wide">Alternative exercise<input id="d-alternative"></label>
+</div><button class="btn" id="drawer-save" style="margin-top:14px">Save Exercise</button>
+</aside>
 
 </body></html>

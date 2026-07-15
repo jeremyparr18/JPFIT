@@ -1,15 +1,19 @@
-JP FIT VERSION 24 — CUSTOM TEMPLATE FLOW
+JP FIT VERSION 25 — PROGRAM STUDIO
 
-NO NEW SQL REQUIRED.
+RUN FIRST:
+Supabase SQL Editor -> new query -> paste SUPABASE-V25-PROGRAM-STUDIO.sql -> Run.
 
-1. Open Coach Dashboard.
-2. Go to Workout Builder.
-3. Click + Custom Template.
-4. Enter workout name, type, and optional summary.
-5. Click Start Building.
-6. Add exercises from the Exercise Library.
-7. Edit descriptions and rest guidance.
-8. Click Save as My Template.
+FEATURES:
+- Workout Builder renamed Program Studio
+- Folder-based workout template organization
+- Visual workout cards
+- Workout type, summary, estimated duration
+- Favorite exercises and Favorites filter
+- Hover video previews
+- Drag-and-drop workout ordering
+- Exercise editor slide-out drawer
+- Exercise progression, regression, alternatives, common mistakes, RPE
+- Faster coach dashboard quick actions
+- One-click template open and assign workflow
 
-Saved templates appear in My Workout Templates with Open and Delete buttons.
-Upload all Version 24 files to the GitHub root and commit.
+THEN upload all Version 25 files to GitHub root and commit.
