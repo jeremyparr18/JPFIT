@@ -1,19 +1,24 @@
-JP FIT VERSION 25 — PROGRAM STUDIO
+JP FIT VERSION 25.1A — COACH STUDIO
 
-RUN FIRST:
-Supabase SQL Editor -> new query -> paste SUPABASE-V25-PROGRAM-STUDIO.sql -> Run.
+RUN FIRST
+1. Supabase -> SQL Editor
+2. Create a new query
+3. Paste SUPABASE-V25-1A-COACH-STUDIO.sql
+4. Run
 
-FEATURES:
-- Workout Builder renamed Program Studio
-- Folder-based workout template organization
-- Visual workout cards
-- Workout type, summary, estimated duration
-- Favorite exercises and Favorites filter
-- Hover video previews
-- Drag-and-drop workout ordering
-- Exercise editor slide-out drawer
-- Exercise progression, regression, alternatives, common mistakes, RPE
-- Faster coach dashboard quick actions
-- One-click template open and assign workflow
+THEN
+Upload all Version 25.1A files to the root of GitHub and commit.
 
-THEN upload all Version 25 files to GitHub root and commit.
+WHAT'S NEW
+- JP Fit Coach Studio branding
+- Redesigned coach home page
+- Prominent + New Exercise actions
+- Full create exercise drawer
+- Duplicate exercise
+- Delete exercise
+- Favorite exercise
+- Exercise collections
+- Better premium exercise cards
+- Cleaner empty states
+- Better success notifications
+- Existing Program Studio features remain included

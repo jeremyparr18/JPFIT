@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JP Fit Coach Dashboard</title>
+<title>JP Fit Coach Studio</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#1e1e1e;--line:#303030;--muted:#929292}
@@ -96,21 +96,57 @@
 @media(max-width:900px){.visual-template-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.visual-template-grid,.drawer-grid{grid-template-columns:1fr}.drawer-grid .wide{grid-column:auto}}
 
+
+:root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#1e1e1e;--line:#303030;--muted:#929292;--danger:#ff6b6b}
+body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transparent 28%),#0b0b0b}
+.side{background:linear-gradient(180deg,#070707,#0b0b0b);border-right:1px solid #202020}
+.brand strong{font-size:1.35rem;letter-spacing:.06em}
+.brand::after{content:"Fitness Anytime. Anywhere.";display:block;color:#666;font-size:.58rem;margin-left:59px;margin-top:-8px;position:absolute}
+.top h1{font-size:3.5rem}.coach-pill{background:#171717;border:1px solid #2d2d2d}
+.studio-hero{margin-top:22px;background:linear-gradient(135deg,#1d1d1d,#101010);border:1px solid #2f2f2f;border-radius:26px;padding:28px;display:grid;grid-template-columns:1.3fr .7fr;gap:18px;overflow:hidden;position:relative}
+.studio-hero:after{content:"JP";position:absolute;right:20px;bottom:-35px;font-family:"Barlow Condensed";font-size:11rem;color:rgba(202,255,56,.04);font-weight:800}
+.studio-hero h2{font-size:4rem;margin:6px 0}.studio-hero p{color:#999;max-width:620px}.studio-badge{color:var(--lime);font-size:.7rem;font-weight:900;letter-spacing:.15em}
+.hero-panel{background:#0f0f0f;border:1px solid #292929;border-radius:20px;padding:20px;display:grid;align-content:center}
+.hero-panel strong{font-family:"Barlow Condensed";font-size:3.2rem;color:var(--lime)}.hero-panel span{color:#777;font-size:.72rem}
+.stats{margin-top:16px}.stat{transition:.18s transform,.18s border-color}.stat:hover{transform:translateY(-2px);border-color:#454545}
+.quick-actions{margin:20px 0 6px}.quick-actions .btn{padding:12px 18px}
+.section-head h2{font-size:2.3rem}
+.library-hero{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:26px 0 14px}
+.library-hero h2{font-size:2.7rem;margin:0}.library-hero p{color:#888;margin:6px 0 0}
+.primary-action{background:var(--lime);color:#111;box-shadow:0 8px 24px rgba(202,255,56,.18)}
+.exercise-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.exercise{display:block;padding:0;overflow:hidden;background:#171717;transition:.18s transform,.18s border-color}
+.exercise:hover{transform:translateY(-3px);border-color:#caff38}
+.exercise-thumb{width:100%;height:150px;border:0;border-bottom:1px solid #2d2d2d;border-radius:0;margin:0;background:#0d0d0d}
+.exercise-card-body{padding:14px}.exercise-card-top{display:flex;justify-content:space-between;gap:10px}.exercise-card-meta{font-size:.7rem;color:#888;margin-top:5px}
+.exercise-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.exercise-card-actions .btn{width:100%}
+.danger{background:#332020!important;color:#ff9b9b!important}
+.exercise-empty{padding:34px;text-align:center;border:1px dashed #333;border-radius:18px;background:#141414}.exercise-empty h3{font-size:2rem;margin:8px 0}.exercise-empty p{color:#777}
+.create-exercise-drawer{position:fixed;right:-560px;top:0;bottom:0;width:min(540px,100%);background:#131313;border-left:1px solid #333;z-index:1400;padding:22px;overflow:auto;transition:right .25s ease}
+.create-exercise-drawer.open{right:0}.create-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:1390}.create-backdrop.open{display:block}
+.create-head{display:flex;justify-content:space-between;align-items:center}.create-head h2{font-size:2.7rem;margin:0}.create-copy{color:#888;font-size:.8rem}
+.create-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:18px}.create-grid .wide{grid-column:1/-1}.create-grid label{font-size:.72rem;font-weight:800}.create-grid input,.create-grid textarea,.create-grid select{width:100%;margin-top:6px;padding:11px;border:1px solid #353535;background:#0d0d0d;color:#fff;border-radius:10px}
+.create-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.collection-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#202020;color:#aaa;font-size:.7rem}
+.toast-pro{position:fixed;right:20px;bottom:20px;background:#171717;border:1px solid #343434;border-left:4px solid var(--lime);padding:14px 16px;border-radius:12px;z-index:1600;display:none;min-width:260px}.toast-pro.show{display:block}.toast-pro strong{display:block}.toast-pro span{color:#888;font-size:.72rem}
+@media(max-width:1000px){.exercise-grid{grid-template-columns:1fr 1fr}.studio-hero{grid-template-columns:1fr}}
+@media(max-width:650px){.exercise-grid,.create-grid{grid-template-columns:1fr}.create-grid .wide{grid-column:auto}.library-hero{align-items:flex-start;flex-direction:column}.studio-hero h2{font-size:3rem}}
+
 </style></head><body>
 <div class="loading" id="loading"><div class="spin"></div></div>
 <div class="shell">
-<aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH</strong></div>
-<nav class="nav"><button class="active" data-panel="overview">Overview</button><button data-panel="clients">Clients</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Check-Ins</button><button data-panel="inbox">Messages</button></nav>
+<aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH STUDIO</strong></div>
+<nav class="nav"><button class="active" data-panel="overview">Home</button><button data-panel="clients">Client Hub</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Client Check-Ins</button><button data-panel="inbox">Coach Inbox</button></nav>
 <div class="bottom"><button class="signout" id="signout">Sign Out</button></div></aside>
-<main class="main"><div class="top"><h1 id="title">Coach Dashboard</h1><div class="coach-pill">Jeremy · JP Fit</div></div>
+<main class="main"><div class="top"><h1 id="title">Coach Studio</h1><div class="coach-pill">Jeremy · Owner</div></div>
 
 <section class="panel active" id="overview">
-<div class="quick-actions">
-<button class="btn" onclick="document.querySelector('[data-panel=builder]').click();setTimeout(()=>document.getElementById('open-new-workout').click(),50)">+ New Workout</button>
-<button class="btn dark" onclick="document.querySelector('[data-panel=library]').click();setTimeout(()=>document.getElementById('new-exercise').click(),50)">+ New Exercise</button>
-<button class="btn dark" onclick="document.querySelector('[data-panel=clients]').click()">View Clients</button>
-<button class="btn dark" onclick="document.querySelector('[data-panel=checkins]').click()">Review Check-Ins</button>
-</div><div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
+<div class="studio-hero">
+  <div>
+    <span class="studio-badge">JP FIT · COACH STUDIO</span>
+    <h2>Good evening, Jeremy.</h2>
+    <p>Manage clients, build programs, create exercises, review check-ins, and keep your entire coaching business moving from one place.</p>
+    <div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
 <div class="section-head"><h2>Recently Enrolled</h2></div><div class="list" id="recent-list"></div>
 </section>
 
@@ -142,7 +178,10 @@
 </section>
 
 <section class="panel" id="library">
-<div class="section-head"><h2>Exercise Library</h2><a class="btn dark" target="_blank" rel="noopener" href="https://www.acefitness.org/resources/everyone/exercise-library/">View ACE Library</a></div>
+<div class="library-hero">
+  <div><h2>Exercise Library</h2><p>Create, organize, duplicate, favorite, and assign your own JP Fit exercises.</p></div>
+  <button class="btn primary-action" id="open-create-exercise">+ New Exercise</button>
+</div>
 <div class="library-controls"><input id="exercise-search" placeholder="Search exercises..."><select id="category-filter"><option value="">All categories</option></select><select id="equipment-filter"><option value="">All equipment</option></select><label class="favorite-filter"><input id="favorite-filter" type="checkbox"> Favorites only</label></div>
 <div class="exercise-grid" id="exercise-grid"></div>
 <div class="library-editor" id="library-editor">
@@ -186,7 +225,7 @@
  const user=await jpRequireUser("auth.html");if(!user)return;
  const {data:me}=await jpSupabase.from("profiles").select("*").eq("id",user.id).single();
  if(!me||!["coach","admin"].includes(me.role)){alert("Coach access required.");location.href="client-portal.html";return}
- const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;let currentWorkoutType="Regular";let currentWorkoutFolder="Unfiled";let currentWorkoutMinutes=null;
+ const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];let selectedLibraryExercise=null;let currentWorkoutType="Regular";let currentWorkoutFolder="Unfiled";let currentWorkoutMinutes=null;let createMode="new";let createSource=null;
  document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
  $("signout").onclick=jpSignOut;
 
@@ -222,58 +261,109 @@
  }
  function renderExercises(){
    const q=$("exercise-search").value.toLowerCase(),c=$("category-filter").value,eq=$("equipment-filter").value,fav=$("favorite-filter").checked;
-   const rows=(exercises||[]).filter(x=>(!q||x.name.toLowerCase().includes(q)||(x.primary_muscle||"").toLowerCase().includes(q))&&(!c||x.category===c)&&(!eq||x.equipment===eq)&&(!fav||x.is_favorite));
+   const rows=(exercises||[]).filter(x=>(!q||x.name.toLowerCase().includes(q)||(x.primary_muscle||"").toLowerCase().includes(q)||(x.collection_name||"").toLowerCase().includes(q))&&(!c||x.category===c)&&(!eq||x.equipment===eq)&&(!fav||x.is_favorite));
+
+   if(!rows.length){
+     $("exercise-grid").innerHTML=`<div class="exercise-empty" style="grid-column:1/-1"><div style="font-size:2rem">🏋️</div><h3>No Exercises Found</h3><p>Create a new JP Fit exercise or change your filters.</p><button class="btn primary-action" id="empty-new-exercise">+ New Exercise</button></div>`;
+     $("empty-new-exercise").onclick=()=>openCreateExercise();
+     return;
+   }
+
    $("exercise-grid").innerHTML=rows.map(x=>`
-     <div class="exercise" data-edit-id="${x.id}">
+     <article class="exercise" data-edit-id="${x.id}">
        <div class="exercise-thumb">${thumbHtml(x)}</div>
-       <div class="exercise-body">
-         <div style="display:flex;align-items:center;gap:8px"><div class="exercise-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name}">`):"<span>No media</span>"}</div><strong>${x.name}</strong></div>
-         <span>${x.category} · ${x.primary_muscle} · ${x.equipment}</span>
-         <span>${x.default_sets} sets · ${x.default_reps}</span>
-         <div class="exercise-actions"><button class="favorite-btn ${x.is_favorite?"on":""}" data-favorite="${x.id}" type="button">★</button>
+       <div class="exercise-card-body">
+         <div class="exercise-card-top">
+           <div><strong>${x.name}</strong><div class="exercise-card-meta">${x.primary_muscle||"Full Body"} · ${x.equipment||"Other"}</div></div>
+           <button class="favorite-btn ${x.is_favorite?"on":""}" data-favorite="${x.id}" type="button">★</button>
+         </div>
+         <div style="margin-top:9px"><span class="collection-chip">📁 ${x.collection_name||"Unfiled"}</span></div>
+         <div class="exercise-card-meta">${x.default_sets||3} sets · ${x.default_reps||"8-12"} · ${x.difficulty||"Beginner"}</div>
+         <div class="exercise-card-actions">
            <button class="btn dark edit-ex" data-id="${x.id}" type="button">Edit</button>
-           <button class="btn add-ex" data-id="${x.id}" type="button">Add to Workout</button>
+           <button class="btn dark duplicate-ex" data-id="${x.id}" type="button">Duplicate</button>
+           <button class="btn add-ex" data-id="${x.id}" type="button">Add</button>
+           <button class="btn danger delete-ex" data-id="${x.id}" type="button">Delete</button>
          </div>
        </div>
-     </div>`).join("")||'<div class="empty">No matching exercises.</div>';
+     </article>`).join("");
 
-   
    document.querySelectorAll("[data-favorite]").forEach(b=>b.onclick=async e=>{
-     e.stopPropagation();const x=(exercises||[]).find(v=>v.id===b.dataset.favorite);
+     e.stopPropagation();const x=exercises.find(v=>v.id===b.dataset.favorite);
      const {data,error}=await jpSupabase.from("exercise_library").update({is_favorite:!x.is_favorite,updated_at:new Date().toISOString()}).eq("id",x.id).select().single();
      if(error)return alert(error.message);Object.assign(x,data);renderExercises();
    });
 
    document.querySelectorAll(".add-ex").forEach(b=>b.onclick=e=>{
-     e.stopPropagation();
-     const x=(exercises||[]).find(e=>e.id===b.dataset.id);
-     builderExercises.push({
-       name:x.name,
-       sets:x.default_sets,
-       reps:x.default_reps,
-       description:x.written_description||`${x.default_sets} sets × ${x.default_reps}${x.coaching_cues?` · ${x.coaching_cues}`:""}`,
-       rest:x.rest_guidance||"",
-       mediaUrl:x.media_url||"",
-       mediaType:x.media_type||"",
-       attachmentUrl:x.attachment_url||""
-     });
-     renderBuilder();
-     document.querySelector('[data-panel="builder"]').click();
+     e.stopPropagation();const x=exercises.find(v=>v.id===b.dataset.id);
+     builderExercises.push({name:x.name,sets:x.default_sets,reps:x.default_reps,description:x.written_description||`${x.default_sets} sets × ${x.default_reps}`,rest:x.rest_guidance||"",mediaUrl:x.media_url||"",mediaType:x.media_type||"",attachmentUrl:x.attachment_url||""});
+     renderBuilder();document.querySelector('[data-panel="builder"]').click();
    });
-   document.querySelectorAll(".edit-ex").forEach(b=>b.onclick=e=>{
-     e.stopPropagation();
-     const x=(exercises||[]).find(ex=>ex.id===b.dataset.id);
-     openLibraryEditor(x);
+
+   document.querySelectorAll(".edit-ex").forEach(b=>b.onclick=e=>{e.stopPropagation();const x=exercises.find(v=>v.id===b.dataset.id);openLibraryEditor(x)});
+   document.querySelectorAll(".duplicate-ex").forEach(b=>b.onclick=e=>{e.stopPropagation();const x=exercises.find(v=>v.id===b.dataset.id);openCreateExercise(x)});
+   document.querySelectorAll(".delete-ex").forEach(b=>b.onclick=async e=>{
+     e.stopPropagation();const x=exercises.find(v=>v.id===b.dataset.id);
+     if(!confirm(`Delete ${x.name}? This cannot be undone.`))return;
+     const {error}=await jpSupabase.from("exercise_library").delete().eq("id",x.id);
+     if(error)return alert(error.message);
+     exercises.splice(exercises.findIndex(v=>v.id===x.id),1);renderExercises();showProToast("Exercise Deleted",`${x.name} was removed from your library.`);
    });
-   document.querySelectorAll(".exercise").forEach(card=>card.onclick=()=>{
-     const x=(exercises||[]).find(ex=>ex.id===card.dataset.editId);
-     openDrawer(x);
-   });
+
+   document.querySelectorAll(".exercise").forEach(card=>card.onclick=()=>{const x=exercises.find(v=>v.id===card.dataset.editId);openDrawer(x)});
  }
  ["exercise-search","category-filter","equipment-filter","favorite-filter"].forEach(id=>$(id).oninput=renderExercises);
  renderExercises();
 
  
+ 
+ function showProToast(title,copy){
+   $("toast-title").textContent=title;$("toast-copy").textContent=copy;$("toast-pro").classList.add("show");
+   setTimeout(()=>$("toast-pro").classList.remove("show"),2600);
+ }
+ function resetCreateFields(){
+   ["name","collection","category","equipment","primary","secondary","pattern","tempo","rest","rpe","weight","description","cues","mistakes","progression","regression","alternative"].forEach(k=>$("c-"+k).value="");
+   $("c-difficulty").value="Beginner";$("c-sets").value=3;$("c-reps").value="8-12";$("c-favorite").checked=false;$("c-media").value="";$("c-file").value="";
+ }
+ function openCreateExercise(source=null){
+   createMode=source?"duplicate":"new";createSource=source;resetCreateFields();
+   $("create-title").textContent=source?`Duplicate ${source.name}`:"Create Exercise";
+   if(source){
+     const values={name:`${source.name} Copy`,collection:source.collection_name,category:source.category,equipment:source.equipment,primary:source.primary_muscle,secondary:source.secondary_muscle,pattern:source.movement_pattern,tempo:source.tempo,rest:source.rest_guidance,rpe:source.default_rpe,weight:source.weight_guidance,description:source.written_description,cues:source.coaching_cues,mistakes:source.common_mistakes,progression:source.progression,regression:source.regression,alternative:source.alternative_exercise};
+     Object.entries(values).forEach(([k,v])=>{if($("c-"+k))$("c-"+k).value=v||""});
+     $("c-difficulty").value=source.difficulty||"Beginner";$("c-sets").value=source.default_sets||3;$("c-reps").value=source.default_reps||"8-12";$("c-favorite").checked=!!source.is_favorite;
+   }
+   $("create-backdrop").classList.add("open");$("create-exercise-drawer").classList.add("open");
+ }
+ function closeCreateExercise(){$("create-backdrop").classList.remove("open");$("create-exercise-drawer").classList.remove("open")}
+ $("open-create-exercise").onclick=()=>openCreateExercise();
+ $("hero-new-exercise").onclick=()=>{document.querySelector('[data-panel="library"]').click();setTimeout(()=>openCreateExercise(),60)};
+ $("close-create-exercise").onclick=closeCreateExercise;$("cancel-create-exercise").onclick=closeCreateExercise;$("create-backdrop").onclick=closeCreateExercise;
+
+ $("save-create-exercise").onclick=async()=>{
+   try{
+     const name=$("c-name").value.trim();if(!name)return alert("Exercise name is required.");
+     const mediaFile=$("c-media").files[0],attachmentFile=$("c-file").files[0];
+     const mediaUrl=mediaFile?await uploadExerciseFile(mediaFile,"media"):(createSource?.media_url||null);
+     const attachmentUrl=attachmentFile?await uploadExerciseFile(attachmentFile,"attachment"):(createSource?.attachment_url||null);
+     const payload={
+       name,collection_name:$("c-collection").value.trim()||"Unfiled",category:$("c-category").value.trim()||"Other",
+       equipment:$("c-equipment").value.trim()||"Other",primary_muscle:$("c-primary").value.trim()||"Full Body",
+       secondary_muscle:$("c-secondary").value.trim()||null,difficulty:$("c-difficulty").value,
+       movement_pattern:$("c-pattern").value.trim()||null,default_sets:+$("c-sets").value||3,default_reps:$("c-reps").value.trim()||"8-12",
+       tempo:$("c-tempo").value.trim()||null,rest_guidance:$("c-rest").value.trim()||null,default_rpe:$("c-rpe").value.trim()||null,
+       weight_guidance:$("c-weight").value.trim()||null,written_description:$("c-description").value.trim()||null,
+       coaching_cues:$("c-cues").value.trim()||null,common_mistakes:$("c-mistakes").value.trim()||null,
+       progression:$("c-progression").value.trim()||null,regression:$("c-regression").value.trim()||null,
+       alternative_exercise:$("c-alternative").value.trim()||null,is_favorite:$("c-favorite").checked,
+       media_url:mediaUrl,media_type:mediaFile?.type||createSource?.media_type||null,attachment_url:attachmentUrl,
+       created_by:user.id,duplicated_from:createSource?.id||null,updated_at:new Date().toISOString(),is_active:true
+     };
+     const {data,error}=await jpSupabase.from("exercise_library").insert(payload).select().single();
+     if(error)throw error;exercises.push(data);renderExercises();closeCreateExercise();showProToast(createMode==="duplicate"?"Exercise Duplicated":"Exercise Created",`${data.name} is now in your JP Fit library.`);
+   }catch(err){alert(err.message||String(err))}
+ };
+
  function setMediaPreview(url,type){
    const box=$("lib-media-preview");
    if(!url){box.innerHTML="No photo or video uploaded";return}
@@ -527,5 +617,39 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
 <label class="wide">Alternative exercise<input id="d-alternative"></label>
 </div><button class="btn" id="drawer-save" style="margin-top:14px">Save Exercise</button>
 </aside>
+
+
+<div class="create-backdrop" id="create-backdrop"></div>
+<aside class="create-exercise-drawer" id="create-exercise-drawer">
+  <div class="create-head"><h2 id="create-title">Create Exercise</h2><button class="btn dark" id="close-create-exercise">Close</button></div>
+  <p class="create-copy">Build a complete exercise profile for the JP Fit library.</p>
+  <div class="create-grid">
+    <label>Exercise name<input id="c-name"></label>
+    <label>Collection<input id="c-collection" placeholder="Example: Push"></label>
+    <label>Category<input id="c-category" placeholder="Chest"></label>
+    <label>Equipment<input id="c-equipment" placeholder="Barbell"></label>
+    <label>Primary muscle<input id="c-primary"></label>
+    <label>Secondary muscle<input id="c-secondary"></label>
+    <label>Difficulty<select id="c-difficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label>
+    <label>Movement pattern<input id="c-pattern" placeholder="Horizontal Push"></label>
+    <label>Default sets<input id="c-sets" type="number" value="3"></label>
+    <label>Default reps<input id="c-reps" value="8-12"></label>
+    <label>Tempo<input id="c-tempo"></label>
+    <label>Rest<input id="c-rest"></label>
+    <label>RPE<input id="c-rpe"></label>
+    <label>Weight guidance<input id="c-weight"></label>
+    <label class="wide">Written description<textarea id="c-description" rows="3"></textarea></label>
+    <label class="wide">Coaching cues<textarea id="c-cues" rows="3"></textarea></label>
+    <label class="wide">Common mistakes<textarea id="c-mistakes" rows="3"></textarea></label>
+    <label>Progression<input id="c-progression"></label>
+    <label>Regression<input id="c-regression"></label>
+    <label class="wide">Alternative exercise<input id="c-alternative"></label>
+    <label>Photo or video<input id="c-media" type="file" accept="image/*,video/*"></label>
+    <label>Supporting file<input id="c-file" type="file" accept=".pdf,.doc,.docx,.txt"></label>
+    <label class="wide"><input id="c-favorite" type="checkbox"> Favorite exercise</label>
+  </div>
+  <div class="create-actions"><button class="btn dark" id="cancel-create-exercise">Cancel</button><button class="btn primary-action" id="save-create-exercise">Save Exercise</button></div>
+</aside>
+<div class="toast-pro" id="toast-pro"><strong id="toast-title">Saved</strong><span id="toast-copy"></span></div>
 
 </body></html>
