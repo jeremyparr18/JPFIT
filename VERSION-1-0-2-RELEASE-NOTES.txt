@@ -1,0 +1,20 @@
+JP FIT VERSION 1.0.2 — LAUNCH HOTFIX
+
+FIXED
+- Intake page JavaScript syntax error
+- Missing semicolon after the submit listener
+- Supabase scripts loading after the intake script
+- Unsafe reliance on global HTML element names
+- Intake errors now appear clearly in the browser console and alert
+- Developer test mode continues to the correct test completion page
+
+INCLUDED
+- Version 1.0.1 welcome email system
+- Changelog page
+- Coach Studio
+- Client Portal
+- Program Studio
+- Exercise Library
+- Supabase Edge Function source
+- Email tracking SQL
+- Resend integration setup files

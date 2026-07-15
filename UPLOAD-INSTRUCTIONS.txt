@@ -1,47 +1,29 @@
-JP FIT VERSION 1.0.1 — EMAIL LAUNCH SYSTEM
+JP FIT VERSION 1.0.2 — LAUNCH HOTFIX
 
-STEP 1 — SQL
-Supabase -> SQL Editor -> New query.
-Run:
-SUPABASE-V1-0-1-EMAIL-LAUNCH.sql
+1. Upload every website file in this package to the ROOT of your GitHub repository.
+2. Replace the existing Version 1.0.1 files.
+3. Commit with:
+   Version 1.0.2 - Intake and launch hotfix
+4. Wait for Vercel to finish deploying.
+5. Hard refresh the testing page with Ctrl + Shift + R.
 
-STEP 2 — EDGE FUNCTION
-Supabase -> Edge Functions -> Via Editor.
-Function name:
-send-welcome-agreement
+NO NEW SQL IS REQUIRED if Version 1.0.1 SQL already ran.
+NO NEW EDGE FUNCTION DEPLOYMENT IS REQUIRED if send-welcome-agreement is already deployed with the Version 1.0.1 code.
+NO SECRET CHANGES ARE REQUIRED if the Resend secrets are already saved.
 
-Delete the example code and paste EVERYTHING from the root-level file:
-COPY-THIS-INTO-EDGE-FUNCTION-INDEX.ts
+TEST URL
+https://www.trainwithjpfit.com/checkout.html?test=true
 
-Click Deploy function.
-Keep JWT verification enabled.
+TEST ORDER
+1. Complete simulated checkout and agreement.
+2. Confirm the welcome page opens in Developer Mode.
+3. Click Complete My Intake.
+4. Submit the intake.
+5. Confirm onboarding-complete.html?test=true opens.
+6. Check client email.
+7. Check Jeremy's email.
+8. Check Supabase email_events for status sent.
+9. Check Resend Emails for two successful deliveries.
+10. Test Coach Studio and Client Portal.
 
-STEP 3 — RESEND
-In Resend:
-- Verify trainwithjpfit.com
-- Create a sending-access API key
-
-In Supabase -> Edge Functions -> Secrets, add:
-RESEND_API_KEY = your Resend API key
-JP_FIT_FROM_EMAIL = JP Fit <onboarding@trainwithjpfit.com>
-JP_FIT_COACH_EMAIL = jeremyparr18@gmail.com
-
-STEP 4 — WEBSITE
-Upload all Version 1.0.1 files to the GitHub root and commit.
-
-WHAT IT SENDS
-CLIENT:
-- Branded welcome email
-- Client Portal link
-- Enrollment summary
-- Electronic signature receipt
-- Complete JP Fit agreement terms at the bottom
-
-JEREMY:
-- Separate new-client alert
-- Client contact information
-- Selected service, frequency, term, payment, and start date
-- Coach Studio link
-
-SAFETY
-Never put RESEND_API_KEY or SUPABASE_SERVICE_ROLE_KEY into GitHub or browser files.
+If intake fails, open F12 -> Console and copy the full red error.
