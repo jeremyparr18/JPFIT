@@ -4,268 +4,329 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
-<title>JP Fit Enrollment</title>
+<title>Join JP Fit | Enrollment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--black:#080808;--lime:#caff38;--paper:#f1f0eb;--line:#dddcd5;--muted:#717171;--shadow:0 26px 80px rgba(0,0,0,.12)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);font-family:Inter,sans-serif;color:#111}
-.shell{min-height:100vh;display:grid;grid-template-columns:.76fr 1.24fr}
-.brand-panel{background:var(--black);color:#fff;padding:42px;display:flex;flex-direction:column;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:12px;font-family:"Barlow Condensed";font-size:1.7rem;font-weight:800;letter-spacing:.1em}
-.logo{width:54px;height:54px;border-radius:50%;background:var(--lime);color:#111;display:grid;place-items:center}
-.brand-panel h1,.checkout h1,.membership-card h2{font-family:"Barlow Condensed";text-transform:uppercase;line-height:.95}
-.brand-panel h1{font-size:clamp(3.3rem,6vw,5.7rem);margin:0}
-.brand-panel h1 em{font-style:normal;color:var(--lime)}
-.brand-panel p{color:#aaa}
-.trust{display:grid;gap:12px}
-.trust div{border-left:2px solid var(--lime);padding-left:12px}
-.trust strong,.trust span{display:block}
-.trust span{font-size:.75rem;color:#777}
-.checkout{padding:42px;display:flex;align-items:center}
-.checkout-card{width:min(850px,100%);margin:auto;background:#fff;border:1px solid var(--line);border-radius:30px;padding:34px;box-shadow:var(--shadow)}
-.eyebrow{color:#668800;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-.checkout h1{font-size:3.3rem;margin:6px 0 12px}
-.sub{color:var(--muted)}
-.plan-box{background:#111;color:#fff;border-radius:22px;padding:24px;margin:24px 0}
-.plan-box span,.plan-box strong,.plan-box small{display:block}
-.plan-box span{font-size:.7rem;color:var(--lime);font-weight:800;letter-spacing:.12em}
-.plan-box strong{font-family:"Barlow Condensed";font-size:2.6rem;text-transform:uppercase}
-.plan-box small{color:#aaa}
-
-.section-label{font-family:"Barlow Condensed";font-size:1.45rem;text-transform:uppercase;margin:24px 0 12px}
-.frequency-list{display:grid;gap:12px}
-.frequency-card{position:relative;display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:17px;padding:17px 18px;cursor:pointer;transition:.22s;background:#fff}
-.frequency-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.07)}
-.frequency-card.active{border-color:var(--lime);box-shadow:0 0 0 3px rgba(202,255,56,.25),0 14px 40px rgba(0,0,0,.08)}
-.frequency-card input{position:absolute;opacity:0;pointer-events:none}
-.radio-ui{width:22px;height:22px;border-radius:50%;border:2px solid #999;display:grid;place-items:center}
-.frequency-card.active .radio-ui{border-color:#111;background:var(--lime)}
-.frequency-card.active .radio-ui:after{content:"";width:8px;height:8px;border-radius:50%;background:#111}
-.frequency-card strong,.frequency-card span{display:block}
-.frequency-card .name{font-weight:800}
-.frequency-card .subline{font-size:.73rem;color:var(--muted)}
-.frequency-card .price{font-size:1.15rem}
-.badge{display:inline-block;margin-left:7px;background:#111;color:var(--lime);font-size:.6rem;border-radius:999px;padding:4px 7px;vertical-align:middle}
-.agreement-wrap{display:grid;grid-template-columns:1fr .78fr;gap:18px;align-items:start;margin-top:22px}
-.field label{display:block;font-size:.78rem;font-weight:800;margin-bottom:7px}
-.field select{width:100%;padding:15px;border:1px solid var(--line);border-radius:12px;background:#fafafa;font-weight:800}
-.field select:focus{outline:3px solid rgba(202,255,56,.35);border-color:#8db600}
-.agreement-message{background:#f3f8e7;border-left:4px solid var(--lime);border-radius:11px;padding:14px;font-size:.78rem;color:#555}
-
-.membership-card{margin-top:24px;background:linear-gradient(145deg,#111,#1b1b1b);color:#fff;border-radius:24px;padding:28px;position:relative;overflow:hidden}
-.membership-card:after{content:"JP";position:absolute;right:-18px;bottom:-48px;font-family:"Barlow Condensed";font-size:10rem;color:rgba(255,255,255,.035)}
-.membership-card .mini{color:var(--lime);font-size:.67rem;font-weight:800;letter-spacing:.13em}
-.membership-card h2{font-size:2.4rem;margin:5px 0 18px}
-.membership-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.membership-grid div{border-left:2px solid var(--lime);padding-left:12px}
-.membership-grid span,.membership-grid strong{display:block}
-.membership-grid span{font-size:.68rem;color:#888}
-.membership-total{display:flex;justify-content:space-between;align-items:end;border-top:1px solid #333;margin-top:22px;padding-top:18px}
-.membership-total span,.membership-total strong{display:block}
-.membership-total span{font-size:.72rem;color:#888}
-.membership-total strong{font-family:"Barlow Condensed";font-size:2.8rem;color:var(--lime)}
-.pay-btn{width:100%;border:0;border-radius:999px;background:var(--lime);padding:17px;font-weight:900;font-size:1rem;cursor:pointer;margin-top:20px;transition:.22s}
-.pay-btn:hover{background:#111;color:#fff;transform:translateY(-2px)}
-.notice{background:#fff8d9;border:1px solid #ead675;border-radius:12px;padding:12px;font-size:.77rem;margin-top:14px}
-.fine-print{font-size:.69rem;color:#777;line-height:1.5;margin-top:14px}
-.booking-btn{display:flex;align-items:center;justify-content:center;width:100%;border:2px solid #111;border-radius:999px;padding:15px;font-weight:900;margin-top:12px;background:#fff;color:#111;text-decoration:none}.booking-btn:hover{background:#111;color:#fff}.back{display:inline-block;margin-top:18px;font-weight:800}
-@media(max-width:880px){.shell{grid-template-columns:1fr}.brand-panel{padding:30px;gap:36px}.checkout{padding:24px}.agreement-wrap{grid-template-columns:1fr}}
-@media(max-width:560px){.checkout-card{padding:24px 16px}.membership-grid{grid-template-columns:1fr}.frequency-card{grid-template-columns:35px 1fr auto;padding:15px 12px}}
+:root{--black:#080808;--panel:#151515;--lime:#caff38;--lime-dark:#729800;--paper:#f1f0eb;--white:#fff;--line:#dad9d2;--muted:#717171;--danger:#b3312a;--shadow:0 25px 75px rgba(0,0,0,.13)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);font-family:Inter,sans-serif;color:#111}
+button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:310px 1fr}
+.sidebar{background:var(--black);color:#fff;padding:28px 22px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand img{width:54px;height:54px;border-radius:50%;border:2px solid var(--lime);object-fit:cover}.brand strong{display:block;font-family:"Barlow Condensed";font-size:1.65rem;letter-spacing:.1em}.brand span{display:block;color:#777;font-size:.62rem;letter-spacing:.12em}
+.sidebar-copy{margin:auto 0}.eyebrow{color:var(--lime-dark);font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.sidebar .eyebrow{color:var(--lime)}h1,h2,h3{font-family:"Barlow Condensed";text-transform:uppercase;line-height:.96;margin:0}.sidebar h2{font-size:3.35rem;margin:10px 0}.sidebar h2 em{font-style:normal;color:var(--lime)}.sidebar p{color:#999;font-size:.9rem}
+.steps{display:grid;gap:8px;margin-top:25px}.step-indicator{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:10px;color:#676767;padding:8px;border-radius:11px}.step-indicator b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#1e1e1e;font-size:.68rem}.step-indicator span{font-size:.72rem;font-weight:800}.step-indicator.active{background:#171717;color:#fff}.step-indicator.active b,.step-indicator.complete b{background:var(--lime);color:#111}.sidebar-footer{color:#555;font-size:.68rem}
+.main{padding:34px}.wizard{width:min(980px,100%);margin:auto}.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.back-home{text-decoration:none;font-weight:800;font-size:.82rem}.progress-wrap{width:260px;height:8px;background:#ddd;border-radius:999px;overflow:hidden}.progress-wrap i{display:block;height:100%;width:16.66%;background:var(--lime-dark);transition:.3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}.step{display:none}.step.active{display:block}.step h1{font-size:clamp(3rem,6vw,5rem);margin:7px 0 12px}.lead{color:var(--muted);max-width:720px;margin-bottom:28px}
+.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.option-card{border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer;transition:.22s;background:#fff;position:relative}.option-card:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(0,0,0,.08)}.option-card.selected{border-color:var(--lime);box-shadow:0 0 0 3px rgba(202,255,56,.28)}.option-card input{position:absolute;opacity:0}.option-card .icon{font-size:1.8rem}.option-card h3{font-size:1.8rem;margin:10px 0 6px}.option-card p{font-size:.8rem;color:#777;margin:0}.option-card .price{font-family:"Barlow Condensed";font-size:1.7rem;color:#5f8100;margin-top:12px}.tag{display:inline-block;background:#111;color:var(--lime);border-radius:999px;padding:5px 8px;font-size:.58rem;font-weight:800;letter-spacing:.09em}
+.agreement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.agreement-card{min-height:260px}.agreement-card ul{padding-left:18px;color:#666;font-size:.8rem}.agreement-card li{margin:8px 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:block;font-size:.76rem;font-weight:800}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{width:100%;margin-top:7px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fafafa}.field input:focus,.field textarea:focus{outline:3px solid rgba(202,255,56,.28);border-color:#8db700}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.membership{background:#111;color:#fff;border-radius:22px;padding:25px;position:sticky;top:25px;height:max-content}.membership .mini{color:var(--lime);font-size:.64rem;font-weight:800;letter-spacing:.13em}.membership h2{font-size:2.5rem;margin:5px 0 20px}.summary-line{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #2f2f2f;padding:12px 0}.summary-line span{color:#888;font-size:.72rem}.summary-line strong{text-align:right;font-size:.8rem}.summary-total strong{font-family:"Barlow Condensed";font-size:2.5rem;color:var(--lime)}
+.contract{border:1px solid var(--line);border-radius:18px;padding:22px;max-height:560px;overflow:auto;background:#fff}.contract-header{display:flex;gap:14px;align-items:center;border-bottom:2px solid #111;padding-bottom:16px}.contract-header img{width:62px;height:62px;border-radius:50%;object-fit:cover}.contract-header h2{font-size:2.2rem}.contract h3{font-size:1.35rem;margin:22px 0 8px}.contract p,.contract li{font-size:.76rem;color:#444}.contract ul{padding-left:20px}.contract-highlight{background:#f2f8df;border-left:4px solid var(--lime-dark);padding:12px;margin:12px 0;border-radius:8px}.legal-warning{background:#fff5df;border:1px solid #ead08a;border-radius:12px;padding:12px;font-size:.72rem;margin:16px 0}
+.consent-list{display:grid;gap:10px;margin:18px 0}.consent{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:.75rem}.consent input{margin-top:3px;accent-color:#759a00}
+.signature-box{background:#f5f5f1;border:1px solid var(--line);border-radius:16px;padding:18px}.signature-preview{font-family:cursive;font-size:2rem;min-height:55px;border-bottom:1px solid #777;padding:8px;color:#111}.signature-meta{display:flex;justify-content:space-between;color:#777;font-size:.65rem;margin-top:6px}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.btn{border:0;border-radius:999px;padding:14px 23px;font-weight:900;cursor:pointer}.btn.primary{background:var(--lime);color:#111}.btn.secondary{background:#111;color:#fff}.btn.ghost{background:#eee;color:#111}.btn:disabled{opacity:.4;cursor:not-allowed}.full{width:100%}
+.success-panel{text-align:center;padding:30px}.success-mark{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--lime);font-size:2rem;margin:auto}.success-panel h1{margin-top:18px}.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.next-card{border:1px solid var(--line);border-radius:16px;padding:17px;text-decoration:none}.next-card strong,.next-card span{display:block}.next-card span{font-size:.7rem;color:#777}.print-only{display:none}
+.toast{position:fixed;right:20px;bottom:20px;background:#111;color:#fff;border-left:4px solid var(--lime);border-radius:10px;padding:13px 18px;transform:translateY(120px);opacity:0;transition:.25s;z-index:100}.toast.show{transform:none;opacity:1}
+@media(max-width:950px){.shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.sidebar-copy{margin:30px 0}.steps{grid-template-columns:repeat(3,1fr)}.main{padding:22px}.review-grid{grid-template-columns:1fr}.membership{position:static}.agreement-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.card{padding:24px 16px}.option-grid,.form-grid,.next-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.steps{grid-template-columns:1fr 1fr}.topline{align-items:flex-start;gap:12px;flex-direction:column}.progress-wrap{width:100%}.actions{flex-direction:column-reverse}.actions .btn{width:100%}}
+@media print{body{background:#fff}.sidebar,.topline,.actions,.legal-warning,.consent-list,.signature-box .field,.back-home{display:none!important}.shell{display:block}.main{padding:0}.card{box-shadow:none;border:0;padding:0}.step{display:none!important}.step[data-step="5"]{display:block!important}.review-grid{display:block}.membership{display:none}.contract{max-height:none;overflow:visible;border:0}.print-only{display:block}}
 </style>
 </head>
 <body>
 <div class="shell">
-  <section class="brand-panel">
-    <div class="brand"><div class="logo">JP</div><span>JP FIT</span></div>
-    <div>
-      <span class="eyebrow" style="color:#caff38">FITNESS. ANYTIME. ANYWHERE.</span>
-      <h1>Bring the Energy.<br><em>We’ll Build the Results.</em></h1>
-      <p>Choose the training frequency that fits your life, then select your agreement.</p>
+<aside class="sidebar">
+  <a class="brand" href="index.html"><img src="assets/jp-fit-logo.jpg" alt="JP Fit logo"><div><strong>JP FIT</strong><span>PREMIUM COACHING</span></div></a>
+  <div class="sidebar-copy">
+    <span class="eyebrow">ENROLLMENT</span>
+    <h2>Build Your<br><em>Transformation.</em></h2>
+    <p>Choose your plan, review the agreement, sign, and continue to secure Stripe checkout.</p>
+    <div class="steps">
+      <div class="step-indicator active" data-indicator="1"><b>1</b><span>Goal</span></div>
+      <div class="step-indicator" data-indicator="2"><b>2</b><span>Coaching</span></div>
+      <div class="step-indicator" data-indicator="3"><b>3</b><span>Frequency</span></div>
+      <div class="step-indicator" data-indicator="4"><b>4</b><span>Agreement</span></div>
+      <div class="step-indicator" data-indicator="5"><b>5</b><span>Sign</span></div>
+      <div class="step-indicator" data-indicator="6"><b>6</b><span>Payment</span></div>
     </div>
-    <div class="trust">
-      <div><strong>Biweekly billing</strong><span>Automatic payment every 14 days</span></div>
-      <div><strong>Flexible commitments</strong><span>Month-to-month, 6 months, or 12 months</span></div>
-      <div><strong>Personal onboarding</strong><span>Jeremy contacts you after enrollment</span></div>
-    </div>
-  </section>
+  </div>
+  <div class="sidebar-footer">JP Fit · trainwithjpfit.com · jeremyparr18@gmail.com</div>
+</aside>
 
-  <main class="checkout">
-    <div class="checkout-card">
-      <span class="eyebrow">JP Fit enrollment</span>
-      <h1 id="page-heading">Choose Your Coaching</h1>
-      <p class="sub">Choose your frequency first, then select your agreement.</p>
+<main class="main">
+<div class="wizard">
+  <div class="topline"><a class="back-home" href="index.html">← Back to website</a><div class="progress-wrap"><i id="progress"></i></div></div>
+  <div class="card">
 
-      <div class="plan-box">
-        <span>SELECTED COACHING</span>
-        <strong id="selected-title">JP Fit Coaching</strong>
-        <small id="selected-detail">Personalized training and accountability</small>
+    <section class="step active" data-step="1">
+      <span class="eyebrow">STEP 1 OF 6</span><h1>What is your main goal?</h1>
+      <p class="lead">Your answer helps JP Fit tailor your coaching experience.</p>
+      <div class="option-grid" id="goal-options">
+        <label class="option-card"><input type="radio" name="goal" value="Fat Loss"><span class="icon">🔥</span><h3>Fat Loss</h3><p>Build sustainable habits, improve energy, and reduce body fat.</p></label>
+        <label class="option-card"><input type="radio" name="goal" value="Muscle Building"><span class="icon">💪</span><h3>Muscle Building</h3><p>Add lean muscle with structured progression and nutrition support.</p></label>
+        <label class="option-card"><input type="radio" name="goal" value="Strength"><span class="icon">🏋️</span><h3>Strength</h3><p>Get stronger, improve technique, and build confidence under load.</p></label>
+        <label class="option-card"><input type="radio" name="goal" value="General Fitness"><span class="icon">⚡</span><h3>General Fitness</h3><p>Move better, feel healthier, and create a consistent routine.</p></label>
+      </div>
+      <div class="actions"><span></span><button class="btn primary next" disabled>Choose Coaching →</button></div>
+    </section>
+
+    <section class="step" data-step="2">
+      <span class="eyebrow">STEP 2 OF 6</span><h1>Choose your coaching.</h1>
+      <p class="lead">Select the service that best matches your schedule and goals.</p>
+      <div class="option-grid" id="service-options">
+        <label class="option-card" data-service="inperson30"><input type="radio" name="service" value="inperson30"><span class="tag">IN PERSON</span><h3>30-Minute Sessions</h3><p>Focused, efficient coaching for busy schedules.</p></label>
+        <label class="option-card" data-service="inperson60"><input type="radio" name="service" value="inperson60"><span class="tag">IN PERSON</span><h3>60-Minute Sessions</h3><p>Detailed training for strength, muscle, and skill development.</p></label>
+        <label class="option-card" data-service="mobile"><input type="radio" name="service" value="mobile"><span class="tag">WE COME TO YOU</span><h3>Mobile Training</h3><p>Personal training at your approved home or private gym location.</p></label>
+        <label class="option-card" data-service="online"><input type="radio" name="service" value="online"><span class="tag">TRAIN ANYWHERE</span><h3>Online Coaching</h3><p>Programming, nutrition guidance, check-ins, tracking, and support.</p></label>
+      </div>
+      <div class="actions"><button class="btn ghost prev">← Back</button><button class="btn primary next" disabled>Choose Frequency →</button></div>
+    </section>
+
+    <section class="step" data-step="3">
+      <span class="eyebrow">STEP 3 OF 6</span><h1>How often will you train?</h1>
+      <p class="lead">Your biweekly rate updates automatically.</p>
+      <div class="option-grid" id="frequency-options"></div>
+      <div class="actions"><button class="btn ghost prev">← Back</button><button class="btn primary next" disabled>Choose Agreement →</button></div>
+    </section>
+
+    <section class="step" data-step="4">
+      <span class="eyebrow">STEP 4 OF 6</span><h1>Choose your agreement.</h1>
+      <p class="lead">The agreement changes your commitment and downgrade rights—not your training price.</p>
+      <div class="agreement-grid">
+        <label class="option-card agreement-card"><input type="radio" name="term" value="Month-to-Month"><span class="tag">FLEXIBLE</span><h3>Month-to-Month</h3><ul><li>30 days’ written cancellation notice</li><li>Billing continues through the notice period</li><li>No fixed minimum term</li></ul></label>
+        <label class="option-card agreement-card"><input type="radio" name="term" value="6-Month Agreement"><span class="tag">ACCOUNTABILITY</span><h3>6 Months</h3><ul><li>Six-month minimum commitment</li><li>One downgrade allowed after 60 days</li><li>Early termination fee: one final biweekly payment</li></ul></label>
+        <label class="option-card agreement-card"><input type="radio" name="term" value="12-Month Agreement"><span class="tag">MAXIMUM PROGRESS</span><h3>12 Months</h3><ul><li>Twelve-month minimum commitment</li><li>Up to two downgrades after 90 days</li><li>Early termination fee: one final biweekly payment</li></ul></label>
+      </div>
+      <div class="actions"><button class="btn ghost prev">← Back</button><button class="btn primary next" disabled>Enter Your Information →</button></div>
+    </section>
+
+    <section class="step" data-step="5">
+      <span class="eyebrow">STEP 5 OF 6</span><h1>Review and sign.</h1>
+      <p class="lead">Complete your information, review the agreement, and sign electronically.</p>
+      <div class="form-grid" id="client-form">
+        <label class="field">Legal name<input id="client-name" autocomplete="name" required></label>
+        <label class="field">Email<input id="client-email" type="email" autocomplete="email" required></label>
+        <label class="field">Phone<input id="client-phone" type="tel" autocomplete="tel" required></label>
+        <label class="field">Start date<input id="start-date" type="date" required></label>
+        <label class="field full">Street address<input id="client-address" autocomplete="street-address" required></label>
+        <label class="field">Emergency contact name<input id="emergency-name" required></label>
+        <label class="field">Emergency contact phone<input id="emergency-phone" type="tel" required></label>
       </div>
 
-      <div class="section-label">1. Choose Your Frequency</div>
-      <div class="frequency-list" id="frequency-list"></div>
+      <div class="review-grid" style="margin-top:22px">
+        <div>
+          <div class="contract" id="contract">
+            <div class="contract-header"><img src="assets/jp-fit-logo.jpg" alt=""><div><span class="eyebrow">JP FIT</span><h2>Coaching Agreement</h2><p>trainwithjpfit.com · jeremyparr18@gmail.com</p></div></div>
+            <p class="print-only"><strong>Agreement ID:</strong> <span id="agreement-id-print"></span></p>
+            <h3>1. Parties and Program</h3>
+            <p>This Coaching Agreement (“Agreement”) is between <strong>JP Fit</strong> (“Coach”) and <strong data-fill="client">the Client</strong>. The Client is enrolling in <strong data-fill="plan">a JP Fit program</strong>, at <strong data-fill="frequency">the selected frequency</strong>, for a biweekly payment of <strong data-fill="price">the selected price</strong>. The selected term is <strong data-fill="term">the selected agreement</strong>, beginning <strong data-fill="date">on the selected start date</strong>.</p>
 
-      <div class="section-label">2. Choose Your Agreement</div>
-      <div class="agreement-wrap">
-        <div class="field">
-          <label for="term">Agreement length</label>
-          <select id="term">
-            <option>Month-to-Month</option>
-            <option>6-Month Agreement</option>
-            <option>12-Month Agreement</option>
-          </select>
+            <h3>2. Services</h3>
+            <p>Depending on the selected program, services may include personal training sessions, individualized workout programming, general nutrition guidance, accountability check-ins, progress tracking, exercise instruction, and reasonable coaching support. Specific schedules and deliverables may be adjusted by mutual agreement.</p>
+
+            <h3>3. Automatic Biweekly Payments</h3>
+            <p>The Client authorizes the payment method entered through Stripe to be charged every 14 days at the selected rate. A six-month term generally includes approximately 13 payments, and a twelve-month term generally includes approximately 26 payments. Declined payments must be corrected promptly. Training access may be suspended while an account is past due.</p>
+
+            <h3>4. Agreement Term and Cancellation</h3>
+            <div class="contract-highlight" id="term-clause"></div>
+            <p>Cancellation requests must be submitted in writing to <strong>jeremyparr18@gmail.com</strong>. Fixed-term agreements do not automatically renew into another fixed term. Any continuation after the initial fixed term will require the Client’s affirmative agreement or a separate month-to-month arrangement.</p>
+
+            <h3>5. Downgrade Policy</h3>
+            <p><strong>Six-month agreement:</strong> After the first 60 days, the Client may request one reduction in training frequency during the term. <strong>Twelve-month agreement:</strong> After the first 90 days, the Client may request up to two reductions in frequency during the term. Downgrades require written approval, take effect on a future billing cycle, do not shorten the agreement, and change future charges to the current rate for the lower frequency.</p>
+
+            <h3>6. Early Termination</h3>
+            <p>A Client ending a six- or twelve-month agreement before the scheduled end date must provide written notice and pay an early termination fee equal to <strong>one final biweekly payment at the Client’s then-current rate</strong>. JP Fit may waive or modify the fee in writing for documented medical inability, permanent relocation, death, or another exceptional circumstance.</p>
+
+            <h3>7. Sessions, Rescheduling, and Expiration</h3>
+            <ul><li>At least 24 hours’ notice is required to cancel or reschedule a live session.</li><li>Late cancellations and no-shows may result in forfeiture of that session.</li><li>Emergencies may be reviewed at JP Fit’s discretion.</li><li>Unused sessions generally expire within the applicable billing period unless JP Fit approves an extension in writing.</li><li>JP Fit may reschedule a session and will provide a replacement opportunity when reasonably possible.</li></ul>
+
+            <h3>8. Refunds</h3>
+            <p>Payments are nonrefundable once processed except where required by law or expressly approved by JP Fit in writing. Completed services and forfeited sessions are nonrefundable.</p>
+
+            <h3>9. Health Disclosure and Assumption of Risk</h3>
+            <p>The Client confirms that they have disclosed relevant injuries, health conditions, medications, restrictions, and physician instructions. Exercise carries inherent risks, including strains, falls, cardiovascular events, and other injury. The Client voluntarily participates, agrees to use reasonable judgment, and will stop and report concerning symptoms. Medical clearance may be requested. JP Fit does not diagnose, treat, prescribe, or provide medical care.</p>
+
+            <h3>10. Liability and Client Responsibility</h3>
+            <p>To the fullest extent permitted by law, the Client assumes the ordinary risks of voluntary exercise participation and agrees that JP Fit is not responsible for injury or loss caused by undisclosed conditions, failure to follow instructions, misuse of equipment, unsafe conduct, or circumstances outside JP Fit’s reasonable control. This provision does not waive rights that cannot legally be waived.</p>
+
+            <h3>11. Nutrition Scope</h3>
+            <p>Nutrition support is general educational guidance and habit coaching. It is not medical nutrition therapy or treatment for disease. Clients with medical or dietary conditions should work with a physician or appropriately licensed nutrition professional.</p>
+
+            <h3>12. Media Permission</h3>
+            <p>Marketing permission is optional and separate from coaching. The Client’s choice below does not affect eligibility for services. A Client may withdraw permission for future uses by written notice; withdrawal does not require removal of materials already lawfully published or distributed.</p>
+
+            <h3>13. Electronic Records and Signatures</h3>
+            <p>The parties agree to conduct this transaction electronically. The Client intends the typed signature and acceptance boxes below to serve as an electronic signature. The Client should save or print a copy of this Agreement. This website version creates a client-side record; JP Fit should use an approved electronic-signature platform or secure backend for production recordkeeping.</p>
+
+            <h3>14. Entire Agreement and Changes</h3>
+            <p>This document, the selected membership summary, and any incorporated written policies form the agreement between the parties. Changes must be in writing. If one provision is unenforceable, the remaining provisions continue to the extent permitted by law. Florida law governs, subject to any mandatory consumer rights.</p>
+          </div>
         </div>
-        <div class="agreement-message" id="agreement-message"></div>
+
+        <aside class="membership">
+          <span class="mini">JP FIT MEMBERSHIP</span><h2>Your Plan</h2>
+          <div class="summary-line"><span>Goal</span><strong id="sum-goal">—</strong></div>
+          <div class="summary-line"><span>Program</span><strong id="sum-plan">—</strong></div>
+          <div class="summary-line"><span>Frequency</span><strong id="sum-frequency">—</strong></div>
+          <div class="summary-line"><span>Agreement</span><strong id="sum-term">—</strong></div>
+          <div class="summary-line"><span>Billing</span><strong>Every 14 days</strong></div>
+          <div class="summary-line summary-total"><span>Due today</span><strong id="sum-price">—</strong></div>
+        </aside>
       </div>
 
-      <div class="membership-card">
-        <span class="mini">JP FIT PREMIUM COACHING</span>
-        <h2>Your Membership</h2>
-        <div class="membership-grid">
-          <div><span>Plan</span><strong id="card-plan">—</strong></div>
-          <div><span>Frequency</span><strong id="card-frequency">—</strong></div>
-          <div><span>Agreement</span><strong id="card-term">—</strong></div>
-          <div><span>Billing</span><strong>Every 2 Weeks</strong></div>
-        </div>
-        <div class="membership-total">
-          <div><span>Due today</span><strong id="card-total">—</strong></div>
-          <div><span>Coach</span><strong style="font-size:1.7rem;color:#fff">Jeremy Parr</strong></div>
-        </div>
+      <div class="legal-warning"><strong>Legal review required:</strong> This is a working business template, not a substitute for advice from a Florida attorney. Have the final contract, waiver, cancellation process, and electronic-signature workflow reviewed before public launch.</div>
+
+      <div class="consent-list">
+        <label class="consent"><input type="checkbox" id="accept-contract"><span>I have read, understand, and agree to the JP Fit Coaching Agreement, including the selected commitment, automatic biweekly payments, cancellation terms, downgrade policy, early termination fee, and 24-hour session policy.</span></label>
+        <label class="consent"><input type="checkbox" id="health-confirm"><span>I confirm that I have disclosed relevant health conditions and understand that I should obtain medical clearance when appropriate.</span></label>
+        <label class="consent"><input type="checkbox" id="electronic-consent"><span>I consent to electronic records and intend my typed name below to serve as my electronic signature.</span></label>
+        <label class="consent"><input type="checkbox" id="photo-consent"><span>I optionally authorize JP Fit to use approved progress photos or testimonials for marketing. I understand this is optional and may be left unchecked.</span></label>
       </div>
 
-      <button class="pay-btn" id="pay-button">CONTINUE TO SECURE STRIPE CHECKOUT</button>
-      <a class="booking-btn" href="https://calendly.com/jeremyparr18/30min" target="_blank" rel="noopener">BOOK MY FREE 30-MINUTE CONSULTATION</a>
-      <div class="notice"><strong>Secure Stripe checkout is connected.</strong> Your selected agreement is recorded on this enrollment page; the recurring payment page handles your biweekly billing.</div>
-      <p class="fine-print">Biweekly means one charge every 14 days. Six months is approximately 13 charges. Twelve months is approximately 26 charges. Month-to-month continues until canceled under the signed agreement.</p>
-      <a class="back" href="index.html">← Return to JP Fit</a>
-    </div>
-  </main>
+      <div class="signature-box">
+        <label class="field">Type your full legal name to sign<input id="signature-input" placeholder="Full legal name"></label>
+        <div class="signature-preview" id="signature-preview">Your signature</div>
+        <div class="signature-meta"><span id="signature-date"></span><span>Electronic signature</span></div>
+      </div>
+
+      <div class="actions"><button class="btn ghost prev">← Back</button><div><button class="btn secondary" id="print-contract" type="button">Print / Save PDF</button> <button class="btn primary" id="accept-and-pay" disabled>Accept & Continue to Stripe →</button></div></div>
+    </section>
+
+    <section class="step" data-step="6">
+      <div class="success-panel">
+        <div class="success-mark">✓</div><span class="eyebrow">AGREEMENT ACCEPTED</span><h1>Continue to secure payment.</h1>
+        <p class="lead" style="margin-inline:auto">Your enrollment choices were saved on this device. Stripe will securely collect your recurring biweekly payment information.</p>
+        <div class="membership" style="text-align:left;position:static;max-width:560px;margin:20px auto"><span class="mini">FINAL SUMMARY</span><h2 id="final-plan">JP Fit Coaching</h2><div class="summary-line"><span>Frequency</span><strong id="final-frequency"></strong></div><div class="summary-line"><span>Agreement</span><strong id="final-term"></strong></div><div class="summary-line summary-total"><span>Due today</span><strong id="final-price"></strong></div></div>
+        <button class="btn primary full" id="stripe-button">OPEN SECURE STRIPE CHECKOUT</button>
+        <button class="btn ghost full" style="margin-top:10px" id="return-sign">Review Agreement</button>
+      </div>
+    </section>
+
+  </div>
 </div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-const plans = {
-  inperson30: {
-    title: "In-Person 30-Minute Sessions",
-    detail: "Focused, efficient personal training.",
-    prices: {"1x / Week":80,"2x / Week":144,"3x / Week":210,"4x / Week":256}
-  },
-  inperson60: {
-    title: "In-Person 60-Minute Sessions",
-    detail: "Longer sessions for strength, muscle building, and detailed coaching.",
-    prices: {"1x / Week":120,"2x / Week":220,"3x / Week":300,"4x / Week":360}
-  },
-  mobile: {
-    title: "Mobile Training",
-    detail: "JP Fit comes directly to your approved training location.",
-    prices: {"1x / Week":140,"2x / Week":260,"3x / Week":360,"4x / Week":440}
-  },
-  online: {
-    title: "1-on-1 Online Coaching",
-    detail: "Custom workouts, nutrition guidance, check-ins, messaging, and app access.",
-    prices: {"Online Coaching":60},
-    termPrices: {"Month-to-Month":60,"6-Month Agreement":60,"12-Month Agreement":50}
-  }
+const plans={
+ inperson30:{title:"In-Person 30-Minute Sessions",detail:"Focused, efficient personal training.",prices:{"1x / Week":80,"2x / Week":144,"3x / Week":210,"4x / Week":256}},
+ inperson60:{title:"In-Person 60-Minute Sessions",detail:"Detailed coaching for strength, muscle, and skill development.",prices:{"1x / Week":120,"2x / Week":220,"3x / Week":300,"4x / Week":360}},
+ mobile:{title:"Mobile Training",detail:"JP Fit comes to your approved training location.",prices:{"1x / Week":140,"2x / Week":260,"3x / Week":360,"4x / Week":440}},
+ online:{title:"1-on-1 Online Coaching",detail:"Programming, nutrition guidance, check-ins, tracking, and support.",prices:{"Online Coaching":60},termPrices:{"Month-to-Month":60,"6-Month Agreement":60,"12-Month Agreement":50}}
 };
-
-const stripeLinks = {
-  "inperson30|1x / Week": "https://buy.stripe.com/5kQ8wPfoG8iE0vT3EP5Rm00",
-  "inperson30|2x / Week": "https://buy.stripe.com/cNi8wP2BUeH2emJ2AL5Rm01",
-  "inperson30|3x / Week": "https://buy.stripe.com/eVqbJ190i2Yk3I50sD5Rm02",
-  "inperson30|4x / Week": "https://buy.stripe.com/00w8wPekC8iE4M92AL5Rm03",
-
-  "inperson60|1x / Week": "https://buy.stripe.com/4gMeVd3FYaqM3I51wH5Rm05",
-  "inperson60|2x / Week": "https://buy.stripe.com/28E8wP1xQgPa6Uh7V55Rm09",
-  "inperson60|3x / Week": "https://buy.stripe.com/aFacN56Sa56semJejt5Rm08",
-  "inperson60|4x / Week": "https://buy.stripe.com/4gM9AT90ifL6fqN1wH5Rm04",
-
-  "mobile|1x / Week": "https://buy.stripe.com/8x2aEXgsK56s1zX6R15Rm06",
-  "mobile|2x / Week": "https://buy.stripe.com/28E5kD1xQgPabaxcbl5Rm0a",
-  "mobile|3x / Week": "https://buy.stripe.com/cNifZh6SabuQbax8Z95Rm0d",
-  "mobile|4x / Week": "https://buy.stripe.com/9B66oH1xQ42obax5MX5Rm0b",
-
-  "online|6-Month Agreement": "https://buy.stripe.com/9B6aEX0tM42o3I5a3d5Rm0c",
-  "online|12-Month Agreement": "https://buy.stripe.com/7sYaEXa4m2YkdiFb7h5Rm07"
+const stripeLinks={
+ "inperson30|1x / Week":"https://buy.stripe.com/5kQ8wPfoG8iE0vT3EP5Rm00",
+ "inperson30|2x / Week":"https://buy.stripe.com/cNi8wP2BUeH2emJ2AL5Rm01",
+ "inperson30|3x / Week":"https://buy.stripe.com/eVqbJ190i2Yk3I50sD5Rm02",
+ "inperson30|4x / Week":"https://buy.stripe.com/00w8wPekC8iE4M92AL5Rm03",
+ "inperson60|1x / Week":"https://buy.stripe.com/4gMeVd3FYaqM3I51wH5Rm05",
+ "inperson60|2x / Week":"https://buy.stripe.com/28E8wP1xQgPa6Uh7V55Rm09",
+ "inperson60|3x / Week":"https://buy.stripe.com/aFacN56Sa56semJejt5Rm08",
+ "inperson60|4x / Week":"https://buy.stripe.com/4gM9AT90ifL6fqN1wH5Rm04",
+ "mobile|1x / Week":"https://buy.stripe.com/8x2aEXgsK56s1zX6R15Rm06",
+ "mobile|2x / Week":"https://buy.stripe.com/28E5kD1xQgPabaxcbl5Rm0a",
+ "mobile|3x / Week":"https://buy.stripe.com/cNifZh6SabuQbax8Z95Rm0d",
+ "mobile|4x / Week":"https://buy.stripe.com/9B66oH1xQ42obax5MX5Rm0b",
+ "online|6-Month Agreement":"https://buy.stripe.com/9B6aEX0tM42o3I5a3d5Rm0c",
+ "online|12-Month Agreement":"https://buy.stripe.com/7sYaEXa4m2YkdiFb7h5Rm07"
 };
+const state={step:1,goal:"",service:"",frequency:"",term:"",price:0,client:{}};
+const query=new URLSearchParams(location.search);
+let initial=query.get("plan");
+if(initial==="online6"||initial==="online12") initial="online";
+if(plans[initial]) state.service=initial;
 
-const query = new URLSearchParams(location.search);
-let key = query.get("plan");
-if(key === "online6" || key === "online12") key = "online";
-if(!plans[key]) key = "inperson30";
+const steps=[...document.querySelectorAll(".step")];
+function go(n){
+ state.step=n;steps.forEach(s=>s.classList.toggle("active",+s.dataset.step===n));
+ document.querySelectorAll(".step-indicator").forEach(i=>{const k=+i.dataset.indicator;i.classList.toggle("active",k===n);i.classList.toggle("complete",k<n)});
+ document.getElementById("progress").style.width=`${n/6*100}%`;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function selectCards(container,callback){
+ container.querySelectorAll(".option-card").forEach(card=>card.addEventListener("click",()=>{
+  container.querySelectorAll(".option-card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");
+  card.querySelector("input").checked=true;callback(card.querySelector("input").value);
+  const btn=container.closest(".step").querySelector(".next");if(btn)btn.disabled=false;
+ }));
+}
+selectCards(document.getElementById("goal-options"),v=>state.goal=v);
+selectCards(document.getElementById("service-options"),v=>{state.service=v;buildFrequencies()});
+selectCards(document.querySelector(".agreement-grid"),v=>{state.term=v;updateReview()});
 
-const plan = plans[key];
-let selectedFrequency = Object.keys(plan.prices)[0];
-const term = document.getElementById("term");
+if(state.service){
+ const card=document.querySelector(`[data-service="${state.service}"]`);
+ if(card){card.classList.add("selected");card.querySelector("input").checked=true;document.querySelector('[data-step="2"] .next').disabled=false}
+}
+function buildFrequencies(){
+ const box=document.getElementById("frequency-options");box.innerHTML="";state.frequency="";
+ Object.entries(plans[state.service].prices).forEach(([label,price],idx)=>{
+  const card=document.createElement("label");card.className="option-card";
+  card.innerHTML=`<input type="radio" name="frequency" value="${label}"><span class="tag">${idx===1?"MOST POPULAR":idx===3?"BEST VALUE":"JP FIT"}</span><h3>${label}</h3><p>${plans[state.service].detail}</p><div class="price">$${price} every 2 weeks</div>`;
+  card.addEventListener("click",()=>{box.querySelectorAll(".option-card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");card.querySelector("input").checked=true;state.frequency=label;state.price=currentPrice();document.querySelector('[data-step="3"] .next').disabled=false;updateReview()});
+  box.appendChild(card);
+ });
+}
+function currentPrice(){if(!state.service)return 0;if(state.service==="online"&&state.term)return plans.online.termPrices[state.term]||60;return plans[state.service].prices[state.frequency]||0}
+function termClause(){
+ if(state.term==="Month-to-Month")return "<strong>Month-to-Month:</strong> The arrangement has no fixed minimum term. The Client may cancel with 30 days’ written notice, and billing continues during that notice period.";
+ if(state.term==="6-Month Agreement")return "<strong>Six-Month Agreement:</strong> The Client accepts a six-month minimum commitment. Early termination requires written notice and one final biweekly payment. One downgrade may be requested after 60 days.";
+ return "<strong>Twelve-Month Agreement:</strong> The Client accepts a twelve-month minimum commitment. Early termination requires written notice and one final biweekly payment. Up to two downgrades may be requested after 90 days.";
+}
+function updateReview(){
+ state.price=currentPrice();
+ const name=document.getElementById("client-name")?.value||"the Client";
+ const date=document.getElementById("start-date")?.value||"the selected start date";
+ document.getElementById("sum-goal").textContent=state.goal||"—";
+ document.getElementById("sum-plan").textContent=state.service?plans[state.service].title:"—";
+ document.getElementById("sum-frequency").textContent=state.frequency||"—";
+ document.getElementById("sum-term").textContent=state.term||"—";
+ document.getElementById("sum-price").textContent=state.price?`$${state.price}`:"—";
+ document.querySelectorAll('[data-fill="client"]').forEach(x=>x.textContent=name);
+ document.querySelectorAll('[data-fill="plan"]').forEach(x=>x.textContent=state.service?plans[state.service].title:"the selected program");
+ document.querySelectorAll('[data-fill="frequency"]').forEach(x=>x.textContent=state.frequency||"the selected frequency");
+ document.querySelectorAll('[data-fill="price"]').forEach(x=>x.textContent=state.price?`$${state.price} every 14 days`:"the selected price");
+ document.querySelectorAll('[data-fill="term"]').forEach(x=>x.textContent=state.term||"the selected term");
+ document.querySelectorAll('[data-fill="date"]').forEach(x=>x.textContent=date);
+ document.getElementById("term-clause").innerHTML=termClause();
+}
+document.querySelectorAll(".next").forEach(btn=>btn.addEventListener("click",()=>{if(state.step===2&&!state.service)return;if(state.step===3&&!state.frequency)return;if(state.step===4&&!state.term)return;go(state.step+1);updateReview()}));
+document.querySelectorAll(".prev").forEach(btn=>btn.addEventListener("click",()=>go(state.step-1)));
 
-if(query.get("plan") === "online6") term.value = "6-Month Agreement";
-if(query.get("plan") === "online12") term.value = "12-Month Agreement";
-
-document.getElementById("page-heading").textContent = plan.title;
-document.getElementById("selected-title").textContent = plan.title;
-document.getElementById("selected-detail").textContent = plan.detail;
-
-const list = document.getElementById("frequency-list");
-Object.entries(plan.prices).forEach(([label, price], index) => {
-  const card = document.createElement("label");
-  card.className = "frequency-card" + (index===0 ? " active" : "");
-  const popular = label === "2x / Week" ? '<span class="badge">MOST POPULAR</span>' : "";
-  const best = label === "4x / Week" ? '<span class="badge">BEST VALUE</span>' : "";
-  card.innerHTML = `
-    <input type="radio" name="frequency" value="${label}" ${index===0?"checked":""}>
-    <span class="radio-ui"></span>
-    <div><span class="name">${label}${popular}${best}</span><span class="subline">$${price} every 2 weeks</span></div>
-    <strong class="price">$${price}</strong>`;
-  card.addEventListener("click", () => {
-    selectedFrequency = label;
-    document.querySelectorAll(".frequency-card").forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
-    update();
-  });
-  list.appendChild(card);
+const startDate=document.getElementById("start-date");startDate.value=new Date().toISOString().slice(0,10);
+["client-name","client-email","client-phone","client-address","emergency-name","emergency-phone","start-date"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{updateReview();validateSignature()}));
+const sig=document.getElementById("signature-input");
+sig.addEventListener("input",()=>{document.getElementById("signature-preview").textContent=sig.value||"Your signature";validateSignature()});
+document.getElementById("signature-date").textContent=new Date().toLocaleDateString();
+["accept-contract","health-confirm","electronic-consent"].forEach(id=>document.getElementById(id).addEventListener("change",validateSignature));
+function validateSignature(){
+ const required=["client-name","client-email","client-phone","client-address","emergency-name","emergency-phone","start-date"].every(id=>document.getElementById(id).value.trim());
+ const boxes=["accept-contract","health-confirm","electronic-consent"].every(id=>document.getElementById(id).checked);
+ const same=sig.value.trim().toLowerCase()===document.getElementById("client-name").value.trim().toLowerCase()&&sig.value.trim().length>2;
+ document.getElementById("accept-and-pay").disabled=!(required&&boxes&&same);
+}
+document.getElementById("print-contract").addEventListener("click",()=>{updateReview();window.print()});
+document.getElementById("accept-and-pay").addEventListener("click",()=>{
+ const agreementId=`JPF-${Date.now().toString(36).toUpperCase()}`;
+ const record={...state,price:currentPrice(),client:{
+  name:document.getElementById("client-name").value,email:document.getElementById("client-email").value,phone:document.getElementById("client-phone").value,address:document.getElementById("client-address").value,
+  emergencyName:document.getElementById("emergency-name").value,emergencyPhone:document.getElementById("emergency-phone").value,startDate:document.getElementById("start-date").value
+ },photoConsent:document.getElementById("photo-consent").checked,signature:sig.value,signedAt:new Date().toISOString(),agreementId};
+ localStorage.setItem("jpfitEnrollment",JSON.stringify(record));document.getElementById("agreement-id-print").textContent=agreementId;
+ document.getElementById("final-plan").textContent=plans[state.service].title;document.getElementById("final-frequency").textContent=state.frequency;document.getElementById("final-term").textContent=state.term;document.getElementById("final-price").textContent=`$${record.price}`;
+ go(6);toast("Agreement accepted on this device");
 });
-
-function currentPrice(){
-  if(key === "online") return plan.termPrices[term.value];
-  return plan.prices[selectedFrequency];
-}
-
-function agreementCopy(){
-  if(term.value === "Month-to-Month") return "Train on your terms. Continues every 14 days until canceled under the signed agreement.";
-  if(term.value === "6-Month Agreement") return "Stay consistent and build real momentum with approximately 13 biweekly payments.";
-  return "Maximum commitment for maximum progress, with approximately 26 biweekly payments.";
-}
-
-function update(){
-  const price = currentPrice();
-  document.getElementById("agreement-message").textContent = agreementCopy();
-  document.getElementById("card-plan").textContent = plan.title;
-  document.getElementById("card-frequency").textContent = selectedFrequency;
-  document.getElementById("card-term").textContent = term.value;
-  document.getElementById("card-total").textContent = `$${price}`;
-}
-term.addEventListener("change", update);
-update();
-
-document.getElementById("pay-button").addEventListener("click", () => {
-  const price = currentPrice();
-  const lookup = key === "online"
-    ? `${key}|${term.value}`
-    : `${key}|${selectedFrequency}`;
-  const stripe = stripeLinks[lookup];
-
-  if(stripe){
-    window.location.href = stripe;
-    return;
-  }
-
-  if(key === "online" && term.value === "Month-to-Month"){
-    alert("Online coaching month-to-month checkout is not connected yet. Please choose the 6-month or 12-month agreement, or book a free consultation.");
-    return;
-  }
-
-  alert("This payment option is not connected yet. Please book a free consultation or contact Jeremy.");
+document.getElementById("return-sign").addEventListener("click",()=>go(5));
+document.getElementById("stripe-button").addEventListener("click",()=>{
+ const lookup=state.service==="online"?`${state.service}|${state.term}`:`${state.service}|${state.frequency}`;
+ const link=stripeLinks[lookup];
+ if(!link){alert("This Stripe option is not connected. Please contact JP Fit.");return}
+ location.href=link;
 });
+if(state.service)buildFrequencies();
+updateReview();
 </script>
 </body>
 </html>

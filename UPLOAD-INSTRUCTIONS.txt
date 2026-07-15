@@ -1,26 +1,40 @@
-JP FIT WEBSITE VERSION 14 — STRIPE CONNECTED
+JP FIT WEBSITE VERSION 15 — ONBOARDING + AGREEMENT
 
-WHAT IS CONNECTED
-- All four 30-minute training payment links
-- All four 60-minute training payment links
-- All four mobile-training payment links
-- Online coaching 6-month payment link
-- Online coaching 12-month payment link
-- Calendly consultation link
-- All website photos and logo
+NEW FEATURES
+- Six-step premium enrollment wizard
+- Goal, service, frequency, and agreement selection
+- Month-to-month, 6-month, and 12-month agreement language
+- Six-month downgrade after 60 days (one downgrade)
+- Twelve-month downgrade after 90 days (up to two downgrades)
+- 30-day written cancellation notice for month-to-month
+- 24-hour session cancellation policy
+- Early termination fee equal to one final biweekly payment
+- Optional media/photo permission
+- Typed electronic signature and required acknowledgments
+- Printable / Save-as-PDF contract
+- Stripe payment routing
+- Welcome page
+- Client intake questionnaire
+- Calendly booking
 
-IMPORTANT ABOUT AGREEMENTS
-For in-person and mobile services, the Stripe link is determined by frequency.
-The Month-to-Month, 6-Month, or 12-Month selection must also be documented in the signed JP Fit agreement.
-
-Online month-to-month does not have a matching Stripe link yet. The site asks the visitor to choose 6 or 12 months.
+IMPORTANT LIMITATION
+The current static website stores agreement and intake data only in the visitor's browser (localStorage).
+It does not securely transmit, archive, or email signed agreements.
+Before real client use, connect a proper e-signature platform or secure backend and have a Florida attorney review the final language.
 
 UPLOAD TO GITHUB
 1. Extract this ZIP.
-2. Open jp-fit-website-v14-stripe.
-3. Upload index.html, checkout.html, and the complete assets folder to the ROOT of JPFIT.
+2. Open jp-fit-website-v15-onboarding.
+3. Upload ALL contents to the root of your JPFIT repository:
+   index.html
+   checkout.html
+   welcome.html
+   intake.html
+   assets folder
+   instructions file
 4. Commit changes.
 5. Vercel will redeploy automatically.
-6. Test every checkout option before sharing publicly.
 
-Never upload Stripe secret keys to GitHub.
+STRIPE SUCCESS REDIRECT
+Inside each Stripe Payment Link, set the post-payment redirect URL to:
+https://trainwithjpfit.com/welcome.html
