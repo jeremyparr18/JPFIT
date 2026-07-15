@@ -1,36 +1,26 @@
-JP FIT VERSION 19 — LIVE CLIENT DASHBOARD
+JP FIT VERSION 21 — EDITABLE EXERCISE DETAILS
 
-STEP 1 — DATABASE
-In Supabase:
-1. Open SQL Editor.
-2. Open SUPABASE-V19-DASHBOARD.sql from this package.
-3. Paste the complete file.
-4. Click Run.
+NO NEW SQL IS REQUIRED.
 
-STEP 2 — WEBSITE
-Upload every extracted Version 19 file to the ROOT of the GitHub JPFIT repository.
-Commit the changes and wait for Vercel to redeploy.
+NEW WORKOUT BUILDER FEATURES
+- Click any exercise already added to the workout.
+- An Exercise Details editor opens.
+- Edit:
+  • Exercise name
+  • Written description
+  • Coaching cues
+  • Sets
+  • Reps
+  • Tempo
+  • Rest period
+  • Weight guidance
+- Save the exercise details before assigning the workout.
+- Details are stored inside the workout assignment in Supabase.
+- Clients see the full details in their Workouts section.
 
-CLIENT LOGIN
-https://trainwithjpfit.com/auth.html
+UPLOAD
+Upload all Version 21 files to the root of GitHub and commit.
+Vercel will redeploy automatically.
 
-CLIENT DASHBOARD
-https://trainwithjpfit.com/client-portal.html
-
-VERSION 19 FEATURES
-- Protected client dashboard
-- Live Supabase profile and membership data
-- Progress entries saved to Supabase
-- Weight, waist, steps, sleep, energy, and notes
-- Weekly check-ins saved to Supabase
-- Nutrition target display
-- Workout assignment display
-- Client messages saved to Supabase
-- Live sign-out
-- Responsive mobile layout
-
-CURRENT LIMITATIONS
-- Jeremy cannot yet reply through a coach dashboard.
-- Workouts and nutrition targets must currently be inserted through Supabase.
-- Progress-photo uploads are not included yet.
-- Stripe webhook payment verification is not included yet.
+COACH DASHBOARD
+https://trainwithjpfit.com/coach-dashboard.html

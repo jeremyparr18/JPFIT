@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JP Fit Coach Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#1e1e1e;--line:#303030;--muted:#929292}
+*{box-sizing:border-box}body{margin:0;background:#0b0b0b;color:#fff;font-family:Inter,sans-serif}button,input,select,textarea{font:inherit}
+.loading{position:fixed;inset:0;background:#080808;z-index:1000;display:grid;place-items:center}.loading.hide{display:none}.spin{width:46px;height:46px;border:4px solid #333;border-top-color:var(--lime);border-radius:50%;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}
+.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.side{background:#080808;padding:23px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}.brand{display:flex;align-items:center;gap:10px}.brand img{width:49px;height:49px;border-radius:50%;border:2px solid var(--lime)}.brand strong{font-family:"Barlow Condensed";font-size:1.55rem}.nav{display:grid;gap:7px;margin-top:30px}.nav button{background:none;border:0;color:#888;text-align:left;padding:12px;border-radius:11px;font-weight:800;cursor:pointer}.nav button.active,.nav button:hover{background:#1b1b1b;color:var(--lime)}.bottom{margin-top:auto}.signout{width:100%;padding:11px;border-radius:999px;border:1px solid #333;background:none;color:#aaa}
+.main{padding:27px}.top{display:flex;justify-content:space-between;align-items:center}.top h1,h2,h3{font-family:"Barlow Condensed";text-transform:uppercase;line-height:.95}.top h1{font-size:3.1rem;margin:0}.coach-pill{background:#191919;border:1px solid var(--line);border-radius:999px;padding:10px 15px}
+.panel{display:none}.panel.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:22px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px}.stat span{display:block;color:#888;font-size:.7rem}.stat strong{font-family:"Barlow Condensed";font-size:2.8rem;color:var(--lime)}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:27px 0 12px}.section-head h2{font-size:2rem;margin:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.client-list{display:grid;gap:9px}.client{background:#191919;border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer}.client:hover,.client.selected{border-color:var(--lime)}.client strong,.client span{display:block}.client span{font-size:.72rem;color:#888}.detail{background:#171717;border:1px solid var(--line);border-radius:20px;padding:21px;min-height:420px}.empty{color:#777;font-size:.8rem}.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}.tabs button{border:0;background:#282828;color:#aaa;border-radius:999px;padding:9px 12px;font-weight:800;cursor:pointer}.tabs button.active{background:var(--lime);color:#111}.detail-section{display:none}.detail-section.active{display:block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{font-size:.74rem;font-weight:800}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{width:100%;margin-top:6px;padding:11px;border:1px solid #343434;background:#0f0f0f;color:#fff;border-radius:10px}.btn{border:0;background:var(--lime);color:#111;border-radius:999px;padding:11px 15px;font-weight:900;cursor:pointer}.btn.dark{background:#292929;color:#fff}.notice{display:none;background:#222;border-left:4px solid var(--lime);border-radius:9px;padding:11px;margin-top:10px;font-size:.75rem}
+.library-controls{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:9px}.library-controls input,.library-controls select{padding:11px;border:1px solid #333;background:#111;color:#fff;border-radius:10px}.exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:15px}.exercise{background:#191919;border:1px solid var(--line);border-radius:14px;padding:14px}.exercise strong,.exercise span{display:block}.exercise span{font-size:.7rem;color:#888}.exercise button{margin-top:9px}.builder{display:grid;gap:9px;margin-top:13px}.builder-row{display:grid;grid-template-columns:1fr 75px 100px auto;gap:8px;align-items:center;background:#191919;border:1px solid var(--line);border-radius:12px;padding:9px}.builder-row input{width:100%;padding:8px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+.list{display:grid;gap:9px}.item{background:#191919;border:1px solid var(--line);border-radius:13px;padding:13px}.item strong,.item span{display:block}.item span{color:#888;font-size:.72rem}.messages{height:280px;overflow:auto;background:#101010;border:1px solid var(--line);border-radius:14px;padding:13px}.bubble{max-width:78%;background:#262626;border-radius:14px;padding:10px;margin:7px 0;font-size:.78rem}.bubble.mine{margin-left:auto;background:var(--lime);color:#111}.compose{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}.compose input{padding:12px;border-radius:999px;border:1px solid #333;background:#111;color:#fff}
+@media(max-width:950px){.shell{grid-template-columns:1fr}.side{height:auto;position:relative}.nav{grid-template-columns:repeat(3,1fr)}.bottom{margin-top:16px}.stats{grid-template-columns:1fr 1fr}.exercise-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.main{padding:17px}.top{align-items:flex-start;flex-direction:column;gap:10px}.stats,.grid,.form-grid,.exercise-grid,.library-controls{grid-template-columns:1fr}.field.full{grid-column:auto}.builder-row{grid-template-columns:1fr 55px 80px auto}}
+</style></head><body>
+<div class="loading" id="loading"><div class="spin"></div></div>
+<div class="shell">
+<aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH</strong></div>
+<nav class="nav"><button class="active" data-panel="overview">Overview</button><button data-panel="clients">Clients</button><button data-panel="builder">Workout Builder</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Check-Ins</button><button data-panel="inbox">Messages</button></nav>
+<div class="bottom"><button class="signout" id="signout">Sign Out</button></div></aside>
+<main class="main"><div class="top"><h1 id="title">Coach Dashboard</h1><div class="coach-pill">Jeremy · JP Fit</div></div>
+
+<section class="panel active" id="overview">
+<div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
+<div class="section-head"><h2>Recently Enrolled</h2></div><div class="list" id="recent-list"></div>
+</section>
+
+<section class="panel" id="clients">
+<div class="section-head"><h2>Client Management</h2></div>
+<div class="grid"><div class="client-list" id="client-list"></div><div class="detail" id="client-detail"><div class="empty">Select a client to manage their coaching.</div></div></div>
+</section>
+
+<section class="panel" id="builder">
+<div class="section-head"><h2>Workout Builder</h2><button class="btn dark" id="load-template">Load Template</button></div>
+<div class="form-grid"><label class="field">Client<select id="builder-client"></select></label><label class="field">Workout title<input id="workout-title" placeholder="Upper Body A"></label><label class="field">Scheduled date<input id="workout-date" type="date"></label><label class="field">Preset template<select id="template-select"></select></label><label class="field full">Coach notes<textarea id="workout-notes" rows="3"></textarea></label></div>
+<div class="builder" id="builder-list"><div class="empty">Add exercises from the Exercise Library or load a template.</div></div>
+<button class="btn" id="assign-workout" style="margin-top:14px">Assign Workout</button><div class="notice" id="workout-notice"></div>
+</section>
+
+<section class="panel" id="library">
+<div class="section-head"><h2>Exercise Library</h2><a class="btn dark" target="_blank" rel="noopener" href="https://www.acefitness.org/resources/everyone/exercise-library/">View ACE Library</a></div>
+<div class="library-controls"><input id="exercise-search" placeholder="Search exercises..."><select id="category-filter"><option value="">All categories</option></select><select id="equipment-filter"><option value="">All equipment</option></select></div>
+<div class="exercise-grid" id="exercise-grid"></div>
+</section>
+
+<section class="panel" id="checkins"><div class="section-head"><h2>Check-In Review</h2></div><div class="list" id="coach-checkin-list"></div></section>
+<section class="panel" id="inbox"><div class="section-head"><h2>Client Messages</h2></div><div class="grid"><div class="client-list" id="message-clients"></div><div><div class="messages" id="coach-messages"><div class="empty">Choose a client conversation.</div></div><form class="compose" id="coach-message-form"><input id="coach-message-input" placeholder="Reply to client..." required><button class="btn">Send</button></form></div></div></section>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+<script>
+(async()=>{
+ const user=await jpRequireUser("auth.html");if(!user)return;
+ const {data:me}=await jpSupabase.from("profiles").select("*").eq("id",user.id).single();
+ if(!me||!["coach","admin"].includes(me.role)){alert("Coach access required.");location.href="client-portal.html";return}
+ const $=id=>document.getElementById(id);let selectedClient=null;let messageClient=null;let builderExercises=[];
+ document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
+ $("signout").onclick=jpSignOut;
+
+ const [{data:profiles},{data:enrollments},{data:intakes},{data:progress},{data:checkins},{data:messages},{data:exercises},{data:templates}] = await Promise.all([
+  jpSupabase.from("profiles").select("*").eq("role","client").order("created_at",{ascending:false}),
+  jpSupabase.from("enrollments").select("*").order("created_at",{ascending:false}),
+  jpSupabase.from("intake_forms").select("*").order("submitted_at",{ascending:false}),
+  jpSupabase.from("progress_entries").select("*").order("entry_date",{ascending:false}),
+  jpSupabase.from("checkins").select("*").order("checkin_date",{ascending:false}),
+  jpSupabase.from("messages").select("*").order("created_at",{ascending:true}),
+  jpSupabase.from("exercise_library").select("*").eq("is_active",true).order("category").order("name"),
+  jpSupabase.from("workout_templates").select("*").order("name")
+ ]);
+ const profileMap=Object.fromEntries((profiles||[]).map(p=>[p.id,p]));
+ $("stat-clients").textContent=(profiles||[]).length;$("stat-active").textContent=(enrollments||[]).filter(e=>["active","pending_payment","submitted"].includes(e.status)).length;$("stat-checkins").textContent=(checkins||[]).filter(c=>c.status==="submitted").length;$("stat-messages").textContent=(messages||[]).filter(m=>m.sender_id!==user.id).length;
+ $("recent-list").innerHTML=(enrollments||[]).slice(0,6).map(e=>`<div class="item"><strong>${profileMap[e.user_id]?.full_name||"Client"} · ${e.service}</strong><span>${e.frequency} · ${e.agreement_term} · $${e.biweekly_price}/2wk</span></div>`).join("")||'<div class="empty">No enrollments yet.</div>';
+
+ const clientOptions=(profiles||[]).map(p=>`<option value="${p.id}">${p.full_name||p.id}</option>`).join("");$("builder-client").innerHTML='<option value="">Select client</option>'+clientOptions;
+ $("client-list").innerHTML=(profiles||[]).map(p=>`<div class="client" data-id="${p.id}"><strong>${p.full_name||"Unnamed Client"}</strong><span>${p.phone||"No phone"} · ${p.role}</span></div>`).join("")||'<div class="empty">No client profiles.</div>';
+ document.querySelectorAll("#client-list .client").forEach(el=>el.onclick=()=>showClient(el.dataset.id,el));
+ function showClient(id,el){selectedClient=id;document.querySelectorAll("#client-list .client").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");const p=profileMap[id],e=(enrollments||[]).find(x=>x.user_id===id),i=(intakes||[]).find(x=>x.user_id===id),pr=(progress||[]).filter(x=>x.user_id===id),ci=(checkins||[]).filter(x=>x.user_id===id);
+ $("client-detail").innerHTML=`<h2>${p.full_name||"Client"}</h2><p class="empty">${p.phone||""} · ${p.address||""}</p><div class="tabs"><button class="active" data-d="summary">Summary</button><button data-d="nutrition">Nutrition</button><button data-d="messages">Messages</button></div><div class="detail-section active" id="d-summary"><div class="list"><div class="item"><strong>Membership</strong><span>${e?`${e.service} · ${e.frequency} · ${e.agreement_term}`:"No enrollment"}</span></div><div class="item"><strong>Goal</strong><span>${i?.primary_goal||e?.goal||"Not submitted"}</span></div><div class="item"><strong>Current Weight</strong><span>${pr[0]?.weight?pr[0].weight+" lb":"No entry"}</span></div><div class="item"><strong>Latest Check-In</strong><span>${ci[0]?ci[0].adherence+"% adherence":"None"}</span></div></div></div><div class="detail-section" id="d-nutrition"><div class="form-grid"><label class="field">Calories<input id="n-calories" type="number"></label><label class="field">Protein (g)<input id="n-protein" type="number"></label><label class="field">Carbs (g)<input id="n-carbs" type="number"></label><label class="field">Fats (g)<input id="n-fats" type="number"></label><label class="field">Water (oz)<input id="n-water" type="number"></label><label class="field full">Coach notes<textarea id="n-notes" rows="3"></textarea></label></div><button class="btn" id="save-nutrition" style="margin-top:12px">Save Nutrition Targets</button><div class="notice" id="nutrition-notice"></div></div><div class="detail-section" id="d-messages"><p class="empty">Use the Messages section to open this conversation.</p></div>`;
+ document.querySelectorAll("#client-detail .tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#client-detail .tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll("#client-detail .detail-section").forEach(x=>x.classList.remove("active"));$("d-"+b.dataset.d).classList.add("active")});
+ jpSupabase.from("nutrition_targets").select("*").eq("user_id",id).maybeSingle().then(({data:n})=>{if(n){$("n-calories").value=n.calories||"";$("n-protein").value=n.protein||"";$("n-carbs").value=n.carbs||"";$("n-fats").value=n.fats||"";$("n-water").value=n.water_ounces||"";$("n-notes").value=n.coach_notes||""}});
+ $("save-nutrition").onclick=async()=>{const payload={user_id:id,calories:+$("n-calories").value||null,protein:+$("n-protein").value||null,carbs:+$("n-carbs").value||null,fats:+$("n-fats").value||null,water_ounces:+$("n-water").value||null,coach_notes:$("n-notes").value||null,updated_at:new Date().toISOString()};const {error}=await jpSupabase.from("nutrition_targets").upsert(payload,{onConflict:"user_id"});if(error)return alert(error.message);$("nutrition-notice").style.display="block";$("nutrition-notice").textContent="Nutrition targets saved."};
+ }
+
+ const cats=[...new Set((exercises||[]).map(e=>e.category))],eqs=[...new Set((exercises||[]).map(e=>e.equipment))];$("category-filter").innerHTML+ cats.map(x=>`<option>${x}</option>`).join("");$("equipment-filter").innerHTML+=eqs.map(x=>`<option>${x}</option>`).join("");
+ function renderExercises(){const q=$("exercise-search").value.toLowerCase(),c=$("category-filter").value,eq=$("equipment-filter").value;const rows=(exercises||[]).filter(x=>(!q||x.name.toLowerCase().includes(q)||x.primary_muscle.toLowerCase().includes(q))&&(!c||x.category===c)&&(!eq||x.equipment===eq));$("exercise-grid").innerHTML=rows.map(x=>`<div class="exercise"><strong>${x.name}</strong><span>${x.category} · ${x.primary_muscle} · ${x.equipment}</span><span>${x.default_sets} sets · ${x.default_reps}</span><button class="btn dark add-ex" data-id="${x.id}">Add to Workout</button></div>`).join("")||'<div class="empty">No matching exercises.</div>';document.querySelectorAll(".add-ex").forEach(b=>b.onclick=()=>{const x=(exercises||[]).find(e=>e.id===b.dataset.id);builderExercises.push({name:x.name,sets:x.default_sets,reps:x.default_reps,cue:x.coaching_cue});renderBuilder();$("builder").classList.add("active")})}
+ ["exercise-search","category-filter","equipment-filter"].forEach(id=>$(id).oninput=renderExercises);renderExercises();
+
+ $("template-select").innerHTML='<option value="">Choose template</option>'+(templates||[]).map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
+ $("load-template").onclick=()=>{const t=(templates||[]).find(x=>x.id===$("template-select").value);if(!t)return;builderExercises=Array.isArray(t.exercises)?t.exercises:[...t.exercises];$("workout-title").value=t.name;renderBuilder()};
+ function renderBuilder(){$("builder-list").innerHTML=builderExercises.length?builderExercises.map((x,i)=>`<div class="builder-row"><strong>${x.name}</strong><input data-i="${i}" data-k="sets" value="${x.sets}"><input data-i="${i}" data-k="reps" value="${x.reps}"><button class="btn dark remove" data-i="${i}">×</button></div>`).join(""):'<div class="empty">Add exercises or load a preset template.</div>';document.querySelectorAll(".builder-row input").forEach(inp=>inp.oninput=()=>builderExercises[+inp.dataset.i][inp.dataset.k]=inp.value);document.querySelectorAll(".remove").forEach(b=>b.onclick=()=>{builderExercises.splice(+b.dataset.i,1);renderBuilder()})}
+ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,title=$("workout-title").value.trim();if(!client||!title||!builderExercises.length)return alert("Choose a client, title, and exercises.");const {error}=await jpSupabase.from("workout_assignments").insert({user_id:client,title,scheduled_date:$("workout-date").value||null,exercises:builderExercises,coach_notes:$("workout-notes").value||null,status:"assigned"});if(error)return alert(error.message);$("workout-notice").style.display="block";$("workout-notice").textContent="Workout assigned successfully.";builderExercises=[];renderBuilder();};
+
+ $("coach-checkin-list").innerHTML=(checkins||[]).map(c=>`<div class="item"><strong>${profileMap[c.user_id]?.full_name||"Client"} · ${c.adherence}% adherence</strong><span>Mood ${c.mood}/10 · Stress ${c.stress}/10 · ${c.status}</span><p>${c.wins||""}</p><textarea id="resp-${c.id}" rows="2" placeholder="Coach response...">${c.coach_response||""}</textarea><button class="btn save-response" data-id="${c.id}">Save Response</button></div>`).join("")||'<div class="empty">No check-ins submitted.</div>';
+ document.querySelectorAll(".save-response").forEach(b=>b.onclick=async()=>{const {error}=await jpSupabase.from("checkins").update({coach_response:$("resp-"+b.dataset.id).value,status:"reviewed",updated_at:new Date().toISOString()}).eq("id",b.dataset.id);if(error)return alert(error.message);b.textContent="Saved ✓"});
+
+ $("message-clients").innerHTML=(profiles||[]).map(p=>`<div class="client msg-client" data-id="${p.id}"><strong>${p.full_name||"Client"}</strong><span>Open conversation</span></div>`).join("");
+ document.querySelectorAll(".msg-client").forEach(el=>el.onclick=()=>{messageClient=el.dataset.id;document.querySelectorAll(".msg-client").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");renderConversation()});
+ function renderConversation(){const rows=(messages||[]).filter(m=>m.client_id===messageClient);$("coach-messages").innerHTML=rows.length?rows.map(m=>`<div class="bubble ${m.sender_id===user.id?"mine":""}">${m.body}</div>`).join(""):'<div class="empty">No messages yet.</div>'; $("coach-messages").scrollTop=$("coach-messages").scrollHeight}
+ $("coach-message-form").onsubmit=async e=>{e.preventDefault();if(!messageClient)return alert("Choose a client.");const body=$("coach-message-input").value.trim();const {data,error}=await jpSupabase.from("messages").insert({sender_id:user.id,recipient_id:messageClient,client_id:messageClient,body}).select().single();if(error)return alert(error.message);messages.push(data);$("coach-message-input").value="";renderConversation()};
+ $("loading").classList.add("hide");
+})();
+</script></body></html>

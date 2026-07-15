@@ -54,9 +54,9 @@
  </section>
 
  <section class="panel" id="nutrition">
-  <div class="section-head"><h2 class="section-title">Nutrition Targets</h2></div>
+  <div class="section-head"><h2 class="section-title">Nutrition Targets</h2><a class="btn dark" target="_blank" rel="noopener" href="https://my.carbmanager.com/">Open Carb Manager</a></div>
   <div class="macro-grid"><div class="macro"><strong id="calories">—</strong><span>CALORIES</span></div><div class="macro"><strong id="protein">—</strong><span>PROTEIN</span></div><div class="macro"><strong id="carbs">—</strong><span>CARBS</span></div><div class="macro"><strong id="fats">—</strong><span>FATS</span></div></div>
-  <div class="form-card" style="margin-top:15px"><h3 class="section-title">Coach Notes</h3><p id="nutrition-notes" class="empty">Nutrition targets have not been assigned yet.</p></div>
+  <div class="form-card" style="margin-top:15px"><h3 class="section-title">Food Tracking</h3><p class="empty">Use Carb Manager to log meals and macros. Your JP Fit nutrition targets remain displayed above.</p><a class="btn" target="_blank" rel="noopener" href="https://my.carbmanager.com/">LOG FOOD IN CARB MANAGER</a></div><div class="form-card" style="margin-top:15px"><h3 class="section-title">Coach Notes</h3><p id="nutrition-notes" class="empty">Nutrition targets have not been assigned yet.</p></div>
  </section>
 
  <section class="panel" id="progress">
@@ -137,7 +137,17 @@
    $("adherence-score").textContent=rows[0]?`${rows[0].adherence}%`:"0%";$("checkin-status").textContent=rows[0]?.status||"Pending";$("checkin-copy").textContent=rows[0]?`Submitted ${new Date(rows[0].checkin_date+"T12:00:00").toLocaleDateString()}`:"No check-in submitted yet.";
  }
  function renderWorkouts(rows=workouts||[]){
-   $("workout-list").innerHTML=rows.length?rows.map(w=>`<div class="list-item"><strong>${w.title}</strong><span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span><p>${w.coach_notes||""}</p></div>`).join(""):'<div class="empty">No workouts assigned yet.</div>';
+   $("workout-list").innerHTML=rows.length?rows.map(w=>{
+     const exercises=Array.isArray(w.exercises)?w.exercises:[];
+     const exerciseHtml=exercises.map(x=>`
+       <div style="margin-top:10px;padding:12px;background:#111;border-radius:12px">
+         <strong>${x.name||"Exercise"} · ${x.sets||"—"} sets × ${x.reps||"—"}</strong>
+         <span>${x.tempo?`Tempo: ${x.tempo} · `:""}${x.rest?`Rest: ${x.rest} · `:""}${x.weightGuidance?`Weight: ${x.weightGuidance}`:""}</span>
+         ${x.description?`<p>${x.description}</p>`:""}
+         ${x.coachingCues?`<p><strong>Coach cues:</strong> ${x.coachingCues}</p>`:""}
+       </div>`).join("");
+     return `<div class="list-item"><strong>${w.title}</strong><span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span><p>${w.coach_notes||""}</p>${exerciseHtml}</div>`;
+   }).join(""):'<div class="empty">No workouts assigned yet.</div>';
    if(rows.length){$("next-workout-copy").textContent=rows[0].title;$("next-workout-status").textContent=rows[0].status}
  }
  function renderMessages(rows=messages||[]){
