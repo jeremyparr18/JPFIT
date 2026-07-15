@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
 <meta name="description" content="JP Fit offers mobile, in-person, hybrid, and online personal training. Fitness anytime, anywhere.">
-<title>JP Fit | Fitness. Anytime. Anywhere.</title>
+<title>JP Fit | Personal Training & Online Coaching</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -55,6 +55,18 @@ footer{background:#030303;color:#fff;padding:45px 0;border-top:1px solid #1d1d1d
 @media(max-width:650px){.founder-copy{padding:30px 22px}.founder-copy h3{font-size:3.4rem}}
 
 </style>
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">
+<meta property="og:title" content="JP Fit | Personal Training & Online Coaching">
+<meta property="og:description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">
+<meta property="og:image" content="https://www.trainwithjpfit.com/assets/social-preview.svg">
+<meta property="og:url" content="https://www.trainwithjpfit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<script src="analytics-config.js"></script>
 </head>
 <body>
 <div class="announcement"><div class="container"><span>Now accepting new JP Fit clients</span><a href="#contact">Book a free consultation →</a></div></div>
@@ -207,7 +219,7 @@ footer{background:#030303;color:#fff;padding:45px 0;border-top:1px solid #1d1d1d
   </div>
 </section>
 </main>
-<footer><div class="container footer-grid"><div><a class="brand" href="#home"><span class="brand-logo"><img src="assets/jp-fit-logo.jpg" alt="JP Fit logo"></span><span>JP FIT</span></a><p>Fitness. Anytime. Anywhere.</p></div><div class="footer-links"><a href="#services">Coaching</a><a href="#results">Results</a><a href="#about">About</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></div><p class="copyright">© <span id="year"></span> JP Fit. All rights reserved.</p></div><div style="text-align:center;padding:10px;background:#080808"><a style="color:#777;font-size:.72rem" href="auth.html">Client Login</a> · <a style="color:#777;font-size:.72rem" href="coach-dashboard.html">Coach Login</a></div></footer>
+<footer><div class="container footer-grid"><div><a class="brand" href="#home"><span class="brand-logo"><img src="assets/jp-fit-logo.jpg" alt="JP Fit logo"></span><span>JP FIT</span></a><p>Fitness. Anytime. Anywhere.</p></div><div class="footer-links"><a href="#services">Coaching</a><a href="#results">Results</a><a href="#about">About</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></div><p class="copyright">© <span id="year"></span> JP Fit. All rights reserved.</p></div><div style="text-align:center;padding:10px;background:#080808"><a style="color:#777;font-size:.72rem" href="auth.html">Client Login</a> · <a style="color:#777;font-size:.72rem" href="coach-dashboard.html">Coach Login</a></div><p style="margin-top:14px"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="changelog.html">What’s New</a></p></footer>
 <script>
 const menu=document.querySelector(".menu"),links=document.querySelector(".nav-links");menu.addEventListener("click",()=>links.classList.toggle("open"));document.querySelectorAll(".nav-links a").forEach(a=>a.addEventListener("click",()=>links.classList.remove("open")));document.getElementById("year").textContent=new Date().getFullYear();
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));

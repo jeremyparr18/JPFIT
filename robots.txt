@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /coach-dashboard.html
+Disallow: /client-portal.html
+Disallow: /checkout.html
+Disallow: /intake.html
+Disallow: /welcome.html
+Disallow: /onboarding-complete.html
+
+Sitemap: https://www.trainwithjpfit.com/sitemap.xml

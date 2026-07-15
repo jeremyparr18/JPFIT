@@ -1,29 +1,28 @@
-JP FIT VERSION 1.0.2 — LAUNCH HOTFIX
+JP FIT VERSION 1.0.3 — LAUNCH POLISH + GOOGLE ANALYTICS ENABLED
 
-1. Upload every website file in this package to the ROOT of your GitHub repository.
-2. Replace the existing Version 1.0.1 files.
+Google Analytics is already configured with:
+G-F6Z5QZ69VG
+
+UPLOAD
+1. Upload every file in this package to the ROOT of your GitHub repository.
+2. Replace the existing files.
 3. Commit with:
-   Version 1.0.2 - Intake and launch hotfix
-4. Wait for Vercel to finish deploying.
-5. Hard refresh the testing page with Ctrl + Shift + R.
+   Version 1.0.3 - Launch polish and analytics
+4. Wait for Vercel to deploy.
+5. Hard refresh the website with Ctrl + Shift + R.
 
-NO NEW SQL IS REQUIRED if Version 1.0.1 SQL already ran.
-NO NEW EDGE FUNCTION DEPLOYMENT IS REQUIRED if send-welcome-agreement is already deployed with the Version 1.0.1 code.
-NO SECRET CHANGES ARE REQUIRED if the Resend secrets are already saved.
+VERIFY
+- Open trainwithjpfit.com
+- Go to Google Analytics -> Reports -> Realtime
+- Within a few minutes, you should appear as an active user
 
-TEST URL
-https://www.trainwithjpfit.com/checkout.html?test=true
+ALSO VERIFY
+- /404.html
+- /terms.html
+- /privacy.html
+- /robots.txt
+- /sitemap.xml
+- Browser favicon
+- Branded page titles
 
-TEST ORDER
-1. Complete simulated checkout and agreement.
-2. Confirm the welcome page opens in Developer Mode.
-3. Click Complete My Intake.
-4. Submit the intake.
-5. Confirm onboarding-complete.html?test=true opens.
-6. Check client email.
-7. Check Jeremy's email.
-8. Check Supabase email_events for status sent.
-9. Check Resend Emails for two successful deliveries.
-10. Test Coach Studio and Client Portal.
-
-If intake fails, open F12 -> Console and copy the full red error.
+NO SUPABASE, EDGE FUNCTION, OR RESEND CHANGES ARE REQUIRED.

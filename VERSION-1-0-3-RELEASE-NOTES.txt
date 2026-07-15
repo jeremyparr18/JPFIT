@@ -1,0 +1,20 @@
+JP FIT VERSION 1.0.3 — LAUNCH POLISH
+
+ADDED
+- Custom JP Fit 404 page
+- JP Fit favicon on every page
+- Branded page titles
+- Terms of Service page
+- Privacy Policy page
+- Google Analytics 4 configuration
+- Open Graph/social-sharing metadata
+- Social preview artwork
+- robots.txt
+- sitemap.xml
+- Vercel 404 routing
+- Homepage and login legal links
+- Funnel event hooks for agreement and intake starts
+
+IMPORTANT
+- Terms and Privacy are working templates, not a substitute for legal review.
+- Analytics remains disabled until a real GA4 Measurement ID replaces G-XXXXXXXXXX.

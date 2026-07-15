@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JP Fit Login</title>
+<title>Login | JP Fit</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--lime:#caff38;--black:#080808;--line:#343434}
@@ -12,7 +12,19 @@ h1{font-family:"Barlow Condensed";font-size:3.5rem;text-transform:uppercase;line
 p{color:#999}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0}.tabs button{border:0;border-radius:999px;padding:11px;font-weight:800;background:#252525;color:#aaa;cursor:pointer}.tabs button.active{background:var(--lime);color:#111}
 .field{display:block;font-size:.76rem;font-weight:800;margin-top:12px}.field input{width:100%;margin-top:6px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#0f0f0f;color:#fff}
 .btn{width:100%;margin-top:17px;border:0;border-radius:999px;padding:14px;background:var(--lime);color:#111;font-weight:900;cursor:pointer}.message{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#202020;font-size:.76rem}.signup-only{display:none}.signup .signup-only{display:block}
-</style></head><body>
+</style>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">
+<meta property="og:title" content="Login | JP Fit">
+<meta property="og:description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">
+<meta property="og:image" content="https://www.trainwithjpfit.com/assets/social-preview.svg">
+<meta property="og:url" content="https://www.trainwithjpfit.com/auth.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<script src="analytics-config.js"></script>
+</head><body>
 <section class="card">
 <img class="logo" src="assets/jp-fit-logo.jpg" alt="JP Fit">
 <h1>Client Access</h1><p>Create your secure JP Fit account or sign in to continue.</p>
@@ -65,4 +77,4 @@ async function redirect(){
  const {data:profile}=await jpSupabase.from("profiles").select("role").eq("id",user.id).maybeSingle();
  location.href=profile&&["coach","admin"].includes(profile.role)?"coach-dashboard.html":"client-portal.html";
 }
-</script></body></html>
+</script><div style="text-align:center;padding:18px;color:#777;font-size:.75rem"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></div></body></html>

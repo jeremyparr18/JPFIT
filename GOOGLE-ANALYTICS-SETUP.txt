@@ -1,0 +1,19 @@
+JP FIT GOOGLE ANALYTICS 4 SETUP
+
+1. Go to analytics.google.com.
+2. Create an Analytics account and a GA4 property for JP Fit.
+3. Create a Web data stream for:
+   https://www.trainwithjpfit.com
+4. Copy the Measurement ID. It begins with:
+   G-
+5. Open analytics-config.js in the Version 1.0.3 files.
+6. Replace:
+   G-XXXXXXXXXX
+   with your real Measurement ID.
+7. Upload the updated analytics-config.js to GitHub and commit.
+8. Open the website and check Google Analytics -> Realtime.
+
+The site automatically sends standard page views after the ID is added.
+It also includes launch-funnel events for agreement and intake submission starts.
+
+Do not send health information, agreement contents, names, email addresses, or payment information as analytics event values.
