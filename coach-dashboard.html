@@ -133,7 +133,14 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
 @media(max-width:650px){.exercise-grid,.create-grid{grid-template-columns:1fr}.create-grid .wide{grid-column:auto}.library-hero{align-items:flex-start;flex-direction:column}.studio-hero h2{font-size:3rem}}
 
 </style></head><body>
-<div class="loading" id="loading"><div class="spin"></div></div>
+<div class="loading" id="loading">
+      <div style="text-align:center;max-width:420px;padding:24px">
+        <div class="spin" id="loading-spinner" style="margin:auto"></div>
+        <h2 id="loading-title" style="font-family:'Barlow Condensed';font-size:2rem;margin:18px 0 5px">Loading Coach Studio</h2>
+        <p id="loading-message" style="color:#888;font-size:.78rem">Connecting securely to JP Fit...</p>
+        <button id="loading-retry" class="btn" style="display:none;margin-top:14px" onclick="location.reload()">Try Again</button>
+      </div>
+    </div>
 <div class="shell">
 <aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH STUDIO</strong></div>
 <nav class="nav"><button class="active" data-panel="overview">Home</button><button data-panel="clients">Client Hub</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Client Check-Ins</button><button data-panel="inbox">Coach Inbox</button></nav>
@@ -219,9 +226,10 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
 <section class="panel" id="checkins"><div class="section-head"><h2>Check-In Review</h2></div><div class="list" id="coach-checkin-list"></div></section>
 <section class="panel" id="inbox"><div class="section-head"><h2>Client Messages</h2></div><div class="grid"><div class="client-list" id="message-clients"></div><div><div class="messages" id="coach-messages"><div class="empty">Choose a client conversation.</div></div><form class="compose" id="coach-message-form"><input id="coach-message-input" placeholder="Reply to client..." required><button class="btn">Send</button></form></div></div></section>
 </main></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+<script src="supabase-config.js"></script><script src="supabase-client.js"></script>
 <script>
 (async()=>{
+ try{
  const user=await jpRequireUser("auth.html");if(!user)return;
  const {data:me}=await jpSupabase.from("profiles").select("*").eq("id",user.id).single();
  if(!me||!["coach","admin"].includes(me.role)){alert("Coach access required.");location.href="client-portal.html";return}
@@ -585,6 +593,17 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
  function renderConversation(){const rows=(messages||[]).filter(m=>m.client_id===messageClient);$("coach-messages").innerHTML=rows.length?rows.map(m=>`<div class="bubble ${m.sender_id===user.id?"mine":""}">${m.body}</div>`).join(""):'<div class="empty">No messages yet.</div>'; $("coach-messages").scrollTop=$("coach-messages").scrollHeight}
  $("coach-message-form").onsubmit=async e=>{e.preventDefault();if(!messageClient)return alert("Choose a client.");const body=$("coach-message-input").value.trim();const {data,error}=await jpSupabase.from("messages").insert({sender_id:user.id,recipient_id:messageClient,client_id:messageClient,body}).select().single();if(error)return alert(error.message);messages.push(data);$("coach-message-input").value="";renderConversation()};
  $("loading").classList.add("hide");
+ }catch(error){
+   console.error("JP Fit Coach Studio startup error:",error);
+   const spinner=document.getElementById("loading-spinner");
+   const title=document.getElementById("loading-title");
+   const message=document.getElementById("loading-message");
+   const retry=document.getElementById("loading-retry");
+   if(spinner) spinner.style.display="none";
+   if(title) title.textContent="Coach Studio Couldn’t Load";
+   if(message) message.textContent=error?.message||"An unexpected startup error occurred.";
+   if(retry) retry.style.display="inline-block";
+ }
 })();
 </script>
 <div class="modal-backdrop" id="new-workout-modal">
@@ -651,5 +670,5 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
   <div class="create-actions"><button class="btn dark" id="cancel-create-exercise">Cancel</button><button class="btn primary-action" id="save-create-exercise">Save Exercise</button></div>
 </aside>
 <div class="toast-pro" id="toast-pro"><strong id="toast-title">Saved</strong><span id="toast-copy"></span></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body></html>

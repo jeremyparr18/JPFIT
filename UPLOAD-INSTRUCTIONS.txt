@@ -1,24 +1,18 @@
-JP FIT VERSION 25.1A — COACH STUDIO
+JP FIT VERSION 25.1A HOTFIX
 
-RUN FIRST
-1. Supabase -> SQL Editor
-2. Create a new query
-3. Paste SUPABASE-V25-1A-COACH-STUDIO.sql
-4. Run
+CAUSE FIXED
+The Coach Studio modal and drawer markup loaded after the JavaScript.
+That caused a startup error and left the loading spinner on screen.
 
-THEN
-Upload all Version 25.1A files to the root of GitHub and commit.
+WHAT THIS HOTFIX DOES
+- Moves all modal and drawer elements before JavaScript initialization
+- Fixes the endless loading spinner
+- Adds a visible startup error message and Try Again button
+- Preserves every Version 25.1A feature
 
-WHAT'S NEW
-- JP Fit Coach Studio branding
-- Redesigned coach home page
-- Prominent + New Exercise actions
-- Full create exercise drawer
-- Duplicate exercise
-- Delete exercise
-- Favorite exercise
-- Exercise collections
-- Better premium exercise cards
-- Cleaner empty states
-- Better success notifications
-- Existing Program Studio features remain included
+NO NEW SQL IS REQUIRED if you already ran:
+SUPABASE-V25-1A-COACH-STUDIO.sql
+
+UPLOAD
+Upload every file from this hotfix package to the root of GitHub.
+Replace the existing Version 25.1A files and commit.
