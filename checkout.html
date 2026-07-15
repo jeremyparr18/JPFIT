@@ -355,12 +355,21 @@ document.getElementById("accept-and-pay").addEventListener("click",async()=>{
  }).select().single();
  if(enrollmentError){alert("Enrollment save failed: "+enrollmentError.message);return}
 
- const {error:agreementError}=await jpSupabase.from("agreements").insert({
+ const {data:agreement,error:agreementError}=await jpSupabase.from("agreements").insert({
    user_id:user.id,enrollment_id:enrollment.id,agreement_code:agreementId,
    signed_name:record.signature,signed_at:record.signedAt,photo_consent:record.photoConsent,
    agreement_snapshot:record
- });
+ }).select().single();
  if(agreementError){alert("Agreement save failed: "+agreementError.message);return}
+
+ // Send welcome email and agreement receipt after the agreement is securely stored.
+ // Enrollment continues even if the email provider is temporarily unavailable.
+ jpSupabase.functions.invoke("send-welcome-agreement",{body:{agreementId:agreement.id}})
+   .then(({data,error})=>{
+     if(error) console.warn("Welcome email could not be sent:",error.message);
+     else if(data?.ok) console.info("JP Fit welcome email sent.");
+   })
+   .catch(error=>console.warn("Welcome email error:",error));
 
  record.enrollmentId=enrollment.id;
  localStorage.setItem("jpfitEnrollment",JSON.stringify(record));

@@ -1,0 +1,28 @@
+JP FIT VERSION 1.0.1 — EMAIL TEST
+
+1. Confirm the Edge Function is deployed as:
+   send-welcome-agreement
+
+2. Confirm these Supabase Edge Function secrets exist:
+   RESEND_API_KEY
+   JP_FIT_FROM_EMAIL
+   JP_FIT_COACH_EMAIL
+
+3. Confirm trainwithjpfit.com is verified in Resend.
+
+4. Upload the Version 1.0.1 website files to GitHub and wait for Vercel.
+
+5. Use a NEW test-client email address.
+   Existing signed agreements will not resend if their email_events status is already sent.
+
+6. Complete:
+   account signup -> email verification -> checkout agreement signature
+
+7. Expected result:
+   - Client receives "Welcome to JP Fit — Your Signed Agreement"
+   - Jeremy receives "New JP Fit Client — [Client Name]"
+   - Supabase Table Editor -> email_events shows status "sent"
+
+8. If it fails:
+   Supabase -> Edge Functions -> send-welcome-agreement -> Logs
+   Supabase -> Table Editor -> email_events -> error_message

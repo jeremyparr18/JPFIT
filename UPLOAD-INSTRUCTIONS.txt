@@ -1,20 +1,47 @@
-JP FIT VERSION 25.1A — HOTFIX 3
+JP FIT VERSION 1.0.1 — EMAIL LAUNCH SYSTEM
 
-ERROR FIXED
-"Cannot set properties of null (setting 'onclick')"
+STEP 1 — SQL
+Supabase -> SQL Editor -> New query.
+Run:
+SUPABASE-V1-0-1-EMAIL-LAUNCH.sql
 
-CAUSE
-The Coach Studio homepage New Exercise button was removed from the HTML during layout cleanup,
-but its JavaScript click handler was still running.
+STEP 2 — EDGE FUNCTION
+Supabase -> Edge Functions -> Via Editor.
+Function name:
+send-welcome-agreement
 
-FIXES
-- Restored the homepage + New Exercise button
-- Restored + New Program and Open Client Hub quick actions
-- Added safe event binding so optional buttons cannot crash startup
-- Preserves the script-order and loading-screen fixes from Hotfixes 1 and 2
+Delete the example code and paste EVERYTHING from the root-level file:
+COPY-THIS-INTO-EDGE-FUNCTION-INDEX.ts
 
-NO NEW SQL REQUIRED.
+Click Deploy function.
+Keep JWT verification enabled.
 
-UPLOAD
-Upload all files from this package to the root of GitHub.
-Replace the current files and commit.
+STEP 3 — RESEND
+In Resend:
+- Verify trainwithjpfit.com
+- Create a sending-access API key
+
+In Supabase -> Edge Functions -> Secrets, add:
+RESEND_API_KEY = your Resend API key
+JP_FIT_FROM_EMAIL = JP Fit <onboarding@trainwithjpfit.com>
+JP_FIT_COACH_EMAIL = jeremyparr18@gmail.com
+
+STEP 4 — WEBSITE
+Upload all Version 1.0.1 files to the GitHub root and commit.
+
+WHAT IT SENDS
+CLIENT:
+- Branded welcome email
+- Client Portal link
+- Enrollment summary
+- Electronic signature receipt
+- Complete JP Fit agreement terms at the bottom
+
+JEREMY:
+- Separate new-client alert
+- Client contact information
+- Selected service, frequency, term, payment, and start date
+- Coach Studio link
+
+SAFETY
+Never put RESEND_API_KEY or SUPABASE_SERVICE_ROLE_KEY into GitHub or browser files.
