@@ -1,64 +1,39 @@
-JP FIT WEBSITE VERSION 15 — ONBOARDING + AGREEMENT
+JP FIT VERSION 18 — SUPABASE FOUNDATION
 
-NEW FEATURES
-- Six-step premium enrollment wizard
-- Goal, service, frequency, and agreement selection
-- Month-to-month, 6-month, and 12-month agreement language
-- Six-month downgrade after 60 days (one downgrade)
-- Twelve-month downgrade after 90 days (up to two downgrades)
-- 30-day written cancellation notice for month-to-month
-- 24-hour session cancellation policy
-- Early termination fee equal to one final biweekly payment
-- Optional media/photo permission
-- Typed electronic signature and required acknowledgments
-- Printable / Save-as-PDF contract
-- Stripe payment routing
-- Welcome page
-- Client intake questionnaire
-- Calendly booking
+PUBLIC SUPABASE SETTINGS
+Project URL: https://ppeqfqkfoyaupijgwnaa.supabase.co
+Publishable key: included in supabase-config.js
 
-IMPORTANT LIMITATION
-The current static website stores agreement and intake data only in the visitor's browser (localStorage).
-It does not securely transmit, archive, or email signed agreements.
-Before real client use, connect a proper e-signature platform or secure backend and have a Florida attorney review the final language.
+SECURITY
+The publishable key is intentionally browser-visible.
+Security depends on Row Level Security policies.
+Never upload or expose the secret key, service-role key, or database password.
 
-UPLOAD TO GITHUB
-1. Extract this ZIP.
-2. Open jp-fit-website-v15-onboarding.
-3. Upload ALL contents to the root of your JPFIT repository:
-   index.html
-   checkout.html
-   welcome.html
-   intake.html
-   assets folder
-   instructions file
-4. Commit changes.
-5. Vercel will redeploy automatically.
+REQUIRED SETUP
+1. Supabase Dashboard -> SQL Editor.
+2. Open SUPABASE-SETUP.sql from this package.
+3. Copy the entire SQL file into the SQL Editor.
+4. Click Run.
+5. Go to Authentication -> URL Configuration.
+6. Set Site URL to https://trainwithjpfit.com
+7. Add redirect URL: https://trainwithjpfit.com/**
+8. Upload all package files to the root of GitHub.
+9. Commit and allow Vercel to redeploy.
 
-STRIPE SUCCESS REDIRECT
-Inside each Stripe Payment Link, set the post-payment redirect URL to:
-https://trainwithjpfit.com/welcome.html
+WHAT WORKS AFTER SQL IS RUN
+- Client account creation
+- Email/password login
+- Secure client profile
+- Cloud-saved enrollment
+- Cloud-saved signed agreement snapshot
+- Cloud-saved intake form
+- RLS restricting clients to their own data
 
-
-VERSION 16 — DEVELOPER MODE
-
-HOW TO TEST WITHOUT STRIPE
-Visit:
-https://trainwithjpfit.com/checkout.html?test=true
-
-Developer mode will:
-- Show a visible developer-mode badge
-- Allow normal plan and agreement testing
-- Show a floating Developer button
-- Prefill a test enrollment
-- Jump directly to the signature page
-- Simulate a successful payment
-- Redirect to welcome.html?test=true
-- Carry developer mode into the intake form
-
-KEYBOARD SHORTCUT
-Ctrl + Shift + J opens the Developer Tools panel while test mode is active.
-
-IMPORTANT
-Developer mode is activated only when the URL contains ?test=true.
-Normal visitors using the regular checkout URL still go to real Stripe Checkout.
+NOT YET COMPLETE
+- Stripe webhook verification
+- Coach/admin access policies and dashboard
+- Password-reset page
+- Progress photos and storage
+- Workout assignment database
+- Messaging
+- Production e-signature audit trail

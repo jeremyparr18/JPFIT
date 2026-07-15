@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JP Fit Client Portal Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#202020;--muted:#8d8d8d}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b0b;color:#fff;font-family:Inter,sans-serif}
+.dev{display:none;background:var(--lime);color:#111;text-align:center;padding:9px;font-size:.7rem;font-weight:900;letter-spacing:.11em}
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.sidebar{background:var(--black);padding:24px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:11px}.brand img{width:48px;height:48px;border-radius:50%;border:2px solid var(--lime)}.brand strong{font-family:"Barlow Condensed";font-size:1.5rem;letter-spacing:.08em}
+.nav{display:grid;gap:8px;margin-top:34px}.nav a{color:#aaa;text-decoration:none;padding:12px;border-radius:11px;font-size:.82rem;font-weight:800}.nav a.active{background:#1c1c1c;color:var(--lime)}
+.sidebar .bottom{margin-top:auto;color:#555;font-size:.7rem}
+.main{padding:30px}.top{display:flex;justify-content:space-between;align-items:center}.top h1{font-family:"Barlow Condensed";text-transform:uppercase;font-size:3rem;margin:0}.profile{background:#1b1b1b;border-radius:999px;padding:10px 15px;font-size:.78rem}
+.hero{margin-top:24px;background:linear-gradient(135deg,#1d1d1d,#111);border:1px solid #2b2b2b;border-radius:24px;padding:26px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px}.eyebrow{color:var(--lime);font-size:.68rem;font-weight:900;letter-spacing:.13em}.hero h2{font-family:"Barlow Condensed";text-transform:uppercase;font-size:3.4rem;line-height:.95;margin:8px 0}.hero p{color:var(--muted)}.score{background:#0f0f0f;border-radius:20px;padding:20px;display:grid;place-items:center;text-align:center}.score strong{font-family:"Barlow Condensed";font-size:4rem;color:var(--lime)}.score span{color:#777;font-size:.75rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.card{background:var(--card);border:1px solid #2d2d2d;border-radius:18px;padding:20px}.card h3{font-family:"Barlow Condensed";text-transform:uppercase;font-size:1.6rem;margin:0 0 8px}.card p{color:var(--muted);font-size:.78rem}.metric{font-family:"Barlow Condensed";font-size:2.5rem;color:var(--lime)}.btn{display:inline-block;background:var(--lime);color:#111;text-decoration:none;border-radius:999px;padding:11px 16px;font-weight:900;font-size:.75rem}
+@media(max-width:850px){.shell{grid-template-columns:1fr}.sidebar{display:none}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.main{padding:20px}.top{align-items:flex-start;gap:12px;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="dev" id="dev-banner">JP FIT DEVELOPER MODE — CLIENT PORTAL PREVIEW</div>
+<div class="shell">
+<aside class="sidebar">
+  <div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT</strong></div>
+  <nav class="nav">
+    <a class="active" href="#">Dashboard</a>
+    <a href="#">Workouts</a>
+    <a href="#">Nutrition</a>
+    <a href="#">Progress</a>
+    <a href="#">Messages</a>
+    <a href="#">Schedule</a>
+  </nav>
+  <div class="bottom">Prototype portal · Data stored locally</div>
+</aside>
+<main class="main">
+  <div class="top"><h1>Client Dashboard</h1><div class="profile" id="profile">Test Client</div></div>
+  <section class="hero">
+    <div><span class="eyebrow">WELCOME TO YOUR COACHING HUB</span><h2 id="welcome">Let’s get to work.</h2><p id="program">Your program and onboarding details appear here after enrollment.</p><a class="btn" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">BOOK A SESSION</a></div>
+    <div class="score"><div><strong>0%</strong><span>WEEKLY ADHERENCE<br>Begins after your first assigned workout</span></div></div>
+  </section>
+  <section class="grid">
+    <article class="card"><h3>Today’s Workout</h3><p>Your first program will appear after Coach Jeremy reviews your intake.</p><span class="metric">Pending</span></article>
+    <article class="card"><h3>Nutrition</h3><p>Personal targets and coaching notes will be added here.</p><span class="metric">Setup</span></article>
+    <article class="card"><h3>Progress</h3><p>Upload starting weight, measurements, and progress photos.</p><span class="metric">Week 0</span></article>
+    <article class="card"><h3>Next Check-In</h3><p>Your weekly check-in schedule will appear here.</p><span class="metric">TBD</span></article>
+    <article class="card"><h3>Coach Message</h3><p>Welcome to JP Fit. Jeremy will review your intake and contact you with next steps.</p><span class="metric">1 New</span></article>
+    <article class="card"><h3>Membership</h3><p id="membership">Your selected plan and agreement will appear here.</p><span class="metric" id="price">—</span></article>
+  </section>
+</main>
+</div>
+<script>(async()=>{
+const user=await jpRequireUser(); if(!user) throw new Error("Authentication required");
+const isDev=new URLSearchParams(location.search).get("test")==="true";
+if(isDev) document.getElementById("dev-banner").style.display="block";
+const e=JSON.parse(localStorage.getItem("jpfitEnrollment")||"null");
+const i=JSON.parse(localStorage.getItem("jpfitIntake")||"null");
+const names={inperson30:"30-Minute Personal Training",inperson60:"60-Minute Personal Training",mobile:"Mobile Training",online:"Online Coaching"};
+const client=i?.name||e?.client?.name||"Test Client";
+document.getElementById("profile").textContent=client;
+document.getElementById("welcome").textContent=`Welcome, ${client.split(" ")[0]}.`;
+document.getElementById("program").textContent=`Goal: ${i?.goal||e?.goal||"Not set"} · ${names[e?.service]||"JP Fit Coaching"} · ${e?.frequency||""}`;
+document.getElementById("membership").textContent=`${names[e?.service]||"JP Fit Coaching"} · ${e?.frequency||""} · ${e?.term||""}`;
+document.getElementById("price").textContent=e?.price?`$${e.price}/2wk`:"—";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js">})();</script>
+</body>
+</html>

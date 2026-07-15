@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JP Fit Onboarding Complete</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#caff38;--black:#080808;--panel:#151515;--muted:#929292}
+*{box-sizing:border-box}
+body{margin:0;background:var(--black);color:#fff;font-family:Inter,sans-serif}
+.dev{display:none;background:var(--lime);color:#111;text-align:center;padding:10px;font-size:.72rem;font-weight:900;letter-spacing:.11em}
+.wrap{min-height:100vh;display:grid;place-items:center;padding:28px}
+.card{width:min(880px,100%);background:var(--panel);border:1px solid #2a2a2a;border-radius:30px;padding:38px;text-align:center}
+.logo{width:86px;height:86px;border-radius:50%;object-fit:cover;border:2px solid var(--lime)}
+.eyebrow{display:block;color:var(--lime);font-size:.7rem;font-weight:900;letter-spacing:.14em;margin-top:16px}
+h1,h2{font-family:"Barlow Condensed";text-transform:uppercase;line-height:.95}
+h1{font-size:clamp(3.8rem,9vw,6.7rem);margin:12px 0}
+p{color:var(--muted)}
+.summary{margin:28px auto;max-width:620px;background:#0d0d0d;border-radius:18px;padding:18px;text-align:left}
+.summary div{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-top:1px solid #292929}
+.summary div:first-child{border-top:0}
+.summary span{color:#7d7d7d;font-size:.75rem}
+.summary strong{text-align:right}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border-radius:999px;padding:15px 22px;font-weight:900;background:var(--lime);color:#111;border:0;cursor:pointer}
+.btn.secondary{background:#fff}
+.btn.dark{background:#272727;color:#fff}
+.note{font-size:.7rem;color:#666;margin-top:20px}
+@media(max-width:600px){.card{padding:28px 17px}.summary div{display:block}.summary strong{display:block;margin-top:4px;text-align:left}.btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="dev" id="dev-banner">DEVELOPER MODE — SIMULATED ONBOARDING COMPLETE</div>
+<main class="wrap">
+<section class="card">
+  <img class="logo" src="assets/jp-fit-logo.jpg" alt="JP Fit">
+  <span class="eyebrow">ONBOARDING COMPLETE</span>
+  <h1>You’re ready for JP Fit.</h1>
+  <p>Your agreement and intake have been completed on this device. In production, Jeremy will review your information and activate your client account.</p>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="actions">
+    <a class="btn" id="portal-link" href="client-portal.html">OPEN CLIENT PORTAL PREVIEW</a>
+    <a class="btn secondary" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">BOOK CONSULTATION</a>
+    <a class="btn dark" href="index.html">RETURN HOME</a>
+  </div>
+
+  <p class="note">The current static demo stores test information only in this browser. Real accounts and secure cloud storage are the next production step.</p>
+</section>
+</main>
+<script>
+const isDev=new URLSearchParams(location.search).get("test")==="true";
+if(isDev){
+  document.getElementById("dev-banner").style.display="block";
+  document.getElementById("portal-link").href="client-portal.html?test=true";
+}
+const enrollment=JSON.parse(localStorage.getItem("jpfitEnrollment")||"null");
+const intake=JSON.parse(localStorage.getItem("jpfitIntake")||"null");
+const planNames={
+  inperson30:"In-Person 30-Minute Sessions",
+  inperson60:"In-Person 60-Minute Sessions",
+  mobile:"Mobile Training",
+  online:"1-on-1 Online Coaching"
+};
+const summary=document.getElementById("summary");
+summary.innerHTML=`
+  <div><span>Client</span><strong>${intake?.name||enrollment?.client?.name||"Test Client"}</strong></div>
+  <div><span>Program</span><strong>${planNames[enrollment?.service]||"JP Fit Coaching"}</strong></div>
+  <div><span>Frequency</span><strong>${enrollment?.frequency||"—"}</strong></div>
+  <div><span>Agreement</span><strong>${enrollment?.term||"—"}</strong></div>
+  <div><span>Primary goal</span><strong>${intake?.goal||enrollment?.goal||"—"}</strong></div>
+  <div><span>Status</span><strong>${isDev?"Test onboarding completed":"Submitted for review"}</strong></div>`;
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+</body>
+</html>

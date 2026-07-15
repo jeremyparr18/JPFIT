@@ -328,15 +328,48 @@ function validateSignature(){
  document.getElementById("accept-and-pay").disabled=!(required&&boxes&&same);
 }
 document.getElementById("print-contract").addEventListener("click",()=>{updateReview();window.print()});
-document.getElementById("accept-and-pay").addEventListener("click",()=>{
+document.getElementById("accept-and-pay").addEventListener("click",async()=>{
+ const user=await jpGetUser();
+ if(!user){
+   localStorage.setItem("jpfitPendingCheckout",location.href);
+   location.href=`auth.html?next=${encodeURIComponent(location.pathname+location.search)}`;
+   return;
+ }
  const agreementId=`JPF-${Date.now().toString(36).toUpperCase()}`;
  const record={...state,price:currentPrice(),client:{
   name:document.getElementById("client-name").value,email:document.getElementById("client-email").value,phone:document.getElementById("client-phone").value,address:document.getElementById("client-address").value,
   emergencyName:document.getElementById("emergency-name").value,emergencyPhone:document.getElementById("emergency-phone").value,startDate:document.getElementById("start-date").value
  },photoConsent:document.getElementById("photo-consent").checked,signature:sig.value,signedAt:new Date().toISOString(),agreementId};
- localStorage.setItem("jpfitEnrollment",JSON.stringify(record));document.getElementById("agreement-id-print").textContent=agreementId;
- document.getElementById("final-plan").textContent=plans[state.service].title;document.getElementById("final-frequency").textContent=state.frequency;document.getElementById("final-term").textContent=state.term;document.getElementById("final-price").textContent=`$${record.price}`;
- go(6);toast("Agreement accepted on this device");
+
+ const {error:profileError}=await jpSupabase.from("profiles").update({
+   full_name:record.client.name,phone:record.client.phone,address:record.client.address,
+   emergency_contact_name:record.client.emergencyName,emergency_contact_phone:record.client.emergencyPhone,
+   updated_at:new Date().toISOString()
+ }).eq("id",user.id);
+ if(profileError){alert("Profile save failed: "+profileError.message);return}
+
+ const {data:enrollment,error:enrollmentError}=await jpSupabase.from("enrollments").insert({
+   user_id:user.id,goal:state.goal,service:state.service,frequency:state.frequency,
+   agreement_term:state.term,biweekly_price:record.price,start_date:record.client.startDate,
+   status:"pending_payment"
+ }).select().single();
+ if(enrollmentError){alert("Enrollment save failed: "+enrollmentError.message);return}
+
+ const {error:agreementError}=await jpSupabase.from("agreements").insert({
+   user_id:user.id,enrollment_id:enrollment.id,agreement_code:agreementId,
+   signed_name:record.signature,signed_at:record.signedAt,photo_consent:record.photoConsent,
+   agreement_snapshot:record
+ });
+ if(agreementError){alert("Agreement save failed: "+agreementError.message);return}
+
+ record.enrollmentId=enrollment.id;
+ localStorage.setItem("jpfitEnrollment",JSON.stringify(record));
+ document.getElementById("agreement-id-print").textContent=agreementId;
+ document.getElementById("final-plan").textContent=plans[state.service].title;
+ document.getElementById("final-frequency").textContent=state.frequency;
+ document.getElementById("final-term").textContent=state.term;
+ document.getElementById("final-price").textContent=`$${record.price}`;
+ go(6);toast("Agreement securely saved to JP Fit");
 });
 document.getElementById("return-sign").addEventListener("click",()=>go(5));
 document.getElementById("stripe-button").addEventListener("click",()=>{
@@ -460,5 +493,6 @@ document.addEventListener("keydown",e=>{
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script>
 </body>
 </html>

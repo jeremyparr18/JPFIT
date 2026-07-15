@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JP Fit Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#caff38;--black:#080808;--line:#343434}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#080808;color:#fff;font-family:Inter,sans-serif;padding:24px}
+.card{width:min(500px,100%);background:#151515;border:1px solid #2a2a2a;border-radius:26px;padding:30px}
+.logo{width:72px;height:72px;border-radius:50%;border:2px solid var(--lime);object-fit:cover}
+h1{font-family:"Barlow Condensed";font-size:3.5rem;text-transform:uppercase;line-height:.95;margin:15px 0 8px}
+p{color:#999}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0}.tabs button{border:0;border-radius:999px;padding:11px;font-weight:800;background:#252525;color:#aaa;cursor:pointer}.tabs button.active{background:var(--lime);color:#111}
+.field{display:block;font-size:.76rem;font-weight:800;margin-top:12px}.field input{width:100%;margin-top:6px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#0f0f0f;color:#fff}
+.btn{width:100%;margin-top:17px;border:0;border-radius:999px;padding:14px;background:var(--lime);color:#111;font-weight:900;cursor:pointer}.message{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#202020;font-size:.76rem}.signup-only{display:none}.signup .signup-only{display:block}
+</style></head><body>
+<section class="card">
+<img class="logo" src="assets/jp-fit-logo.jpg" alt="JP Fit">
+<h1>Client Access</h1><p>Create your secure JP Fit account or sign in to continue.</p>
+<div class="tabs"><button id="login-tab" class="active">Sign In</button><button id="signup-tab">Create Account</button></div>
+<form id="auth-form">
+<label class="field signup-only">Full legal name<input id="full-name" autocomplete="name"></label>
+<label class="field">Email<input id="email" type="email" autocomplete="email" required></label>
+<label class="field">Password<input id="password" type="password" minlength="8" autocomplete="current-password" required></label>
+<button class="btn" id="submit">SIGN IN</button>
+</form>
+<div class="message" id="message"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+<script>
+let mode="login";
+const card=document.querySelector(".card");
+function setMode(next){
+ mode=next;card.classList.toggle("signup",mode==="signup");
+ loginTab.classList.toggle("active",mode==="login");signupTab.classList.toggle("active",mode==="signup");
+ submit.textContent=mode==="login"?"SIGN IN":"CREATE ACCOUNT";
+ password.autocomplete=mode==="login"?"current-password":"new-password";
+}
+loginTab=document.getElementById("login-tab");signupTab=document.getElementById("signup-tab");
+loginTab.onclick=()=>setMode("login");signupTab.onclick=()=>setMode("signup");
+function show(msg,ok=false){message.style.display="block";message.textContent=msg;message.style.borderLeft=`4px solid ${ok?"#caff38":"#d65d55"}`}
+authForm=document.getElementById("auth-form");
+authForm.addEventListener("submit",async e=>{
+ e.preventDefault();submit.disabled=true;
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ if(mode==="signup"){
+   const fullName=document.getElementById("full-name").value.trim();
+   if(!fullName){show("Enter your full legal name.");submit.disabled=false;return}
+   const {data,error}=await jpSupabase.auth.signUp({email,password,options:{data:{full_name:fullName}}});
+   if(error) show(error.message);
+   else if(data.session) redirect();
+   else show("Account created. Check your email to confirm your account, then sign in.",true);
+ }else{
+   const {error}=await jpSupabase.auth.signInWithPassword({email,password});
+   if(error) show(error.message); else redirect();
+ }
+ submit.disabled=false;
+});
+function redirect(){
+ const next=new URLSearchParams(location.search).get("next")||"client-portal.html";
+ location.href=decodeURIComponent(next);
+}
+</script></body></html>
