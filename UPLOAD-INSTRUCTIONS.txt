@@ -1,18 +1,21 @@
-JP FIT VERSION 25.1A HOTFIX
+JP FIT VERSION 25.1A — HOTFIX 2
 
-CAUSE FIXED
-The Coach Studio modal and drawer markup loaded after the JavaScript.
-That caused a startup error and left the loading spinner on screen.
+ERROR FIXED
+"jpRequireUser is not defined"
 
-WHAT THIS HOTFIX DOES
-- Moves all modal and drawer elements before JavaScript initialization
-- Fixes the endless loading spinner
-- Adds a visible startup error message and Try Again button
-- Preserves every Version 25.1A feature
+CAUSE
+The Supabase CDN script loaded after supabase-client.js.
+That prevented the authentication helper functions from being created.
 
-NO NEW SQL IS REQUIRED if you already ran:
-SUPABASE-V25-1A-COACH-STUDIO.sql
+FIX
+Scripts now load in this required order:
+1. Supabase JavaScript library
+2. supabase-config.js
+3. supabase-client.js
+4. Coach Studio application script
+
+NO NEW SQL REQUIRED.
 
 UPLOAD
-Upload every file from this hotfix package to the root of GitHub.
-Replace the existing Version 25.1A files and commit.
+Upload all files from this package to the root of GitHub.
+Replace the existing files and commit.

@@ -226,7 +226,10 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
 <section class="panel" id="checkins"><div class="section-head"><h2>Check-In Review</h2></div><div class="list" id="coach-checkin-list"></div></section>
 <section class="panel" id="inbox"><div class="section-head"><h2>Client Messages</h2></div><div class="grid"><div class="client-list" id="message-clients"></div><div><div class="messages" id="coach-messages"><div class="empty">Choose a client conversation.</div></div><form class="compose" id="coach-message-form"><input id="coach-message-input" placeholder="Reply to client..." required><button class="btn">Send</button></form></div></div></section>
 </main></div>
-<script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="supabase-client.js"></script>
 <script>
 (async()=>{
  try{
@@ -670,5 +673,5 @@ $("assign-workout").onclick=async()=>{const client=$("builder-client").value,tit
   <div class="create-actions"><button class="btn dark" id="cancel-create-exercise">Cancel</button><button class="btn primary-action" id="save-create-exercise">Save Exercise</button></div>
 </aside>
 <div class="toast-pro" id="toast-pro"><strong id="toast-title">Saved</strong><span id="toast-copy"></span></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </body></html>
