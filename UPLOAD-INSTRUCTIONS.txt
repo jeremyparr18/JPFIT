@@ -1,39 +1,36 @@
-JP FIT VERSION 18 — SUPABASE FOUNDATION
+JP FIT VERSION 19 — LIVE CLIENT DASHBOARD
 
-PUBLIC SUPABASE SETTINGS
-Project URL: https://ppeqfqkfoyaupijgwnaa.supabase.co
-Publishable key: included in supabase-config.js
-
-SECURITY
-The publishable key is intentionally browser-visible.
-Security depends on Row Level Security policies.
-Never upload or expose the secret key, service-role key, or database password.
-
-REQUIRED SETUP
-1. Supabase Dashboard -> SQL Editor.
-2. Open SUPABASE-SETUP.sql from this package.
-3. Copy the entire SQL file into the SQL Editor.
+STEP 1 — DATABASE
+In Supabase:
+1. Open SQL Editor.
+2. Open SUPABASE-V19-DASHBOARD.sql from this package.
+3. Paste the complete file.
 4. Click Run.
-5. Go to Authentication -> URL Configuration.
-6. Set Site URL to https://trainwithjpfit.com
-7. Add redirect URL: https://trainwithjpfit.com/**
-8. Upload all package files to the root of GitHub.
-9. Commit and allow Vercel to redeploy.
 
-WHAT WORKS AFTER SQL IS RUN
-- Client account creation
-- Email/password login
-- Secure client profile
-- Cloud-saved enrollment
-- Cloud-saved signed agreement snapshot
-- Cloud-saved intake form
-- RLS restricting clients to their own data
+STEP 2 — WEBSITE
+Upload every extracted Version 19 file to the ROOT of the GitHub JPFIT repository.
+Commit the changes and wait for Vercel to redeploy.
 
-NOT YET COMPLETE
-- Stripe webhook verification
-- Coach/admin access policies and dashboard
-- Password-reset page
-- Progress photos and storage
-- Workout assignment database
-- Messaging
-- Production e-signature audit trail
+CLIENT LOGIN
+https://trainwithjpfit.com/auth.html
+
+CLIENT DASHBOARD
+https://trainwithjpfit.com/client-portal.html
+
+VERSION 19 FEATURES
+- Protected client dashboard
+- Live Supabase profile and membership data
+- Progress entries saved to Supabase
+- Weight, waist, steps, sleep, energy, and notes
+- Weekly check-ins saved to Supabase
+- Nutrition target display
+- Workout assignment display
+- Client messages saved to Supabase
+- Live sign-out
+- Responsive mobile layout
+
+CURRENT LIMITATIONS
+- Jeremy cannot yet reply through a coach dashboard.
+- Workouts and nutrition targets must currently be inserted through Supabase.
+- Progress-photo uploads are not included yet.
+- Stripe webhook payment verification is not included yet.

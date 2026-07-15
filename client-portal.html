@@ -1,71 +1,172 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JP Fit Client Portal Preview</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JP Fit Client Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#202020;--muted:#8d8d8d}
-*{box-sizing:border-box}
-body{margin:0;background:#0b0b0b;color:#fff;font-family:Inter,sans-serif}
-.dev{display:none;background:var(--lime);color:#111;text-align:center;padding:9px;font-size:.7rem;font-weight:900;letter-spacing:.11em}
-.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-.sidebar{background:var(--black);padding:24px;display:flex;flex-direction:column}
-.brand{display:flex;align-items:center;gap:11px}.brand img{width:48px;height:48px;border-radius:50%;border:2px solid var(--lime)}.brand strong{font-family:"Barlow Condensed";font-size:1.5rem;letter-spacing:.08em}
-.nav{display:grid;gap:8px;margin-top:34px}.nav a{color:#aaa;text-decoration:none;padding:12px;border-radius:11px;font-size:.82rem;font-weight:800}.nav a.active{background:#1c1c1c;color:var(--lime)}
-.sidebar .bottom{margin-top:auto;color:#555;font-size:.7rem}
-.main{padding:30px}.top{display:flex;justify-content:space-between;align-items:center}.top h1{font-family:"Barlow Condensed";text-transform:uppercase;font-size:3rem;margin:0}.profile{background:#1b1b1b;border-radius:999px;padding:10px 15px;font-size:.78rem}
-.hero{margin-top:24px;background:linear-gradient(135deg,#1d1d1d,#111);border:1px solid #2b2b2b;border-radius:24px;padding:26px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px}.eyebrow{color:var(--lime);font-size:.68rem;font-weight:900;letter-spacing:.13em}.hero h2{font-family:"Barlow Condensed";text-transform:uppercase;font-size:3.4rem;line-height:.95;margin:8px 0}.hero p{color:var(--muted)}.score{background:#0f0f0f;border-radius:20px;padding:20px;display:grid;place-items:center;text-align:center}.score strong{font-family:"Barlow Condensed";font-size:4rem;color:var(--lime)}.score span{color:#777;font-size:.75rem}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.card{background:var(--card);border:1px solid #2d2d2d;border-radius:18px;padding:20px}.card h3{font-family:"Barlow Condensed";text-transform:uppercase;font-size:1.6rem;margin:0 0 8px}.card p{color:var(--muted);font-size:.78rem}.metric{font-family:"Barlow Condensed";font-size:2.5rem;color:var(--lime)}.btn{display:inline-block;background:var(--lime);color:#111;text-decoration:none;border-radius:999px;padding:11px 16px;font-weight:900;font-size:.75rem}
-@media(max-width:850px){.shell{grid-template-columns:1fr}.sidebar{display:none}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.main{padding:20px}.top{align-items:flex-start;gap:12px;flex-direction:column}}
+:root{--lime:#caff38;--black:#080808;--panel:#151515;--card:#1d1d1d;--line:#2e2e2e;--muted:#929292;--paper:#f2f1ec}
+*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#fff;font-family:Inter,sans-serif}button,input,textarea{font:inherit}
+.loading{position:fixed;inset:0;background:#080808;z-index:1000;display:grid;place-items:center}.loading.hidden{display:none}.spinner{width:45px;height:45px;border:4px solid #333;border-top-color:var(--lime);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{background:var(--black);padding:24px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}.brand{display:flex;align-items:center;gap:11px}.brand img{width:49px;height:49px;border-radius:50%;border:2px solid var(--lime);object-fit:cover}.brand strong{font-family:"Barlow Condensed";font-size:1.55rem;letter-spacing:.08em}.nav{display:grid;gap:7px;margin-top:32px}.nav button{background:none;border:0;color:#888;text-align:left;padding:12px 13px;border-radius:11px;font-weight:800;cursor:pointer}.nav button.active,.nav button:hover{background:#1b1b1b;color:var(--lime)}.sidebar-bottom{margin-top:auto}.signout{width:100%;border:1px solid #333;background:none;color:#aaa;border-radius:999px;padding:11px;cursor:pointer}
+.main{padding:28px}.topbar{display:flex;justify-content:space-between;align-items:center}.topbar h1,.hero h2,.section-title{font-family:"Barlow Condensed";text-transform:uppercase;line-height:.95}.topbar h1{font-size:3.2rem;margin:0}.profile-pill{display:flex;align-items:center;gap:10px;background:#191919;border:1px solid #2b2b2b;border-radius:999px;padding:9px 14px}.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--lime);color:#111;font-weight:900}
+.panel{display:none}.panel.active{display:block}.hero{margin-top:22px;background:linear-gradient(135deg,#1d1d1d,#111);border:1px solid var(--line);border-radius:25px;padding:26px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.eyebrow{color:var(--lime);font-size:.68rem;font-weight:900;letter-spacing:.13em}.hero h2{font-size:3.5rem;margin:8px 0}.hero p{color:var(--muted)}.score{background:#0e0e0e;border-radius:20px;padding:22px;text-align:center;display:grid;place-items:center}.score strong{font-family:"Barlow Condensed";font-size:4rem;color:var(--lime)}.score span{color:#777;font-size:.73rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}.card h3,.section-title{font-size:1.7rem;margin:0 0 8px}.card p{color:var(--muted);font-size:.78rem}.metric{font-family:"Barlow Condensed";font-size:2.6rem;color:var(--lime)}.btn{border:0;background:var(--lime);color:#111;border-radius:999px;padding:11px 16px;font-weight:900;cursor:pointer;text-decoration:none;display:inline-block}.btn.dark{background:#292929;color:#fff}.section-head{display:flex;justify-content:space-between;align-items:center;margin:26px 0 12px}
+.form-card{background:#171717;border:1px solid var(--line);border-radius:20px;padding:22px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{font-size:.75rem;font-weight:800}.field.full{grid-column:1/-1}.field input,.field textarea{width:100%;margin-top:6px;padding:12px;border:1px solid #343434;background:#0f0f0f;color:#fff;border-radius:10px}.field textarea{resize:vertical}.list{display:grid;gap:10px}.list-item{background:#191919;border:1px solid var(--line);border-radius:14px;padding:15px}.list-item strong,.list-item span{display:block}.list-item span{font-size:.72rem;color:#888}.macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.macro{text-align:center;background:#191919;border:1px solid var(--line);border-radius:16px;padding:18px}.macro strong{font-family:"Barlow Condensed";font-size:2.5rem;color:var(--lime)}.macro span{display:block;color:#888;font-size:.7rem}.message-box{height:360px;overflow:auto;background:#101010;border:1px solid var(--line);border-radius:16px;padding:15px}.bubble{max-width:76%;background:#262626;border-radius:15px;padding:11px 13px;margin:8px 0;font-size:.8rem}.bubble.mine{margin-left:auto;background:var(--lime);color:#111}.bubble small{display:block;opacity:.6;margin-top:5px}.message-compose{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:10px}.message-compose input{padding:13px;border:1px solid #333;background:#111;color:#fff;border-radius:999px}
+.notice{display:none;border-left:4px solid var(--lime);background:#202020;padding:12px;border-radius:9px;margin-top:12px;font-size:.75rem}.empty{color:#777;font-size:.8rem;padding:15px 0}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{height:auto;position:relative}.nav{grid-template-columns:repeat(3,1fr)}.sidebar-bottom{margin-top:18px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.main{padding:18px}.topbar{align-items:flex-start;gap:12px;flex-direction:column}.nav{grid-template-columns:1fr 1fr}.grid,.form-grid,.macro-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero h2{font-size:2.7rem}}
 </style>
 </head>
 <body>
-<div class="dev" id="dev-banner">JP FIT DEVELOPER MODE — CLIENT PORTAL PREVIEW</div>
+<div class="loading" id="loading"><div class="spinner"></div></div>
 <div class="shell">
 <aside class="sidebar">
-  <div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT</strong></div>
-  <nav class="nav">
-    <a class="active" href="#">Dashboard</a>
-    <a href="#">Workouts</a>
-    <a href="#">Nutrition</a>
-    <a href="#">Progress</a>
-    <a href="#">Messages</a>
-    <a href="#">Schedule</a>
-  </nav>
-  <div class="bottom">Prototype portal · Data stored locally</div>
+ <div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT</strong></div>
+ <nav class="nav">
+  <button class="active" data-panel="dashboard">Dashboard</button>
+  <button data-panel="workouts">Workouts</button>
+  <button data-panel="nutrition">Nutrition</button>
+  <button data-panel="progress">Progress</button>
+  <button data-panel="checkins">Check-Ins</button>
+  <button data-panel="messages">Messages</button>
+ </nav>
+ <div class="sidebar-bottom"><button class="signout" id="signout">Sign Out</button></div>
 </aside>
 <main class="main">
-  <div class="top"><h1>Client Dashboard</h1><div class="profile" id="profile">Test Client</div></div>
-  <section class="hero">
-    <div><span class="eyebrow">WELCOME TO YOUR COACHING HUB</span><h2 id="welcome">Let’s get to work.</h2><p id="program">Your program and onboarding details appear here after enrollment.</p><a class="btn" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">BOOK A SESSION</a></div>
-    <div class="score"><div><strong>0%</strong><span>WEEKLY ADHERENCE<br>Begins after your first assigned workout</span></div></div>
-  </section>
-  <section class="grid">
-    <article class="card"><h3>Today’s Workout</h3><p>Your first program will appear after Coach Jeremy reviews your intake.</p><span class="metric">Pending</span></article>
-    <article class="card"><h3>Nutrition</h3><p>Personal targets and coaching notes will be added here.</p><span class="metric">Setup</span></article>
-    <article class="card"><h3>Progress</h3><p>Upload starting weight, measurements, and progress photos.</p><span class="metric">Week 0</span></article>
-    <article class="card"><h3>Next Check-In</h3><p>Your weekly check-in schedule will appear here.</p><span class="metric">TBD</span></article>
-    <article class="card"><h3>Coach Message</h3><p>Welcome to JP Fit. Jeremy will review your intake and contact you with next steps.</p><span class="metric">1 New</span></article>
-    <article class="card"><h3>Membership</h3><p id="membership">Your selected plan and agreement will appear here.</p><span class="metric" id="price">—</span></article>
-  </section>
+ <div class="topbar"><h1 id="page-title">Client Dashboard</h1><div class="profile-pill"><div class="avatar" id="avatar">J</div><span id="profile-name">Client</span></div></div>
+
+ <section class="panel active" id="dashboard">
+  <div class="hero"><div><span class="eyebrow">YOUR JP FIT COACHING HUB</span><h2 id="welcome-name">Welcome back.</h2><p id="membership-copy">Loading your membership...</p><a class="btn" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">Book a Session</a></div><div class="score"><div><strong id="adherence-score">0%</strong><span>LATEST CHECK-IN ADHERENCE</span></div></div></div>
+  <div class="grid">
+   <article class="card"><h3>Next Workout</h3><p id="next-workout-copy">No workout assigned yet.</p><span class="metric" id="next-workout-status">Pending</span></article>
+   <article class="card"><h3>Current Weight</h3><p>Most recent progress entry</p><span class="metric" id="current-weight">—</span></article>
+   <article class="card"><h3>Nutrition Target</h3><p>Daily calorie goal</p><span class="metric" id="dashboard-calories">—</span></article>
+   <article class="card"><h3>Agreement</h3><p id="agreement-program">JP Fit membership</p><span class="metric" id="agreement-term">—</span></article>
+   <article class="card"><h3>Latest Check-In</h3><p id="checkin-copy">No check-in submitted yet.</p><span class="metric" id="checkin-status">Pending</span></article>
+   <article class="card"><h3>Coach Message</h3><p id="coach-message">Welcome to JP Fit. Coach Jeremy will update your dashboard soon.</p><span class="metric" id="message-count">0 New</span></article>
+  </div>
+ </section>
+
+ <section class="panel" id="workouts">
+  <div class="section-head"><h2 class="section-title">Your Workouts</h2></div>
+  <div class="list" id="workout-list"><div class="empty">No workouts assigned yet.</div></div>
+ </section>
+
+ <section class="panel" id="nutrition">
+  <div class="section-head"><h2 class="section-title">Nutrition Targets</h2></div>
+  <div class="macro-grid"><div class="macro"><strong id="calories">—</strong><span>CALORIES</span></div><div class="macro"><strong id="protein">—</strong><span>PROTEIN</span></div><div class="macro"><strong id="carbs">—</strong><span>CARBS</span></div><div class="macro"><strong id="fats">—</strong><span>FATS</span></div></div>
+  <div class="form-card" style="margin-top:15px"><h3 class="section-title">Coach Notes</h3><p id="nutrition-notes" class="empty">Nutrition targets have not been assigned yet.</p></div>
+ </section>
+
+ <section class="panel" id="progress">
+  <div class="section-head"><h2 class="section-title">Progress Tracking</h2></div>
+  <form class="form-card" id="progress-form"><div class="form-grid">
+   <label class="field">Date<input id="progress-date" type="date" required></label>
+   <label class="field">Weight (lb)<input id="weight" type="number" step=".1"></label>
+   <label class="field">Waist (in)<input id="waist" type="number" step=".1"></label>
+   <label class="field">Body fat %<input id="body-fat" type="number" step=".1"></label>
+   <label class="field">Steps<input id="steps" type="number"></label>
+   <label class="field">Sleep hours<input id="sleep" type="number" step=".1"></label>
+   <label class="field">Energy 1–10<input id="energy" type="number" min="1" max="10"></label>
+   <label class="field full">Notes<textarea id="progress-notes" rows="3"></textarea></label>
+  </div><button class="btn" type="submit" style="margin-top:14px">Save Progress</button><div class="notice" id="progress-notice"></div></form>
+  <div class="section-head"><h2 class="section-title">History</h2></div><div class="list" id="progress-list"></div>
+ </section>
+
+ <section class="panel" id="checkins">
+  <div class="section-head"><h2 class="section-title">Weekly Check-In</h2></div>
+  <form class="form-card" id="checkin-form"><div class="form-grid">
+   <label class="field">Adherence %<input id="adherence" type="number" min="0" max="100" required></label>
+   <label class="field">Mood 1–10<input id="mood" type="number" min="1" max="10" required></label>
+   <label class="field">Stress 1–10<input id="stress" type="number" min="1" max="10" required></label>
+   <label class="field full">Biggest wins<textarea id="wins" rows="3"></textarea></label>
+   <label class="field full">Challenges<textarea id="challenges" rows="3"></textarea></label>
+   <label class="field full">Questions for Jeremy<textarea id="questions" rows="3"></textarea></label>
+  </div><button class="btn" type="submit" style="margin-top:14px">Submit Check-In</button><div class="notice" id="checkin-notice"></div></form>
+  <div class="section-head"><h2 class="section-title">Past Check-Ins</h2></div><div class="list" id="checkin-list"></div>
+ </section>
+
+ <section class="panel" id="messages">
+  <div class="section-head"><h2 class="section-title">Messages</h2></div>
+  <div class="message-box" id="message-box"><div class="empty">No messages yet.</div></div>
+  <form class="message-compose" id="message-form"><input id="message-input" placeholder="Message Coach Jeremy..." required><button class="btn">Send</button></form>
+  <div class="notice" id="message-notice"></div>
+ </section>
 </main>
 </div>
-<script>(async()=>{
-const user=await jpRequireUser(); if(!user) throw new Error("Authentication required");
-const isDev=new URLSearchParams(location.search).get("test")==="true";
-if(isDev) document.getElementById("dev-banner").style.display="block";
-const e=JSON.parse(localStorage.getItem("jpfitEnrollment")||"null");
-const i=JSON.parse(localStorage.getItem("jpfitIntake")||"null");
-const names={inperson30:"30-Minute Personal Training",inperson60:"60-Minute Personal Training",mobile:"Mobile Training",online:"Online Coaching"};
-const client=i?.name||e?.client?.name||"Test Client";
-document.getElementById("profile").textContent=client;
-document.getElementById("welcome").textContent=`Welcome, ${client.split(" ")[0]}.`;
-document.getElementById("program").textContent=`Goal: ${i?.goal||e?.goal||"Not set"} · ${names[e?.service]||"JP Fit Coaching"} · ${e?.frequency||""}`;
-document.getElementById("membership").textContent=`${names[e?.service]||"JP Fit Coaching"} · ${e?.frequency||""} · ${e?.term||""}`;
-document.getElementById("price").textContent=e?.price?`$${e.price}/2wk`:"—";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script><script src="supabase-client.js"></script>
+<script>
+(async()=>{
+ const user=await jpRequireUser("auth.html"); if(!user) return;
+ const serviceNames={inperson30:"30-Minute Personal Training",inperson60:"60-Minute Personal Training",mobile:"Mobile Training",online:"Online Coaching"};
+ const $=id=>document.getElementById(id);
+ $("progress-date").value=new Date().toISOString().slice(0,10);
+
+ document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{
+   document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(btn.dataset.panel).classList.add("active");
+   $("page-title").textContent=btn.textContent;
+ });
+ $("signout").onclick=jpSignOut;
+
+ const [{data:profile},{data:enrollments},{data:progress},{data:checkins},{data:nutrition},{data:workouts},{data:messages}] = await Promise.all([
+   jpSupabase.from("profiles").select("*").eq("id",user.id).maybeSingle(),
+   jpSupabase.from("enrollments").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(1),
+   jpSupabase.from("progress_entries").select("*").eq("user_id",user.id).order("entry_date",{ascending:false}).limit(20),
+   jpSupabase.from("checkins").select("*").eq("user_id",user.id).order("checkin_date",{ascending:false}).limit(20),
+   jpSupabase.from("nutrition_targets").select("*").eq("user_id",user.id).maybeSingle(),
+   jpSupabase.from("workout_assignments").select("*").eq("user_id",user.id).order("scheduled_date",{ascending:true}),
+   jpSupabase.from("messages").select("*").eq("client_id",user.id).order("created_at",{ascending:true})
+ ]);
+
+ const name=profile?.full_name||user.user_metadata?.full_name||user.email.split("@")[0];
+ $("profile-name").textContent=name;$("avatar").textContent=name[0].toUpperCase();$("welcome-name").textContent=`Welcome, ${name.split(" ")[0]}.`;
+ const enrollment=enrollments?.[0];
+ $("membership-copy").textContent=enrollment?`${serviceNames[enrollment.service]||enrollment.service} · ${enrollment.frequency} · ${enrollment.agreement_term}`:"Complete your enrollment to activate your membership.";
+ $("agreement-program").textContent=enrollment?`${serviceNames[enrollment.service]||enrollment.service} · $${enrollment.biweekly_price}/2wk`:"JP Fit membership";
+ $("agreement-term").textContent=enrollment?.agreement_term||"—";
+
+ function renderProgress(rows=progress||[]){
+   $("progress-list").innerHTML=rows.length?rows.map(r=>`<div class="list-item"><strong>${new Date(r.entry_date+"T12:00:00").toLocaleDateString()} · ${r.weight??"—"} lb</strong><span>Waist: ${r.waist??"—"} · Steps: ${r.steps??"—"} · Sleep: ${r.sleep_hours??"—"} hrs · Energy: ${r.energy??"—"}/10</span></div>`).join(""):'<div class="empty">No progress entries yet.</div>';
+   $("current-weight").textContent=rows[0]?.weight?`${rows[0].weight} lb`:"—";
+ }
+ function renderCheckins(rows=checkins||[]){
+   $("checkin-list").innerHTML=rows.length?rows.map(r=>`<div class="list-item"><strong>${new Date(r.checkin_date+"T12:00:00").toLocaleDateString()} · ${r.adherence}% adherence</strong><span>Mood ${r.mood}/10 · Stress ${r.stress}/10 · Status: ${r.status}</span>${r.coach_response?`<p>Coach: ${r.coach_response}</p>`:""}</div>`).join(""):'<div class="empty">No check-ins submitted yet.</div>';
+   $("adherence-score").textContent=rows[0]?`${rows[0].adherence}%`:"0%";$("checkin-status").textContent=rows[0]?.status||"Pending";$("checkin-copy").textContent=rows[0]?`Submitted ${new Date(rows[0].checkin_date+"T12:00:00").toLocaleDateString()}`:"No check-in submitted yet.";
+ }
+ function renderWorkouts(rows=workouts||[]){
+   $("workout-list").innerHTML=rows.length?rows.map(w=>`<div class="list-item"><strong>${w.title}</strong><span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span><p>${w.coach_notes||""}</p></div>`).join(""):'<div class="empty">No workouts assigned yet.</div>';
+   if(rows.length){$("next-workout-copy").textContent=rows[0].title;$("next-workout-status").textContent=rows[0].status}
+ }
+ function renderMessages(rows=messages||[]){
+   $("message-box").innerHTML=rows.length?rows.map(m=>`<div class="bubble ${m.sender_id===user.id?"mine":""}">${m.body}<small>${new Date(m.created_at).toLocaleString()}</small></div>`).join(""):'<div class="empty">No messages yet.</div>';
+   $("message-count").textContent=`${rows.filter(m=>m.sender_id!==user.id&&!m.read_at).length} New`;
+   const lastCoach=[...rows].reverse().find(m=>m.sender_id!==user.id);if(lastCoach)$("coach-message").textContent=lastCoach.body;
+   $("message-box").scrollTop=$("message-box").scrollHeight;
+ }
+ renderProgress();renderCheckins();renderWorkouts();renderMessages();
+ if(nutrition){$("calories").textContent=nutrition.calories??"—";$("protein").textContent=nutrition.protein?`${nutrition.protein}g`:"—";$("carbs").textContent=nutrition.carbs?`${nutrition.carbs}g`:"—";$("fats").textContent=nutrition.fats?`${nutrition.fats}g`:"—";$("dashboard-calories").textContent=nutrition.calories??"—";$("nutrition-notes").textContent=nutrition.coach_notes||"No coach notes yet."}
+
+ $("progress-form").onsubmit=async e=>{
+   e.preventDefault();
+   const payload={user_id:user.id,entry_date:$("progress-date").value,weight:+$("weight").value||null,waist:+$("waist").value||null,body_fat:+$("body-fat").value||null,steps:+$("steps").value||null,sleep_hours:+$("sleep").value||null,energy:+$("energy").value||null,notes:$("progress-notes").value||null};
+   const {data,error}=await jpSupabase.from("progress_entries").insert(payload).select().single();
+   if(error){alert(error.message);return}progress.unshift(data);renderProgress(progress);$("progress-notice").style.display="block";$("progress-notice").textContent="Progress saved securely.";e.target.reset();$("progress-date").value=new Date().toISOString().slice(0,10);
+ };
+ $("checkin-form").onsubmit=async e=>{
+   e.preventDefault();
+   const payload={user_id:user.id,adherence:+$("adherence").value,mood:+$("mood").value,stress:+$("stress").value,wins:$("wins").value||null,challenges:$("challenges").value||null,questions:$("questions").value||null};
+   const {data,error}=await jpSupabase.from("checkins").insert(payload).select().single();
+   if(error){alert(error.message);return}checkins.unshift(data);renderCheckins(checkins);$("checkin-notice").style.display="block";$("checkin-notice").textContent="Weekly check-in submitted.";e.target.reset();
+ };
+ $("message-form").onsubmit=async e=>{
+   e.preventDefault();const body=$("message-input").value.trim();if(!body)return;
+   const {data,error}=await jpSupabase.from("messages").insert({sender_id:user.id,client_id:user.id,body}).select().single();
+   if(error){alert(error.message);return}messages.push(data);renderMessages(messages);$("message-input").value="";$("message-notice").style.display="block";$("message-notice").textContent="Message saved. Coach messaging will become live when the coach dashboard is connected.";
+ };
+ $("loading").classList.add("hidden");
+})();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js">})();</script>
-</body>
-</html>
+</body></html>
