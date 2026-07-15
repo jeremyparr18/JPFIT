@@ -1,21 +1,20 @@
-JP FIT VERSION 25.1A — HOTFIX 2
+JP FIT VERSION 25.1A — HOTFIX 3
 
 ERROR FIXED
-"jpRequireUser is not defined"
+"Cannot set properties of null (setting 'onclick')"
 
 CAUSE
-The Supabase CDN script loaded after supabase-client.js.
-That prevented the authentication helper functions from being created.
+The Coach Studio homepage New Exercise button was removed from the HTML during layout cleanup,
+but its JavaScript click handler was still running.
 
-FIX
-Scripts now load in this required order:
-1. Supabase JavaScript library
-2. supabase-config.js
-3. supabase-client.js
-4. Coach Studio application script
+FIXES
+- Restored the homepage + New Exercise button
+- Restored + New Program and Open Client Hub quick actions
+- Added safe event binding so optional buttons cannot crash startup
+- Preserves the script-order and loading-screen fixes from Hotfixes 1 and 2
 
 NO NEW SQL REQUIRED.
 
 UPLOAD
 Upload all files from this package to the root of GitHub.
-Replace the existing files and commit.
+Replace the current files and commit.

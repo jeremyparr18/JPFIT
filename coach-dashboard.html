@@ -153,6 +153,11 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
     <span class="studio-badge">JP FIT · COACH STUDIO</span>
     <h2>Good evening, Jeremy.</h2>
     <p>Manage clients, build programs, create exercises, review check-ins, and keep your entire coaching business moving from one place.</p>
+    <div class="quick-actions">
+      <button class="btn primary-action" id="hero-new-exercise" type="button">+ New Exercise</button>
+      <button class="btn dark" id="hero-new-program" type="button">+ New Program</button>
+      <button class="btn dark" id="hero-open-clients" type="button">Open Client Hub</button>
+    </div>
     <div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
 <div class="section-head"><h2>Recently Enrolled</h2></div><div class="list" id="recent-list"></div>
 </section>
@@ -348,7 +353,25 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
  }
  function closeCreateExercise(){$("create-backdrop").classList.remove("open");$("create-exercise-drawer").classList.remove("open")}
  $("open-create-exercise").onclick=()=>openCreateExercise();
- $("hero-new-exercise").onclick=()=>{document.querySelector('[data-panel="library"]').click();setTimeout(()=>openCreateExercise(),60)};
+ const heroNewProgram=$("hero-new-program");
+ if(heroNewProgram) heroNewProgram.onclick=()=>{
+   const builderTab=document.querySelector('[data-panel="builder"]');
+   if(builderTab) builderTab.click();
+   const newWorkoutButton=$("open-new-workout");
+   if(newWorkoutButton) setTimeout(()=>newWorkoutButton.click(),60);
+ };
+ const heroOpenClients=$("hero-open-clients");
+ if(heroOpenClients) heroOpenClients.onclick=()=>{
+   const clientsTab=document.querySelector('[data-panel="clients"]');
+   if(clientsTab) clientsTab.click();
+ };
+
+ const heroNewExercise=$("hero-new-exercise");
+ if(heroNewExercise) heroNewExercise.onclick=()=>{
+   const libraryTab=document.querySelector('[data-panel="library"]');
+   if(libraryTab) libraryTab.click();
+   setTimeout(()=>openCreateExercise(),60);
+ };
  $("close-create-exercise").onclick=closeCreateExercise;$("cancel-create-exercise").onclick=closeCreateExercise;$("create-backdrop").onclick=closeCreateExercise;
 
  $("save-create-exercise").onclick=async()=>{
