@@ -1,0 +1,40 @@
+JP FIT — STRIPE PROMOTION CODE SETUP
+
+The website now recognizes and prefills these codes:
+
+1. JPFREE1 — 100% off for 1 month
+2. JPFREE2 — 100% off for 2 months
+
+IMPORTANT: The website cannot create discounts inside your Stripe account. Complete these steps in Stripe before publishing:
+
+A. Create JPFREE1
+1. Open Stripe Dashboard.
+2. Go to Product catalog > Coupons (or More > Product catalog > Coupons).
+3. Create a coupon for 100% off.
+4. Set duration to repeating for 1 month.
+5. Save the coupon.
+6. Create a customer-facing promotion code tied to that coupon.
+7. Set the promotion code text exactly to JPFREE1.
+
+B. Create JPFREE2
+1. Create another coupon for 100% off.
+2. Set duration to repeating for 2 months.
+3. Create a promotion code tied to it with the exact code JPFREE2.
+
+C. Enable promotion codes on EVERY JP Fit Payment Link
+1. Open each Payment Link in Stripe.
+2. Edit the link.
+3. Turn on "Allow promotion codes".
+4. Save.
+
+The checkout page appends Stripe's prefilled_promo_code parameter, so the selected code appears automatically on Stripe Checkout. Stripe remains the source of truth and will reject expired, inactive, or ineligible codes.
+
+Recommended restrictions in Stripe:
+- First-time transaction only
+- One redemption per customer when available
+- Optional expiration date
+- Optional total redemption limit
+
+Testing:
+1. Open checkout.html?test=true to test the JP Fit interface without a real payment.
+2. Test the live Stripe Payment Link in Stripe test mode before accepting real customers.

@@ -22,6 +22,8 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
 .agreement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.agreement-card{min-height:260px}.agreement-card ul{padding-left:18px;color:#666;font-size:.8rem}.agreement-card li{margin:8px 0}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:block;font-size:.76rem;font-weight:800}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{width:100%;margin-top:7px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fafafa}.field input:focus,.field textarea:focus{outline:3px solid rgba(202,255,56,.28);border-color:#8db700}
 .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.membership{background:#111;color:#fff;border-radius:22px;padding:25px;position:sticky;top:25px;height:max-content}.membership .mini{color:var(--lime);font-size:.64rem;font-weight:800;letter-spacing:.13em}.membership h2{font-size:2.5rem;margin:5px 0 20px}.summary-line{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #2f2f2f;padding:12px 0}.summary-line span{color:#888;font-size:.72rem}.summary-line strong{text-align:right;font-size:.8rem}.summary-total strong{font-family:"Barlow Condensed";font-size:2.5rem;color:var(--lime)}
+.promo-box{margin:18px 0 4px;padding:16px;border:1px solid #343434;border-radius:16px;background:#191919}.promo-box label{display:block;color:#fff;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.promo-row{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:9px}.promo-row input{min-width:0;border:1px solid #3b3b3b;border-radius:10px;background:#0d0d0d;color:#fff;padding:12px;text-transform:uppercase}.promo-row input:focus{outline:3px solid rgba(202,255,56,.2);border-color:var(--lime)}.promo-row button{border:0;border-radius:10px;background:var(--lime);color:#111;padding:0 16px;font-weight:900;cursor:pointer}.promo-message{display:none;margin:10px 0 0;font-size:.72rem;line-height:1.45}.promo-message.show{display:block}.promo-message.success{color:var(--lime)}.promo-message.error{color:#ff8e87}.promo-discount{display:none}.promo-discount.show{display:flex}.promo-note{color:#777;font-size:.62rem;margin:8px 0 0;line-height:1.4}
+
 .contract{border:1px solid var(--line);border-radius:18px;padding:22px;max-height:560px;overflow:auto;background:#fff}.contract-header{display:flex;gap:14px;align-items:center;border-bottom:2px solid #111;padding-bottom:16px}.contract-header img{width:62px;height:62px;border-radius:50%;object-fit:cover}.contract-header h2{font-size:2.2rem}.contract h3{font-size:1.35rem;margin:22px 0 8px}.contract p,.contract li{font-size:.76rem;color:#444}.contract ul{padding-left:20px}.contract-highlight{background:#f2f8df;border-left:4px solid var(--lime-dark);padding:12px;margin:12px 0;border-radius:8px}.legal-warning{background:#fff5df;border:1px solid #ead08a;border-radius:12px;padding:12px;font-size:.72rem;margin:16px 0}
 .consent-list{display:grid;gap:10px;margin:18px 0}.consent{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:.75rem}.consent input{margin-top:3px;accent-color:#759a00}
 .signature-box{background:#f5f5f1;border:1px solid var(--line);border-radius:16px;padding:18px}.signature-preview{font-family:cursive;font-size:2rem;min-height:55px;border-bottom:1px solid #777;padding:8px;color:#111}.signature-meta{display:flex;justify-content:space-between;color:#777;font-size:.65rem;margin-top:6px}
@@ -202,6 +204,13 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
           <div class="summary-line"><span>Frequency</span><strong id="sum-frequency">—</strong></div>
           <div class="summary-line"><span>Agreement</span><strong id="sum-term">—</strong></div>
           <div class="summary-line"><span>Billing</span><strong>Every 14 days</strong></div>
+          <div class="promo-box">
+            <label for="promo-code">Promo code</label>
+            <div class="promo-row"><input id="promo-code" autocomplete="off" maxlength="20" placeholder="Enter code"><button id="apply-promo" type="button">Apply</button></div>
+            <p class="promo-message" id="promo-message"></p>
+            <p class="promo-note">Discount is confirmed and applied securely by Stripe at checkout.</p>
+          </div>
+          <div class="summary-line promo-discount" id="promo-summary"><span>Promotion</span><strong id="sum-promo">—</strong></div>
           <div class="summary-line summary-total"><span>Due today</span><strong id="sum-price">—</strong></div>
         </aside>
       </div>
@@ -228,7 +237,7 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
       <div class="success-panel">
         <div class="success-mark">✓</div><span class="eyebrow">AGREEMENT ACCEPTED</span><h1>Continue to secure payment.</h1>
         <p class="lead" style="margin-inline:auto">Your enrollment choices were saved on this device. Stripe will securely collect your recurring biweekly payment information.</p>
-        <div class="membership" style="text-align:left;position:static;max-width:560px;margin:20px auto"><span class="mini">FINAL SUMMARY</span><h2 id="final-plan">JP Fit Coaching</h2><div class="summary-line"><span>Frequency</span><strong id="final-frequency"></strong></div><div class="summary-line"><span>Agreement</span><strong id="final-term"></strong></div><div class="summary-line summary-total"><span>Due today</span><strong id="final-price"></strong></div></div>
+        <div class="membership" style="text-align:left;position:static;max-width:560px;margin:20px auto"><span class="mini">FINAL SUMMARY</span><h2 id="final-plan">JP Fit Coaching</h2><div class="summary-line"><span>Frequency</span><strong id="final-frequency"></strong></div><div class="summary-line"><span>Agreement</span><strong id="final-term"></strong></div><div class="summary-line promo-discount" id="final-promo-row"><span>Promotion</span><strong id="final-promo"></strong></div><div class="summary-line summary-total"><span>Due today</span><strong id="final-price"></strong></div></div>
         <button class="btn primary full" id="stripe-button">OPEN SECURE STRIPE CHECKOUT</button>
         <button class="btn ghost full" style="margin-top:10px" id="return-sign">Review Agreement</button>
       </div>
@@ -263,7 +272,11 @@ const stripeLinks={
  "online|6-Month Agreement":"https://buy.stripe.com/9B6aEX0tM42o3I5a3d5Rm0c",
  "online|12-Month Agreement":"https://buy.stripe.com/7sYaEXa4m2YkdiFb7h5Rm07"
 };
-const state={step:1,goal:"",service:"",frequency:"",term:"",price:0,client:{}};
+const promoCodes={
+ JPFREE1:{label:"First month free",months:1},
+ JPFREE2:{label:"First two months free",months:2}
+};
+const state={step:1,goal:"",service:"",frequency:"",term:"",price:0,promoCode:"",client:{}};
 const query=new URLSearchParams(location.search);
 let initial=query.get("plan");
 if(initial==="online6"||initial==="online12") initial="online";
@@ -315,7 +328,10 @@ function updateReview(){
  document.getElementById("sum-plan").textContent=state.service?plans[state.service].title:"—";
  document.getElementById("sum-frequency").textContent=state.frequency||"—";
  document.getElementById("sum-term").textContent=state.term||"—";
- document.getElementById("sum-price").textContent=state.price?`$${state.price}`:"—";
+ const promo=promoCodes[state.promoCode];
+ document.getElementById("sum-price").textContent=state.price?(promo?"$0 today*":`$${state.price}`):"—";
+ document.getElementById("promo-summary").classList.toggle("show",!!promo);
+ document.getElementById("sum-promo").textContent=promo?`${state.promoCode} · ${promo.label}`:"—";
  document.querySelectorAll('[data-fill="client"]').forEach(x=>x.textContent=name);
  document.querySelectorAll('[data-fill="plan"]').forEach(x=>x.textContent=state.service?plans[state.service].title:"the selected program");
  document.querySelectorAll('[data-fill="frequency"]').forEach(x=>x.textContent=state.frequency||"the selected frequency");
@@ -326,6 +342,34 @@ function updateReview(){
 }
 document.querySelectorAll(".next").forEach(btn=>btn.addEventListener("click",()=>{if(state.step===2&&!state.service)return;if(state.step===3&&!state.frequency)return;if(state.step===4&&!state.term)return;go(state.step+1);updateReview()}));
 document.querySelectorAll(".prev").forEach(btn=>btn.addEventListener("click",()=>go(state.step-1)));
+
+function applyPromoCode(){
+ const input=document.getElementById("promo-code");
+ const message=document.getElementById("promo-message");
+ const code=input.value.trim().toUpperCase();
+ input.value=code;
+ if(!code){
+   state.promoCode="";
+   message.className="promo-message show error";
+   message.textContent="Enter a promo code first.";
+   updateReview();
+   return;
+ }
+ const promo=promoCodes[code];
+ if(!promo){
+   state.promoCode="";
+   message.className="promo-message show error";
+   message.textContent="That code is not recognized. Check the spelling and try again.";
+   updateReview();
+   return;
+ }
+ state.promoCode=code;
+ message.className="promo-message show success";
+ message.textContent=`✓ ${promo.label} will be prefilled at secure Stripe checkout.`;
+ updateReview();
+}
+document.getElementById("apply-promo").addEventListener("click",applyPromoCode);
+document.getElementById("promo-code").addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault();applyPromoCode()}});
 
 const startDate=document.getElementById("start-date");startDate.value=new Date().toISOString().slice(0,10);
 ["client-name","client-email","client-phone","client-address","emergency-name","emergency-phone","start-date"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{updateReview();validateSignature()}));
@@ -348,7 +392,7 @@ document.getElementById("accept-and-pay").addEventListener("click",async()=>{
    return;
  }
  const agreementId=`JPF-${Date.now().toString(36).toUpperCase()}`;
- const record={...state,price:currentPrice(),client:{
+ const record={...state,price:currentPrice(),promoCode:state.promoCode||null,client:{
   name:document.getElementById("client-name").value,email:document.getElementById("client-email").value,phone:document.getElementById("client-phone").value,address:document.getElementById("client-address").value,
   emergencyName:document.getElementById("emergency-name").value,emergencyPhone:document.getElementById("emergency-phone").value,startDate:document.getElementById("start-date").value
  },photoConsent:document.getElementById("photo-consent").checked,signature:sig.value,signedAt:new Date().toISOString(),agreementId};
@@ -389,7 +433,10 @@ document.getElementById("accept-and-pay").addEventListener("click",async()=>{
  document.getElementById("final-plan").textContent=plans[state.service].title;
  document.getElementById("final-frequency").textContent=state.frequency;
  document.getElementById("final-term").textContent=state.term;
- document.getElementById("final-price").textContent=`$${record.price}`;
+ const promo=promoCodes[record.promoCode];
+ document.getElementById("final-promo-row").classList.toggle("show",!!promo);
+ document.getElementById("final-promo").textContent=promo?`${record.promoCode} · ${promo.label}`:"";
+ document.getElementById("final-price").textContent=promo?"$0 today*":`$${record.price}`;
  go(6);toast("Agreement securely saved to JP Fit");
 });
 document.getElementById("return-sign").addEventListener("click",()=>go(5));
@@ -407,7 +454,11 @@ document.getElementById("stripe-button").addEventListener("click",()=>{
  const lookup=state.service==="online"?`${state.service}|${state.term}`:`${state.service}|${state.frequency}`;
  const link=stripeLinks[lookup];
  if(!link){alert("This Stripe option is not connected. Please contact JP Fit.");return}
- location.href=link;
+ const destination=new URL(link);
+ const email=document.getElementById("client-email").value.trim();
+ if(email) destination.searchParams.set("prefilled_email",email);
+ if(state.promoCode) destination.searchParams.set("prefilled_promo_code",state.promoCode);
+ location.href=destination.toString();
 });
 if(state.service)buildFrequencies();
 updateReview();
