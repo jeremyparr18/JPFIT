@@ -1,0 +1,9 @@
+JP FIT VERSION 2.2 — BRANDED ENROLLMENT EMAILS
+- Real server-side branded enrollment emails.
+- Real reminder emails.
+- Stripe payment button in each email.
+- Email timestamps, provider message ID, and error tracking.
+- Reminder tracking updates after successful delivery.
+- Optional Stripe checkout opening after send.
+- Clearer Online Coaching session-length label.
+- Version 2.1 functionality preserved.

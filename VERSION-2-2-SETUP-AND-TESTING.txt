@@ -1,0 +1,39 @@
+JP FIT VERSION 2.2 — ENROLLMENT EMAIL SETUP AND TESTING
+
+Version 2.2 sends real branded enrollment and reminder emails through a Supabase Edge Function and Resend. The email contains the automatically mapped Stripe link.
+
+1. Run SUPABASE-V2-2-ENROLLMENT-EMAIL.sql in Supabase > SQL Editor.
+
+2. Create/deploy a Supabase Edge Function named exactly:
+send-enrollment-email
+Use the code at:
+supabase/functions/send-enrollment-email/index.ts
+CLI option: supabase functions deploy send-enrollment-email
+
+3. In Supabase Edge Function secrets, configure:
+RESEND_API_KEY=your Resend API key
+JP_FIT_FROM_EMAIL=JP Fit <onboarding@trainwithjpfit.com>
+JP_FIT_COACH_EMAIL=jeremyparr18@gmail.com
+
+The from-address domain must be verified in Resend. During testing, use a sender address Resend permits.
+
+4. Push Version 2.2 to GitHub and allow Vercel to deploy. Hard refresh with Ctrl+Shift+R.
+
+5. Test with your own email:
+- Create an enrollment.
+- Click Save & Send Enrollment.
+- Confirm the dashboard says the email was sent.
+- Confirm the branded email arrives and its button opens the correct Stripe page.
+- Check Supabase: status=Enrollment Sent and enrollment_email_sent_at/last_email_message_id are populated.
+
+6. Click Send Reminder:
+- A real reminder email should arrive.
+- reminder_count should increase.
+- status should become Payment Pending.
+- next_follow_up_at should update.
+
+7. Troubleshooting:
+Open Supabase > Edge Functions > send-enrollment-email > Logs and inspect coach_enrollments.last_email_error.
+Common causes are a missing RESEND_API_KEY, an unverified sender domain, a function-name mismatch, or not running the Version 2.2 SQL.
+
+Regression test Save Draft, Stripe mapping, Open Link, Mark Paid, status changes, search/filter, existing Coach Studio sections, client portal, consultation, checkout, and login.

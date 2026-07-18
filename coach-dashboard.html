@@ -198,13 +198,13 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
       <label>Email<input id="enroll-email" type="email" autocomplete="email" placeholder="client@email.com"></label>
       <label>Phone<input id="enroll-phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></label>
       <label>Package<select id="enroll-package"><option value="inperson">In-Person Training</option><option value="mobile">Mobile Training</option><option value="online">Online Coaching</option></select></label>
-      <label>Session length<select id="enroll-length"><option value="30">30 Minutes</option><option value="60">60 Minutes</option><option value="na">Not Applicable</option></select></label>
+      <label>Session length<select id="enroll-length"><option value="30">30 Minutes</option><option value="60">60 Minutes</option><option value="na">Online Coaching / No Session Length</option></select></label>
       <label>Frequency<select id="enroll-frequency"><option value="1x / Week">1x / Week</option><option value="2x / Week">2x / Week</option><option value="3x / Week">3x / Week</option><option value="4x / Week">4x / Week</option><option value="6-Month Agreement">6-Month Agreement</option><option value="12-Month Agreement">12-Month Agreement</option></select></label>
       <label class="wide">Payment selection<select id="enroll-payment"><option value="existing_stripe">Existing Stripe Payment Link</option><option value="manual">Manual / Other Payment</option></select></label>
       <label class="wide">Notes<textarea id="enroll-notes" rows="4" placeholder="Goals, schedule, special instructions, or sales notes"></textarea></label>
     </div>
     <div class="mapping-box" id="stripe-mapping"><strong>Stripe mapping</strong><span>Select a package to view the linked checkout.</span></div>
-    <div class="enroll-actions"><button class="btn dark" id="save-enrollment-draft" type="button">Save Draft</button><button class="btn" id="save-send-enrollment" type="button">Save & Send Enrollment</button><button class="btn dark" id="clear-enrollment-form" type="button">Clear</button></div>
+    <div class="enroll-actions"><button class="btn dark" id="save-enrollment-draft" type="button">Save Draft</button><button class="btn" id="save-send-enrollment" type="button">Save & Send Enrollment</button><button class="btn dark" id="clear-enrollment-form" type="button">Clear</button></div><label style="display:flex;align-items:center;gap:9px;margin-top:12px;font-size:12px;color:#aaa"><input id="open-stripe-after-send" type="checkbox" style="width:auto"> Open the mapped Stripe checkout after sending</label>
     <div class="notice" id="enrollment-notice"></div>
   </div>
   <div class="tracking-card">
@@ -372,20 +372,33 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
    if($("enroll-payment").value==="existing_stripe"&&!stripe) throw new Error("This selection does not have an existing Stripe link. Choose a supported combination or Manual / Other Payment.");
    return {created_by:user.id,client_name:name,client_email:email,client_phone:phone||null,notes:$("enroll-notes").value.trim()||null,package:$("enroll-package").value,session_length:$("enroll-length").value,frequency:$("enroll-frequency").value,payment_selection:$("enroll-payment").value,stripe_payment_link:stripe,status,next_follow_up_at:status==="Draft"?null:nextFollowUpIso(3),updated_at:new Date().toISOString()};
  }
+ async function invokeEnrollmentEmail(enrollmentId,action="enrollment"){
+   const {data,error}=await jpSupabase.functions.invoke("send-enrollment-email",{body:{enrollmentId,action}});
+   if(error) throw new Error(error.message||"The enrollment email could not be sent.");
+   if(!data?.ok) throw new Error(data?.error||"The enrollment email could not be sent.");
+   return data;
+ }
  async function saveCoachEnrollment(status,sendAfter=false){
+   let saved=null;
    try{
-     const payload=enrollmentPayload(status);
+     const payload=enrollmentPayload(sendAfter?"Draft":status);
      const {data,error}=await jpSupabase.from("coach_enrollments").insert(payload).select().single();if(error)throw error;
-     coachEnrollments.unshift(data);renderEnrollmentTracking();
-     $("enrollment-notice").style.display="block";$("enrollment-notice").textContent=status==="Draft"?"Enrollment draft saved.":"Enrollment saved. Opening the client email and Stripe link.";
+     saved=data;coachEnrollments.unshift(data);renderEnrollmentTracking();
+     $("enrollment-notice").style.display="block";
      if(sendAfter){
-       const subject=encodeURIComponent("Your JP Fit Enrollment");
-       const body=encodeURIComponent(`Hi ${data.client_name},\n\nYou're ready to enroll with JP Fit. Complete your secure payment here:\n${data.stripe_payment_link||"Jeremy will contact you with payment instructions."}\n\nOnce complete, reply to confirm and we will finish your setup.\n\n— Jeremy, JP Fit`);
-       window.open(`mailto:${encodeURIComponent(data.client_email)}?subject=${subject}&body=${body}`,"_self");
-       if(data.stripe_payment_link) window.open(data.stripe_payment_link,"_blank","noopener");
-     }
+       $("enrollment-notice").textContent="Enrollment saved. Sending the branded email…";
+       await invokeEnrollmentEmail(data.id,"enrollment");
+       const {data:refreshed,error:refreshError}=await jpSupabase.from("coach_enrollments").select("*").eq("id",data.id).single();
+       if(!refreshError&&refreshed){coachEnrollments[0]=refreshed;renderEnrollmentTracking()}
+       $("enrollment-notice").textContent=`Enrollment email sent to ${data.client_email}.`;
+       if($("open-stripe-after-send")?.checked&&data.stripe_payment_link) window.open(data.stripe_payment_link,"_blank","noopener");
+     }else $("enrollment-notice").textContent="Enrollment draft saved.";
      clearEnrollmentForm();
-   }catch(err){alert(err.message||String(err))}
+   }catch(err){
+     $("enrollment-notice").style.display="block";
+     $("enrollment-notice").textContent=saved?`Enrollment saved, but email delivery failed: ${err.message||String(err)}`:`Enrollment was not saved: ${err.message||String(err)}`;
+     alert(err.message||String(err));
+   }
  }
  $("save-enrollment-draft").onclick=()=>saveCoachEnrollment("Draft",false);
  $("save-send-enrollment").onclick=()=>saveCoachEnrollment("Enrollment Sent",true);
@@ -406,12 +419,12 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
  }
  async function sendEnrollmentReminder(id){
    const r=coachEnrollments.find(x=>x.id===id);if(!r)return;
-   const count=(r.reminder_count||0)+1;
-   const {data,error}=await jpSupabase.from("coach_enrollments").update({status:"Payment Pending",reminder_count:count,last_reminder_at:new Date().toISOString(),next_follow_up_at:nextFollowUpIso(3),updated_at:new Date().toISOString()}).eq("id",id).select().single();if(error)return alert(error.message);
-   coachEnrollments[coachEnrollments.findIndex(x=>x.id===id)]=data;renderEnrollmentTracking();
-   const subject=encodeURIComponent("JP Fit Enrollment Reminder");
-   const body=encodeURIComponent(`Hi ${r.client_name},\n\nJust a reminder to complete your JP Fit enrollment${r.stripe_payment_link?" here:\n"+r.stripe_payment_link:". Jeremy will contact you with payment instructions."}\n\nReply if you have any questions.\n\n— Jeremy, JP Fit`);
-   location.href=`mailto:${encodeURIComponent(r.client_email)}?subject=${subject}&body=${body}`;
+   try{
+     await invokeEnrollmentEmail(id,"reminder");
+     const {data,error}=await jpSupabase.from("coach_enrollments").select("*").eq("id",id).single();if(error)throw error;
+     coachEnrollments[coachEnrollments.findIndex(x=>x.id===id)]=data;renderEnrollmentTracking();
+     alert(`Reminder email sent to ${r.client_email}.`);
+   }catch(err){alert(err.message||String(err))}
  }
  $("enrollment-search").oninput=renderEnrollmentTracking;$("enrollment-status-filter").onchange=renderEnrollmentTracking;renderEnrollmentTracking();
 
