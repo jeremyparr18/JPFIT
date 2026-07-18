@@ -1,0 +1,16 @@
+JP FIT VERSION 2.0 — CONVERSION HOMEPAGE UPDATE
+
+Updated:
+- Changed public navigation from Pricing to Programs
+- Added Programs Starting at $160/month to the hero
+- Removed public package price tables from the homepage
+- Replaced purchase-first buttons with complimentary assessment calls to action
+- Clarified In-Person, Mobile, and Online Coaching
+- Removed Hybrid Coaching from public homepage messaging and consultation selector
+- Added a complete coaching-system section describing what is included
+- Preserved all existing checkout pages, Stripe destinations, coupon support, portals, analytics, Supabase files, and backend configuration
+
+Important:
+- checkout.html was not changed
+- STRIPE-COUPON-SETUP.txt was not changed
+- Existing payment links remain available for use after a consultation
