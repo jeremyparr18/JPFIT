@@ -1,0 +1,17 @@
+JP FIT VERSION 2.1 — ENROLLMENT SYSTEM
+
+Added to Coach Dashboard:
+- Enroll Client workspace
+- Client name, email, phone, and notes
+- Package, session length, frequency, and payment selection
+- Automatic mapping to all existing Stripe Payment Links
+- Separate Supabase coach_enrollments table
+- Draft, Enrollment Sent, Payment Pending, Paid, and Reminder Due statuses
+- Searchable/filterable enrollment tracking table
+- Manual Mark Paid action
+- Send Reminder action with prefilled email
+- Reminder count, last reminder timestamp, and next follow-up date
+- SQL migration plus setup, testing, and regression instructions
+
+Preserved:
+- Existing Version 2.0 pages, checkout behavior, Stripe destinations, Supabase tables, coach/client features, media, analytics, and configuration files.

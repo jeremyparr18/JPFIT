@@ -132,6 +132,20 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
 @media(max-width:1000px){.exercise-grid{grid-template-columns:1fr 1fr}.studio-hero{grid-template-columns:1fr}}
 @media(max-width:650px){.exercise-grid,.create-grid{grid-template-columns:1fr}.create-grid .wide{grid-column:auto}.library-hero{align-items:flex-start;flex-direction:column}.studio-hero h2{font-size:3rem}}
 
+/* Version 2.1 Enrollment System */
+.enroll-layout{display:grid;grid-template-columns:minmax(320px,.85fr) minmax(520px,1.35fr);gap:18px;align-items:start}
+.enroll-card,.tracking-card{background:#111;border:1px solid #242424;border-radius:18px;padding:18px}
+.enroll-card h3,.tracking-card h3{font-family:'Barlow Condensed';font-size:1.7rem;margin:0 0 12px}
+.enroll-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.enroll-form .wide{grid-column:1/-1}
+.enroll-form label{display:grid;gap:6px;color:#aaa;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.enroll-form input,.enroll-form select,.enroll-form textarea,.tracking-tools input,.tracking-tools select{width:100%;background:#080808;border:1px solid #303030;color:#fff;border-radius:10px;padding:11px;font:inherit;box-sizing:border-box}
+.enroll-actions,.row-actions,.tracking-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.enroll-actions{margin-top:14px}
+.mapping-box{margin-top:12px;padding:12px;border-radius:12px;background:#0a0a0a;border:1px solid #2d2d2d;font-size:.76rem;color:#aaa;word-break:break-all}.mapping-box strong{display:block;color:#caff38;margin-bottom:4px}
+.enrollment-table-wrap{overflow:auto;margin-top:12px}.enrollment-table{width:100%;border-collapse:collapse;min-width:1050px}.enrollment-table th,.enrollment-table td{padding:11px 9px;border-bottom:1px solid #262626;text-align:left;vertical-align:top;font-size:.73rem}.enrollment-table th{color:#888;text-transform:uppercase;letter-spacing:.08em;font-size:.62rem}.enrollment-table strong{display:block;color:#fff}.enrollment-table small{color:#888}
+.status-pill{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;background:#242424}.status-paid{background:#19351e;color:#baffc2}.status-reminder-due{background:#452d13;color:#ffd091}.status-payment-pending{background:#313143;color:#d7d7ff}.status-enrollment-sent{background:#17384a;color:#a9e7ff}.status-draft{background:#292929;color:#ccc}
+.mini-btn{border:1px solid #353535;background:#181818;color:#fff;border-radius:8px;padding:7px 9px;font-weight:800;cursor:pointer;font-size:.66rem}.mini-btn.primary{background:#caff38;color:#090909;border-color:#caff38}.mini-btn:hover{transform:translateY(-1px)}
+@media(max-width:1100px){.enroll-layout{grid-template-columns:1fr}}@media(max-width:650px){.enroll-form{grid-template-columns:1fr}.enroll-form .wide{grid-column:auto}}
+
 </style>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#080808">
@@ -155,7 +169,7 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
     </div>
 <div class="shell">
 <aside class="side"><div class="brand"><img src="assets/jp-fit-logo.jpg"><strong>JP FIT COACH STUDIO</strong></div>
-<nav class="nav"><button class="active" data-panel="overview">Home</button><button data-panel="clients">Client Hub</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Client Check-Ins</button><button data-panel="inbox">Coach Inbox</button><button type="button" onclick="location.href=&quot;changelog.html&quot;">What’s New</button></nav>
+<nav class="nav"><button class="active" data-panel="overview">Home</button><button data-panel="enroll">Enroll Client</button><button data-panel="clients">Client Hub</button><button data-panel="builder">Program Studio</button><button data-panel="library">Exercise Library</button><button data-panel="checkins">Client Check-Ins</button><button data-panel="inbox">Coach Inbox</button><button type="button" onclick="location.href=&quot;changelog.html&quot;">What’s New</button></nav>
 <div class="bottom"><button class="signout" id="signout">Sign Out</button></div></aside>
 <main class="main"><div class="top"><h1 id="title">Coach Studio</h1><div class="coach-pill">Jeremy · Owner</div></div>
 
@@ -172,6 +186,33 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
     </div>
     <div class="stats"><div class="stat"><span>CLIENT PROFILES</span><strong id="stat-clients">0</strong></div><div class="stat"><span>ACTIVE ENROLLMENTS</span><strong id="stat-active">0</strong></div><div class="stat"><span>PENDING CHECK-INS</span><strong id="stat-checkins">0</strong></div><div class="stat"><span>CLIENT MESSAGES</span><strong id="stat-messages">0</strong></div></div>
 <div class="section-head"><h2>Recently Enrolled</h2></div><div class="list" id="recent-list"></div>
+</section>
+
+<section class="panel" id="enroll">
+<div class="section-head"><h2>Enroll Client</h2></div>
+<div class="enroll-layout">
+  <div class="enroll-card">
+    <h3>New Enrollment</h3>
+    <div class="enroll-form">
+      <label>Client name<input id="enroll-name" autocomplete="name" placeholder="Full name"></label>
+      <label>Email<input id="enroll-email" type="email" autocomplete="email" placeholder="client@email.com"></label>
+      <label>Phone<input id="enroll-phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></label>
+      <label>Package<select id="enroll-package"><option value="inperson">In-Person Training</option><option value="mobile">Mobile Training</option><option value="online">Online Coaching</option></select></label>
+      <label>Session length<select id="enroll-length"><option value="30">30 Minutes</option><option value="60">60 Minutes</option><option value="na">Not Applicable</option></select></label>
+      <label>Frequency<select id="enroll-frequency"><option value="1x / Week">1x / Week</option><option value="2x / Week">2x / Week</option><option value="3x / Week">3x / Week</option><option value="4x / Week">4x / Week</option><option value="6-Month Agreement">6-Month Agreement</option><option value="12-Month Agreement">12-Month Agreement</option></select></label>
+      <label class="wide">Payment selection<select id="enroll-payment"><option value="existing_stripe">Existing Stripe Payment Link</option><option value="manual">Manual / Other Payment</option></select></label>
+      <label class="wide">Notes<textarea id="enroll-notes" rows="4" placeholder="Goals, schedule, special instructions, or sales notes"></textarea></label>
+    </div>
+    <div class="mapping-box" id="stripe-mapping"><strong>Stripe mapping</strong><span>Select a package to view the linked checkout.</span></div>
+    <div class="enroll-actions"><button class="btn dark" id="save-enrollment-draft" type="button">Save Draft</button><button class="btn" id="save-send-enrollment" type="button">Save & Send Enrollment</button><button class="btn dark" id="clear-enrollment-form" type="button">Clear</button></div>
+    <div class="notice" id="enrollment-notice"></div>
+  </div>
+  <div class="tracking-card">
+    <h3>Enrollment Tracking</h3>
+    <div class="tracking-tools"><input id="enrollment-search" placeholder="Search name, email, or phone"><select id="enrollment-status-filter"><option value="">All statuses</option><option>Draft</option><option>Enrollment Sent</option><option>Payment Pending</option><option>Paid</option><option>Reminder Due</option></select></div>
+    <div class="enrollment-table-wrap"><table class="enrollment-table"><thead><tr><th>Client</th><th>Package</th><th>Payment</th><th>Status</th><th>Follow-up</th><th>Actions</th></tr></thead><tbody id="enrollment-tracking-body"></tbody></table></div>
+  </div>
+</div>
 </section>
 
 <section class="panel" id="clients">
@@ -257,7 +298,7 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
  document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
  $("signout").onclick=jpSignOut;
 
- const [{data:profiles},{data:enrollments},{data:intakes},{data:progress},{data:checkins},{data:messages},{data:exercises},{data:templates}] = await Promise.all([
+ const [{data:profiles},{data:enrollments},{data:intakes},{data:progress},{data:checkins},{data:messages},{data:exercises},{data:templates},{data:coachEnrollmentRows,error:coachEnrollmentError}] = await Promise.all([
   jpSupabase.from("profiles").select("*").eq("role","client").order("created_at",{ascending:false}),
   jpSupabase.from("enrollments").select("*").order("created_at",{ascending:false}),
   jpSupabase.from("intake_forms").select("*").order("submitted_at",{ascending:false}),
@@ -265,11 +306,114 @@ body{background:radial-gradient(circle at top right,rgba(202,255,56,.06),transpa
   jpSupabase.from("checkins").select("*").order("checkin_date",{ascending:false}),
   jpSupabase.from("messages").select("*").order("created_at",{ascending:true}),
   jpSupabase.from("exercise_library").select("*").eq("is_active",true).order("category").order("name"),
-  jpSupabase.from("workout_templates").select("*").order("name")
+  jpSupabase.from("workout_templates").select("*").order("name"),
+  jpSupabase.from("coach_enrollments").select("*").order("created_at",{ascending:false})
  ]);
+ if(coachEnrollmentError) console.warn("Version 2.1 enrollment table unavailable. Run SUPABASE-V2-1-ENROLLMENT-SYSTEM.sql",coachEnrollmentError);
+ let coachEnrollments=coachEnrollmentRows||[];
  const profileMap=Object.fromEntries((profiles||[]).map(p=>[p.id,p]));
  $("stat-clients").textContent=(profiles||[]).length;$("stat-active").textContent=(enrollments||[]).filter(e=>["active","pending_payment","submitted"].includes(e.status)).length;$("stat-checkins").textContent=(checkins||[]).filter(c=>c.status==="submitted").length;$("stat-messages").textContent=(messages||[]).filter(m=>m.sender_id!==user.id).length;
  $("recent-list").innerHTML=(enrollments||[]).slice(0,6).map(e=>`<div class="item"><strong>${profileMap[e.user_id]?.full_name||"Client"} · ${e.service}</strong><span>${e.frequency} · ${e.agreement_term} · $${e.biweekly_price}/2wk</span></div>`).join("")||'<div class="empty">No enrollments yet.</div>';
+
+
+ // Version 2.1 — Coach Enrollment System
+ const enrollmentStripeLinks={
+  "inperson|30|1x / Week":"https://buy.stripe.com/5kQ8wPfoG8iE0vT3EP5Rm00",
+  "inperson|30|2x / Week":"https://buy.stripe.com/cNi8wP2BUeH2emJ2AL5Rm01",
+  "inperson|30|3x / Week":"https://buy.stripe.com/eVqbJ190i2Yk3I50sD5Rm02",
+  "inperson|30|4x / Week":"https://buy.stripe.com/00w8wPekC8iE4M92AL5Rm03",
+  "inperson|60|1x / Week":"https://buy.stripe.com/4gMeVd3FYaqM3I51wH5Rm05",
+  "inperson|60|2x / Week":"https://buy.stripe.com/28E8wP1xQgPa6Uh7V55Rm09",
+  "inperson|60|3x / Week":"https://buy.stripe.com/aFacN56Sa56semJejt5Rm08",
+  "inperson|60|4x / Week":"https://buy.stripe.com/4gM9AT90ifL6fqN1wH5Rm04",
+  "mobile|60|1x / Week":"https://buy.stripe.com/8x2aEXgsK56s1zX6R15Rm06",
+  "mobile|60|2x / Week":"https://buy.stripe.com/28E5kD1xQgPabaxcbl5Rm0a",
+  "mobile|60|3x / Week":"https://buy.stripe.com/cNifZh6SabuQbax8Z95Rm0d",
+  "mobile|60|4x / Week":"https://buy.stripe.com/9B66oH1xQ42obax5MX5Rm0b",
+  "online|na|6-Month Agreement":"https://buy.stripe.com/9B6aEX0tM42o3I5a3d5Rm0c",
+  "online|na|12-Month Agreement":"https://buy.stripe.com/7sYaEXa4m2YkdiFb7h5Rm07"
+ };
+ const enrollmentStatusLabels=["Draft","Enrollment Sent","Payment Pending","Paid","Reminder Due"];
+ const escapeHtml=value=>String(value??"").replace(/[&<>'"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch]));
+ const packageLabel=v=>({inperson:"In-Person Training",mobile:"Mobile Training",online:"Online Coaching"}[v]||v);
+ function normalizeEnrollmentOptions(){
+   const pkg=$("enroll-package").value,length=$("enroll-length"),frequency=$("enroll-frequency");
+   if(pkg==="online"){
+     length.value="na";length.disabled=true;
+     [...frequency.options].forEach(o=>o.hidden=!o.value.includes("Agreement"));
+     if(!frequency.value.includes("Agreement"))frequency.value="6-Month Agreement";
+   }else{
+     length.disabled=false;if(pkg==="mobile")length.value="60";
+     [...frequency.options].forEach(o=>o.hidden=o.value.includes("Agreement"));
+     if(frequency.value.includes("Agreement"))frequency.value="1x / Week";
+   }
+   updateStripeMapping();
+ }
+ function currentStripeLink(){
+   if($("enroll-payment").value!=="existing_stripe") return null;
+   return enrollmentStripeLinks[["enroll-package","enroll-length","enroll-frequency"].map(id=>$(id).value).join("|")]||null;
+ }
+ function updateStripeMapping(){
+   const link=currentStripeLink(),box=$("stripe-mapping");
+   box.innerHTML=link?`<strong>Stripe link mapped automatically</strong><span>${escapeHtml(link)}</span>`:`<strong>No existing Stripe link mapped</strong><span>Choose a supported package, session length, frequency, and Existing Stripe Payment Link—or use Manual / Other Payment.</span>`;
+ }
+ ["enroll-package","enroll-length","enroll-frequency","enroll-payment"].forEach(id=>$(id).addEventListener("change",id==="enroll-package"?normalizeEnrollmentOptions:updateStripeMapping));
+ normalizeEnrollmentOptions();
+ function clearEnrollmentForm(){
+   ["enroll-name","enroll-email","enroll-phone","enroll-notes"].forEach(id=>$(id).value="");
+   $("enroll-package").value="inperson";$("enroll-length").value="30";$("enroll-frequency").value="1x / Week";$("enroll-payment").value="existing_stripe";normalizeEnrollmentOptions();
+ }
+ $("clear-enrollment-form").onclick=clearEnrollmentForm;
+ function nextFollowUpIso(days=3){const d=new Date();d.setDate(d.getDate()+days);d.setHours(9,0,0,0);return d.toISOString()}
+ function enrollmentPayload(status){
+   const name=$("enroll-name").value.trim(),email=$("enroll-email").value.trim(),phone=$("enroll-phone").value.trim();
+   if(!name||!email) throw new Error("Client name and email are required.");
+   const stripe=currentStripeLink();
+   if($("enroll-payment").value==="existing_stripe"&&!stripe) throw new Error("This selection does not have an existing Stripe link. Choose a supported combination or Manual / Other Payment.");
+   return {created_by:user.id,client_name:name,client_email:email,client_phone:phone||null,notes:$("enroll-notes").value.trim()||null,package:$("enroll-package").value,session_length:$("enroll-length").value,frequency:$("enroll-frequency").value,payment_selection:$("enroll-payment").value,stripe_payment_link:stripe,status,next_follow_up_at:status==="Draft"?null:nextFollowUpIso(3),updated_at:new Date().toISOString()};
+ }
+ async function saveCoachEnrollment(status,sendAfter=false){
+   try{
+     const payload=enrollmentPayload(status);
+     const {data,error}=await jpSupabase.from("coach_enrollments").insert(payload).select().single();if(error)throw error;
+     coachEnrollments.unshift(data);renderEnrollmentTracking();
+     $("enrollment-notice").style.display="block";$("enrollment-notice").textContent=status==="Draft"?"Enrollment draft saved.":"Enrollment saved. Opening the client email and Stripe link.";
+     if(sendAfter){
+       const subject=encodeURIComponent("Your JP Fit Enrollment");
+       const body=encodeURIComponent(`Hi ${data.client_name},\n\nYou're ready to enroll with JP Fit. Complete your secure payment here:\n${data.stripe_payment_link||"Jeremy will contact you with payment instructions."}\n\nOnce complete, reply to confirm and we will finish your setup.\n\n— Jeremy, JP Fit`);
+       window.open(`mailto:${encodeURIComponent(data.client_email)}?subject=${subject}&body=${body}`,"_self");
+       if(data.stripe_payment_link) window.open(data.stripe_payment_link,"_blank","noopener");
+     }
+     clearEnrollmentForm();
+   }catch(err){alert(err.message||String(err))}
+ }
+ $("save-enrollment-draft").onclick=()=>saveCoachEnrollment("Draft",false);
+ $("save-send-enrollment").onclick=()=>saveCoachEnrollment("Enrollment Sent",true);
+ function prettyDate(v){return v?new Date(v).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"—"}
+ function statusClass(v){return "status-"+String(v).toLowerCase().replace(/\s+/g,"-")}
+ function renderEnrollmentTracking(){
+   const q=$("enrollment-search").value.toLowerCase(),filter=$("enrollment-status-filter").value;
+   const rows=coachEnrollments.filter(r=>(!q||[r.client_name,r.client_email,r.client_phone].join(" ").toLowerCase().includes(q))&&(!filter||r.status===filter));
+   $("enrollment-tracking-body").innerHTML=rows.length?rows.map(r=>`<tr><td><strong>${escapeHtml(r.client_name)}</strong><small>${escapeHtml(r.client_email)}${r.client_phone?" · "+escapeHtml(r.client_phone):""}</small></td><td><strong>${escapeHtml(packageLabel(r.package))}</strong><small>${escapeHtml(r.session_length==="na"?"Online":r.session_length+" min")} · ${escapeHtml(r.frequency)}</small></td><td><strong>${r.stripe_payment_link?"Stripe mapped":"Manual"}</strong><small>${escapeHtml(r.payment_selection)}</small></td><td><span class="status-pill ${statusClass(r.status)}">${escapeHtml(r.status)}</span></td><td><strong>${prettyDate(r.next_follow_up_at)}</strong><small>${r.reminder_count||0} reminder${r.reminder_count===1?"":"s"}</small></td><td><div class="row-actions"><button class="mini-btn primary" data-mark-paid="${r.id}">Mark Paid</button><button class="mini-btn" data-remind="${r.id}">Send Reminder</button>${r.stripe_payment_link?`<button class="mini-btn" data-open-link="${r.id}">Open Link</button>`:""}<select class="mini-btn" data-status="${r.id}">${enrollmentStatusLabels.map(x=>`<option ${x===r.status?"selected":""}>${x}</option>`).join("")}</select></div></td></tr>`).join(""):'<tr><td colspan="6"><div class="empty">No enrollment records match this view.</div></td></tr>';
+   document.querySelectorAll("[data-mark-paid]").forEach(b=>b.onclick=()=>updateEnrollmentRecord(b.dataset.markPaid,{status:"Paid",paid_at:new Date().toISOString(),next_follow_up_at:null}));
+   document.querySelectorAll("[data-open-link]").forEach(b=>b.onclick=()=>{const r=coachEnrollments.find(x=>x.id===b.dataset.openLink);if(r?.stripe_payment_link)window.open(r.stripe_payment_link,"_blank","noopener")});
+   document.querySelectorAll("[data-status]").forEach(sel=>sel.onchange=()=>updateEnrollmentRecord(sel.dataset.status,{status:sel.value,next_follow_up_at:sel.value==="Paid"?null:nextFollowUpIso(3),paid_at:sel.value==="Paid"?new Date().toISOString():null}));
+   document.querySelectorAll("[data-remind]").forEach(b=>b.onclick=()=>sendEnrollmentReminder(b.dataset.remind));
+ }
+ async function updateEnrollmentRecord(id,changes){
+   const {data,error}=await jpSupabase.from("coach_enrollments").update({...changes,updated_at:new Date().toISOString()}).eq("id",id).select().single();if(error)return alert(error.message);
+   const i=coachEnrollments.findIndex(x=>x.id===id);if(i>=0)coachEnrollments[i]=data;renderEnrollmentTracking();
+ }
+ async function sendEnrollmentReminder(id){
+   const r=coachEnrollments.find(x=>x.id===id);if(!r)return;
+   const count=(r.reminder_count||0)+1;
+   const {data,error}=await jpSupabase.from("coach_enrollments").update({status:"Payment Pending",reminder_count:count,last_reminder_at:new Date().toISOString(),next_follow_up_at:nextFollowUpIso(3),updated_at:new Date().toISOString()}).eq("id",id).select().single();if(error)return alert(error.message);
+   coachEnrollments[coachEnrollments.findIndex(x=>x.id===id)]=data;renderEnrollmentTracking();
+   const subject=encodeURIComponent("JP Fit Enrollment Reminder");
+   const body=encodeURIComponent(`Hi ${r.client_name},\n\nJust a reminder to complete your JP Fit enrollment${r.stripe_payment_link?" here:\n"+r.stripe_payment_link:". Jeremy will contact you with payment instructions."}\n\nReply if you have any questions.\n\n— Jeremy, JP Fit`);
+   location.href=`mailto:${encodeURIComponent(r.client_email)}?subject=${subject}&body=${body}`;
+ }
+ $("enrollment-search").oninput=renderEnrollmentTracking;$("enrollment-status-filter").onchange=renderEnrollmentTracking;renderEnrollmentTracking();
 
  const clientOptions=(profiles||[]).map(p=>`<option value="${p.id}">${p.full_name||p.id}</option>`).join("");$("builder-client").innerHTML='<option value="">Select client</option>'+clientOptions;
  $("client-list").innerHTML=(profiles||[]).map(p=>`<div class="client" data-id="${p.id}"><strong>${p.full_name||"Unnamed Client"}</strong><span>${p.phone||"No phone"} · ${p.role}</span></div>`).join("")||'<div class="empty">No client profiles.</div>';

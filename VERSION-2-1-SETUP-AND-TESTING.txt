@@ -1,0 +1,55 @@
+JP FIT VERSION 2.1 — ENROLLMENT SYSTEM
+SETUP AND TESTING
+
+SAFETY / DEPLOYMENT
+1. This package is a duplicate of the uploaded Version 2.0 project.
+2. Do not deploy it over the live site until testing is complete.
+3. Create a separate Vercel preview project or preview deployment from this folder.
+4. Keep the existing supabase-config.js values only when testing against the intended Supabase project.
+
+SUPABASE SETUP
+1. Open the Supabase SQL Editor for the JP Fit project.
+2. Confirm the existing Version 2.0 migrations, especially SUPABASE-V20-COACH.sql, have already been run.
+3. Run SUPABASE-V2-1-ENROLLMENT-SYSTEM.sql.
+4. Confirm public.coach_enrollments exists in Table Editor.
+5. Confirm Row Level Security is enabled and coach_enrollments_coach_all exists.
+
+STRIPE MAPPING
+The coach dashboard uses the exact existing Stripe Payment Links already stored in checkout.html.
+Supported automatic mappings:
+- In-Person: 30 or 60 minutes, 1x–4x per week
+- Mobile: 60 minutes, 1x–4x per week
+- Online: 6-month or 12-month agreement
+Unsupported combinations show a warning and cannot be saved with Existing Stripe Payment Link selected. Choose Manual / Other Payment for an unsupported/custom arrangement.
+
+FUNCTIONAL TEST
+1. Open coach-dashboard.html through the preview deployment.
+2. Sign in with the existing coach/admin account.
+3. Click Enroll Client in the left navigation.
+4. Enter a test name and email.
+5. Select In-Person, 30 Minutes, 1x / Week, Existing Stripe Payment Link.
+6. Confirm the Stripe mapping box shows the expected existing link.
+7. Click Save Draft.
+8. Confirm a Draft record appears in Enrollment Tracking and in public.coach_enrollments.
+9. Create another test enrollment and click Save & Send Enrollment.
+10. Confirm the email composer opens and the Stripe page opens in a separate tab.
+11. Confirm the record status is Enrollment Sent and has a next follow-up date.
+12. Click Send Reminder. Confirm reminder_count increases, status becomes Payment Pending, and the next follow-up date advances.
+13. Click Mark Paid. Confirm status becomes Paid, paid_at is populated, and next follow-up is cleared.
+14. Test the status filter and search box.
+15. Refresh the page and confirm records reload from Supabase.
+
+REGRESSION TEST — VERSION 2.0 FEATURES
+1. Home dashboard loads.
+2. Client Hub profiles and nutrition targets load/save.
+3. Program Studio templates load/save and workouts assign.
+4. Exercise Library loads, creates, edits, uploads, duplicates, favorites, and deletes.
+5. Client Check-Ins load and coach responses save.
+6. Coach Inbox conversations load and messages send.
+7. Existing checkout.html Stripe destinations and coupon behavior remain unchanged.
+8. Client portal, intake, authentication, welcome flow, analytics, and existing Supabase migrations remain present.
+
+NOTES
+- Send Enrollment and Send Reminder use the device's default email application through a prefilled mailto message. They do not require a new email provider or expose a service-role key in the browser.
+- Manual Mark Paid is intentionally coach-controlled. Stripe remains the payment source of truth until a webhook integration is added.
+- Reminder Due is available as a manual status. A scheduled job can later set records to Reminder Due when next_follow_up_at is reached.
