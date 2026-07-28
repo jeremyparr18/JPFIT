@@ -1,3 +1,5 @@
+JP Fit Version 3.0.2 — Complete Signature Workout Library
+
 
 
 VERSION 12 CALENDLY INTEGRATION

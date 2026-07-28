@@ -1,0 +1,22 @@
+JP FIT VERSION 3.0.2 — COMPLETE SIGNATURE WORKOUT LIBRARY
+
+This update preserves Version 3.0.1 and adds every distinct workout identified from Jeremy's uploaded screenshots.
+
+Highlights:
+- 38 total signature workout templates.
+- Adds missing Push, Pull, Legs, SBD, HIIT, functional, athletic, and arm templates.
+- Keeps meaningful alternate versions instead of deleting them as duplicates.
+- Uses duplicate-safe ON CONFLICT updates. Running the SQL again will not create duplicate workout names.
+- Keeps the light client portal and all Version 2.2 enrollment/email functionality.
+
+SETUP
+1. Upload the extracted project files to GitHub.
+2. In Supabase, open SQL Editor.
+3. Run SUPABASE-V3-0-SIGNATURE-TRAINING-SYSTEM.sql again.
+4. Refresh the Coach Dashboard and verify the new templates under their JP collections.
+
+TEST
+- Confirm 38 signature templates are available after the migration.
+- Search for Push 3, Legs 3, SBD Push 1, Shoulder & Arms 1, Upper Function A/B, Lower Function A, and HIIT Upper Push/Pull.
+- Open several templates and confirm sets, reps, rest, and coaching descriptions load.
+- Re-run the SQL once to verify no duplicate names are created.

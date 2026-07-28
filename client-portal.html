@@ -39,10 +39,25 @@ body{background:radial-gradient(circle at 75% -10%,rgba(200,255,53,.11),transpar
 @media(max-width:980px){.shell{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px 16px 92px}.mobile-bottom-nav{display:grid;position:fixed;z-index:100;left:10px;right:10px;bottom:10px;grid-template-columns:repeat(6,1fr);background:rgba(10,12,9,.94);border:1px solid #343b30;border-radius:20px;padding:7px;backdrop-filter:blur(16px);box-shadow:0 18px 45px #000}.mobile-bottom-nav button{border:0;background:none;color:#8f978b;font-size:.58rem;font-weight:800;padding:8px 2px;border-radius:12px}.mobile-bottom-nav button.active{background:#20251d;color:var(--lime)}.mobile-bottom-nav button span{display:block;font-size:1.05rem;margin-bottom:4px}.hero{min-height:420px;padding:28px;background-position:65% center}.score{width:145px;height:145px}.dashboard-strip{grid-template-columns:1fr 1fr}.today-layout{grid-template-columns:1fr}}
 @media(max-width:620px){.topbar h1{font-size:1.8rem}.profile-pill{font-size:.72rem}.hero{display:block;padding:28px 22px 170px;min-height:580px;background:linear-gradient(180deg,rgba(8,10,8,.97) 0%,rgba(8,10,8,.72) 48%,rgba(8,10,8,.25) 100%),url('assets/jeremy-front-flex-v2.jpg') center bottom/cover}.hero h2{font-size:3.8rem}.score{position:absolute;left:22px;bottom:20px;width:125px;height:125px}.score strong{font-size:3.2rem}.dashboard-strip{grid-template-columns:1fr 1fr}.dash-stat{min-height:96px;padding:14px}.dash-stat strong{font-size:1.65rem}.today-card,.coach-note{padding:18px}.grid{grid-template-columns:1fr}.mobile-bottom-nav{overflow-x:auto;grid-template-columns:repeat(6,minmax(65px,1fr))}}
 
+/* VERSION 3.0.1 — LIGHT CLIENT PORTAL */
+:root{--ink:#111411;--panel:#ffffff;--card:#ffffff;--soft:#f2f4ef;--line:#dfe4db;--muted:#697065;--paper:#ffffff}
+body{background:#f7f8f5;color:#151814}
+.loading{background:#fff}.spinner{border-color:#dfe4db;border-top-color:var(--lime)}
+.sidebar{background:#fff;border-right:1px solid #dfe4db;color:#151814}.brand strong{color:#151814}.brand strong:after{color:#788073}.nav button{color:#5f665c}.nav button.active,.nav button:hover{background:#edf2e8;color:#151814}.signout{border-color:#d5dbd1;color:#4e554b;background:#fff}
+.main{background:#f7f8f5}.topbar{background:linear-gradient(#f7f8f5 72%,transparent)}.topbar h1{color:#151814}.profile-pill{background:#fff;border-color:#dfe4db;color:#151814;box-shadow:0 8px 25px rgba(22,30,18,.07)}
+.hero{color:#fff;border-color:#cad2c3;box-shadow:0 22px 65px rgba(32,43,26,.14)}.hero p{color:#d9ded5}.score{color:#fff}
+.dash-stat{background:#fff;border-color:#dfe4db;color:#151814;box-shadow:0 8px 24px rgba(25,35,20,.05)}.dash-stat small{color:#747c70}.dash-stat.primary{background:var(--lime);border-color:#b6e82d}.today-card,.coach-note,.card,.form-card,.list-item,.macro,.client-program{background:#fff;border-color:#dfe4db;color:#151814;box-shadow:0 8px 24px rgba(25,35,20,.045)}
+.coach-note{background:linear-gradient(145deg,#ffffff,#f2f5ee)}.coach-note blockquote{color:#3f463c}.exercise-preview div{background:#f4f6f1;border-color:#e0e5dc}.exercise-preview b{background:#e6ecdF;color:#344126}.exercise-preview em,.card p,.list-item span,.macro span,.empty{color:#747c70}
+.client-program-head{background:#edf2e8;border-color:#dfe4db}.client-program-row{border-color:#e1e5de}.client-program-desc{border-color:#e1e5de;color:#333a31}.client-program-rest{color:#4b5248}.client-program-thumb{background:#edf0ea;color:#71796e}
+.field input,.field textarea,.message-compose input{background:#fff;color:#151814;border-color:#ced5ca}.message-box{background:#f4f6f1;border-color:#dfe4db}.bubble{background:#e8ece5;color:#151814}.bubble.mine{background:var(--lime)}.notice{background:#eef3e9;color:#20251e}
+.btn.dark{background:#181b17;color:#fff}
+.mobile-bottom-nav{background:rgba(255,255,255,.96)!important;border-color:#d8ded4!important;box-shadow:0 15px 40px rgba(25,35,20,.16)!important}.mobile-bottom-nav button{color:#687064!important}.mobile-bottom-nav button.active{background:#edf2e8!important;color:#151814!important}
+@media(max-width:620px){.hero{background:linear-gradient(180deg,rgba(8,10,8,.91) 0%,rgba(8,10,8,.58) 48%,rgba(8,10,8,.18) 100%),url('assets/jeremy-front-flex-v2.jpg') center bottom/cover}}
+
 </style>
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#f7f8f5">
 <meta name="description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">
 <meta property="og:title" content="Client Portal | JP Fit">
 <meta property="og:description" content="JP Fit provides personalized personal training, mobile training, online coaching, nutrition guidance, accountability, and progress tracking.">

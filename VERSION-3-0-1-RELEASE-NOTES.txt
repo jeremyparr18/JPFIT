@@ -1,0 +1,12 @@
+JP FIT VERSION 3.0.1 — LIGHT CLIENT PORTAL
+
+Changes:
+- Converted the client portal to a clean white background and white card system.
+- Preserved JP Fit black and lime branding.
+- Kept the hero section dark for contrast and readability.
+- Added Push 3 — Advanced to JP Hypertrophy.
+- Added Legs 3 — Intermediate/Advanced to JP Hypertrophy.
+- Existing Version 3.0 and Version 2.2 features remain unchanged.
+
+Database:
+Run SUPABASE-V3-0-SIGNATURE-TRAINING-SYSTEM.sql again. It is duplicate-safe and will add/update Push 3 and Legs 3 without duplicating existing templates.
