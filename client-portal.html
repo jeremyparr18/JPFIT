@@ -28,6 +28,17 @@
 .client-program-rest{padding:10px;color:#ddd;font-size:.74rem}
 @media(max-width:650px){.client-program-row{grid-template-columns:48px 1fr}.client-program-desc,.client-program-rest{grid-column:1/-1;border:0;border-top:1px solid #292929}}
 
+
+/* VERSION 3.0 — PREMIUM CLIENT EXPERIENCE */
+:root{--lime:#c8ff35;--ink:#070908;--panel:#111410;--card:#171b16;--soft:#222820;--line:#30372d;--muted:#a6ada2;--paper:#f5f5ef}
+body{background:radial-gradient(circle at 75% -10%,rgba(200,255,53,.11),transparent 31%),#090b09}
+.shell{grid-template-columns:276px 1fr}.sidebar{background:linear-gradient(180deg,#090b09,#050605);border-right:1px solid #20251e;padding:22px 16px}.brand{padding:4px 4px 18px}.brand strong:after{content:'COACHING PLATFORM';display:block;font-family:Inter,sans-serif;font-size:.48rem;color:#7f877b;letter-spacing:.19em;margin-top:4px}.nav button{display:flex;align-items:center;gap:11px;font-size:.84rem;padding:13px 14px}.nav button:before{width:22px;text-align:center;font-size:1rem}.nav button[data-panel="dashboard"]:before{content:'⌂'}.nav button[data-panel="workouts"]:before{content:'▣'}.nav button[data-panel="nutrition"]:before{content:'◔'}.nav button[data-panel="progress"]:before{content:'↗'}.nav button[data-panel="checkins"]:before{content:'✓'}.nav button[data-panel="messages"]:before{content:'✉'}.main{max-width:1540px;width:100%;margin:auto;padding:28px 34px 90px}.topbar{position:sticky;top:0;z-index:20;padding:12px 0 18px;background:linear-gradient(#090b09 70%,transparent)}.topbar h1{font-size:2.15rem;letter-spacing:.015em}.profile-pill{background:#121512;border-color:#2b3128;box-shadow:0 10px 35px rgba(0,0,0,.28)}
+.hero{position:relative;overflow:hidden;min-height:380px;border-radius:30px;padding:42px;background:linear-gradient(110deg,rgba(10,13,10,.96) 0%,rgba(12,15,12,.88) 52%,rgba(12,15,12,.18) 100%),url('assets/jeremy-front-flex-v2.jpg') center right/cover;border:1px solid #353c31;box-shadow:0 25px 80px rgba(0,0,0,.38)}.hero:after{content:'';position:absolute;inset:auto 0 0;height:90px;background:linear-gradient(transparent,rgba(0,0,0,.5));pointer-events:none}.hero>div:first-child{position:relative;z-index:2;max-width:650px}.hero h2{font-size:clamp(3.6rem,7vw,6.8rem);max-width:680px;margin:13px 0 15px;letter-spacing:-.03em}.hero p{max-width:600px;font-size:1rem;line-height:1.7}.score{align-self:end;justify-self:end;width:190px;height:190px;border-radius:50%;border:1px solid #3a4434;background:rgba(8,10,8,.82);backdrop-filter:blur(12px);position:relative;z-index:2;box-shadow:inset 0 0 0 10px rgba(200,255,53,.04)}.score strong{font-size:4.5rem}.btn{box-shadow:0 12px 30px rgba(200,255,53,.13);transition:.2s transform,.2s filter}.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.dashboard-strip{display:grid;grid-template-columns:1.25fr repeat(3,1fr);gap:12px;margin-top:14px}.dash-stat{background:linear-gradient(145deg,#171b16,#10130f);border:1px solid #2b3228;border-radius:20px;padding:18px;min-height:112px}.dash-stat small{display:block;color:#8c9488;text-transform:uppercase;letter-spacing:.12em;font-size:.62rem;font-weight:800}.dash-stat strong{display:block;font-family:'Barlow Condensed';font-size:2.25rem;margin-top:9px}.dash-stat.primary{background:var(--lime);color:#10120e}.dash-stat.primary small{color:#3e4932}.dash-stat.primary strong{font-size:2.6rem}.today-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:16px;margin-top:20px}.today-card,.coach-note{background:#131612;border:1px solid #2d342a;border-radius:24px;padding:24px}.today-card h3,.coach-note h3{font-family:'Barlow Condensed';text-transform:uppercase;font-size:2rem;margin:4px 0 16px}.exercise-preview{display:grid;gap:8px}.exercise-preview div{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:12px;border-radius:14px;background:#0d100d;border:1px solid #232820}.exercise-preview b{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#222820;color:var(--lime)}.exercise-preview span{font-weight:800}.exercise-preview em{font-style:normal;color:#929a8e;font-size:.75rem}.coach-note{background:linear-gradient(145deg,#1c2119,#11140f)}.coach-note blockquote{margin:14px 0 0;color:#d8ddd4;line-height:1.8;font-size:.95rem}.coach-note .coach-mini{display:flex;align-items:center;gap:12px}.coach-mini img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--lime)}
+.grid{grid-template-columns:repeat(3,1fr);gap:12px}.card{background:linear-gradient(145deg,#171b16,#111410);border-color:#2a3027;border-radius:20px;min-height:155px}.card h3{font-family:'Barlow Condensed';text-transform:uppercase;font-size:1.55rem}.metric{font-size:2.35rem}.section-title{font-size:2.5rem}.form-card,.list-item,.macro{background:#131612;border-color:#2b3228}.client-program{background:#111410;border-color:#2b3228;border-radius:22px}.client-program-head{background:#181c16;padding:20px}.client-program-row{border-color:#282e25}.client-program-desc{border-color:#282e25}.message-box{background:#0c0f0c}.bubble{background:#22271f}.mobile-bottom-nav{display:none}
+@media(max-width:980px){.shell{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px 16px 92px}.mobile-bottom-nav{display:grid;position:fixed;z-index:100;left:10px;right:10px;bottom:10px;grid-template-columns:repeat(6,1fr);background:rgba(10,12,9,.94);border:1px solid #343b30;border-radius:20px;padding:7px;backdrop-filter:blur(16px);box-shadow:0 18px 45px #000}.mobile-bottom-nav button{border:0;background:none;color:#8f978b;font-size:.58rem;font-weight:800;padding:8px 2px;border-radius:12px}.mobile-bottom-nav button.active{background:#20251d;color:var(--lime)}.mobile-bottom-nav button span{display:block;font-size:1.05rem;margin-bottom:4px}.hero{min-height:420px;padding:28px;background-position:65% center}.score{width:145px;height:145px}.dashboard-strip{grid-template-columns:1fr 1fr}.today-layout{grid-template-columns:1fr}}
+@media(max-width:620px){.topbar h1{font-size:1.8rem}.profile-pill{font-size:.72rem}.hero{display:block;padding:28px 22px 170px;min-height:580px;background:linear-gradient(180deg,rgba(8,10,8,.97) 0%,rgba(8,10,8,.72) 48%,rgba(8,10,8,.25) 100%),url('assets/jeremy-front-flex-v2.jpg') center bottom/cover}.hero h2{font-size:3.8rem}.score{position:absolute;left:22px;bottom:20px;width:125px;height:125px}.score strong{font-size:3.2rem}.dashboard-strip{grid-template-columns:1fr 1fr}.dash-stat{min-height:96px;padding:14px}.dash-stat strong{font-size:1.65rem}.today-card,.coach-note{padding:18px}.grid{grid-template-columns:1fr}.mobile-bottom-nav{overflow-x:auto;grid-template-columns:repeat(6,minmax(65px,1fr))}}
+
 </style>
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -61,14 +72,22 @@
  <div class="topbar"><h1 id="page-title">Client Dashboard</h1><div class="profile-pill"><div class="avatar" id="avatar">J</div><span id="profile-name">Client</span></div></div>
 
  <section class="panel active" id="dashboard">
-  <div class="hero"><div><span class="eyebrow">YOUR JP FIT COACHING HUB</span><h2 id="welcome-name">Welcome back.</h2><p id="membership-copy">Loading your membership...</p><a class="btn" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">Book a Session</a></div><div class="score"><div><strong id="adherence-score">0%</strong><span>LATEST CHECK-IN ADHERENCE</span></div></div></div>
+  <div class="hero"><div><span class="eyebrow">FITNESS. ANYTIME. ANYWHERE.</span><h2 id="welcome-name">Bring the Energy.</h2><p id="membership-copy">Your workout, habits, nutrition, progress and direct coach support—inside one personalized JP Fit experience.</p><a class="btn" href="#" onclick="document.querySelector('[data-panel=workouts]').click();return false">START TODAY'S WORKOUT</a></div><div class="score"><div><strong id="adherence-score">0%</strong><span>LATEST ADHERENCE</span></div></div></div>
+  <div class="dashboard-strip">
+    <div class="dash-stat primary"><small>Current Momentum</small><strong>Bring the Energy.</strong></div>
+    <div class="dash-stat"><small>Current Weight</small><strong id="current-weight">—</strong></div>
+    <div class="dash-stat"><small>Nutrition Target</small><strong id="dashboard-calories">—</strong></div>
+    <div class="dash-stat"><small>Latest Check-In</small><strong id="checkin-status">Pending</strong></div>
+  </div>
+  <div class="today-layout">
+    <article class="today-card"><span class="eyebrow">TODAY</span><h3>YOUR TRAINING PLAN</h3><div class="exercise-preview"><div><b>01</b><span id="next-workout-copy">No workout assigned yet.</span><em id="next-workout-status">Pending</em></div><div><b>02</b><span>Log nutrition and water</span><em>Daily target</em></div><div><b>03</b><span>Complete your habits</span><em>Build consistency</em></div></div><button class="btn dark" style="margin-top:16px" onclick="document.querySelector('[data-panel=workouts]').click()">VIEW FULL WORKOUT</button></article>
+    <article class="coach-note"><div class="coach-mini"><img src="assets/jeremy-classic-v2.jpg" alt="Coach Jeremy"><div><span class="eyebrow">COACH MESSAGE</span><h3 style="margin:3px 0 0">Jeremy's Note</h3></div></div><blockquote id="coach-message">Welcome to JP Fit. Coach Jeremy will update your dashboard soon.</blockquote><div style="margin-top:18px;color:#8f978b;font-size:.75rem"><span id="message-count">0 New</span> · Direct coach support</div></article>
+  </div>
+  <div class="section-head"><h2 class="section-title">Your Plan</h2></div>
   <div class="grid">
-   <article class="card"><h3>Next Workout</h3><p id="next-workout-copy">No workout assigned yet.</p><span class="metric" id="next-workout-status">Pending</span></article>
-   <article class="card"><h3>Current Weight</h3><p>Most recent progress entry</p><span class="metric" id="current-weight">—</span></article>
-   <article class="card"><h3>Nutrition Target</h3><p>Daily calorie goal</p><span class="metric" id="dashboard-calories">—</span></article>
    <article class="card"><h3>Agreement</h3><p id="agreement-program">JP Fit membership</p><span class="metric" id="agreement-term">—</span></article>
-   <article class="card"><h3>Latest Check-In</h3><p id="checkin-copy">No check-in submitted yet.</p><span class="metric" id="checkin-status">Pending</span></article>
-   <article class="card"><h3>Coach Message</h3><p id="coach-message">Welcome to JP Fit. Coach Jeremy will update your dashboard soon.</p><span class="metric" id="message-count">0 New</span></article>
+   <article class="card"><h3>Weekly Check-In</h3><p id="checkin-copy">No check-in submitted yet.</p><span class="metric">Stay accountable</span></article>
+   <article class="card"><h3>Book Coaching</h3><p>Schedule your next session with Jeremy.</p><a class="btn" target="_blank" rel="noopener" href="https://calendly.com/jeremyparr18/30min">BOOK A SESSION</a></article>
   </div>
  </section>
 
@@ -119,6 +138,9 @@
  </section>
 </main>
 </div>
+<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+<button class="active" data-panel="dashboard"><span>⌂</span>Home</button><button data-panel="workouts"><span>▣</span>Workout</button><button data-panel="nutrition"><span>◔</span>Nutrition</button><button data-panel="progress"><span>↗</span>Progress</button><button data-panel="checkins"><span>✓</span>Check-In</button><button data-panel="messages"><span>✉</span>Chat</button>
+</nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script><script src="supabase-client.js"></script>
 <script>
@@ -128,10 +150,10 @@
  const $=id=>document.getElementById(id);
  $("progress-date").value=new Date().toISOString().slice(0,10);
 
- document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{
-   document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+ document.querySelectorAll(".nav button[data-panel], .mobile-bottom-nav button[data-panel]").forEach(btn=>btn.onclick=()=>{
+   document.querySelectorAll(".nav button[data-panel], .mobile-bottom-nav button[data-panel]").forEach(b=>b.classList.toggle("active",b.dataset.panel===btn.dataset.panel));
    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(btn.dataset.panel).classList.add("active");
-   $("page-title").textContent=btn.textContent;
+   $("page-title").textContent=btn.textContent.trim(); window.scrollTo({top:0,behavior:"smooth"});
  });
  $("signout").onclick=jpSignOut;
 

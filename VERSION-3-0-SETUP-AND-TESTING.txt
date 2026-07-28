@@ -1,0 +1,35 @@
+JP FIT VERSION 3.0 — SIGNATURE TRAINING SYSTEM
+
+WHAT IS INCLUDED
+- Complete client portal visual revamp inspired by the supplied premium coaching-platform reference.
+- Responsive desktop and mobile client experience with bottom mobile navigation.
+- Premium home dashboard, coach message card, workout call-to-action, adherence, nutrition and progress summaries.
+- 157 curated exercises covering machines, cables, barbells, dumbbells, bodyweight, athletic work and mobility.
+- Machine rows, PRIME rows/pulldowns, hack squat, leg press, machine shoulder work and other selectorized/plate-loaded movements.
+- Full cable selection including overhead cable triceps extensions, cross-body extensions, Bayesian curls, face pulls, rows and pullovers.
+- 18 deduplicated Signature workout templates imported from Jeremy's screenshots.
+- Collections: JP Hypertrophy, JP Strength (SBD), JP Athletic Performance, JP Mobility & Recovery.
+- Jeremy's Favorites tagging for frequently used movements.
+
+SETUP
+1. Upload the extracted JPFIT-main project files to the GitHub repository.
+2. Let Vercel finish the deployment.
+3. In Supabase SQL Editor, run SUPABASE-V3-0-SIGNATURE-TRAINING-SYSTEM.sql once.
+4. Refresh the Coach Dashboard. Open Program Studio and Exercise Library.
+5. Confirm Signature templates and Jeremy's Favorites appear.
+6. Test the client portal on desktop and mobile.
+
+IMPORTANT
+- The SQL is idempotent: running it again updates matching exercise/template names rather than creating duplicates.
+- Obvious duplicate screenshots were consolidated into level-based or focus-based flagship templates.
+- Existing Version 2.2 enrollment, email and Stripe functionality remains untouched.
+- Existing client data is not deleted or replaced.
+
+TEST CHECKLIST
+- Client login and Coach login
+- Client portal navigation on desktop and mobile
+- Workouts, nutrition, progress, check-ins and messaging
+- Coach Program Studio template loading
+- Exercise Library search/filtering
+- Jeremy's Favorites
+- Enrollment email and Stripe checkout
