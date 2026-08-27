@@ -345,7 +345,7 @@ body{background:#f7f9f5;color:var(--ink)}
  document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$(b.dataset.panel).classList.add("active");$("title").textContent=b.textContent});
  $("signout").onclick=jpSignOut;
 
- const [{data:profiles},{data:enrollments},{data:intakes},{data:progress},{data:checkins},{data:messages},{data:exercises},{data:templates},{data:coachEnrollmentRows,error:coachEnrollmentError}] = await Promise.all([
+ let [{data:profiles},{data:enrollments},{data:intakes},{data:progress},{data:checkins},{data:messages},{data:exercises},{data:templates},{data:coachEnrollmentRows,error:coachEnrollmentError}] = await Promise.all([
   jpSupabase.from("profiles").select("*").eq("role","client").order("created_at",{ascending:false}),
   jpSupabase.from("enrollments").select("*").order("created_at",{ascending:false}),
   jpSupabase.from("intake_forms").select("*").order("submitted_at",{ascending:false}),
