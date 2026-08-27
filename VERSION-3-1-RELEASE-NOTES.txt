@@ -1,0 +1,10 @@
+JP FIT VERSION 3.1 — PROFESSIONAL SAAS REDESIGN
+
+- Unified white/light design for Coach Studio and Client Portal
+- Preserves every Version 3.0.2 feature and all 38 signature workouts
+- Modernized navigation, cards, forms, tables, messages, exercise library and program builder
+- Added Coach quick-action workspace and platform status panel
+- Added Client daily-focus and direct coaching-support cards
+- Responsive desktop, tablet and mobile refinements
+- No AI coach features included
+- No Supabase migration required beyond the Version 3.0.2 workout migration

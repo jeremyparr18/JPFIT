@@ -128,8 +128,8 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
       <p class="lead">The agreement changes your commitment and downgrade rights—not your training price.</p>
       <div class="agreement-grid">
         <label class="option-card agreement-card"><input type="radio" name="term" value="Month-to-Month"><span class="tag">FLEXIBLE</span><h3>Month-to-Month</h3><ul><li>30 days’ written cancellation notice</li><li>Billing continues through the notice period</li><li>No fixed minimum term</li></ul></label>
-        <label class="option-card agreement-card"><input type="radio" name="term" value="6-Month Agreement"><span class="tag">ACCOUNTABILITY</span><h3>6 Months</h3><ul><li>Six-month minimum commitment</li><li>One downgrade allowed after 60 days</li><li>Early termination fee: one final biweekly payment</li></ul></label>
-        <label class="option-card agreement-card"><input type="radio" name="term" value="12-Month Agreement"><span class="tag">MAXIMUM PROGRESS</span><h3>12 Months</h3><ul><li>Twelve-month minimum commitment</li><li>Up to two downgrades after 90 days</li><li>Early termination fee: one final biweekly payment</li></ul></label>
+        <label class="option-card agreement-card"><input type="radio" name="term" value="6-Month Agreement"><span class="tag">ACCOUNTABILITY</span><h3>6 Months</h3><ul><li>Six-month minimum commitment</li><li>One downgrade allowed after 60 days</li><li>Early termination fee: two additional biweekly payments</li></ul></label>
+        <label class="option-card agreement-card"><input type="radio" name="term" value="12-Month Agreement"><span class="tag">MAXIMUM PROGRESS</span><h3>12 Months</h3><ul><li>Twelve-month minimum commitment</li><li>Up to two downgrades after 90 days</li><li>Early termination fee: two additional biweekly payments</li></ul></label>
       </div>
       <div class="actions"><button class="btn ghost prev">← Back</button><button class="btn primary next" disabled>Enter Your Information →</button></div>
     </section>
@@ -169,7 +169,7 @@ button,input,select,textarea{font:inherit}a{color:inherit}.shell{min-height:100v
             <p><strong>Six-month agreement:</strong> After the first 60 days, the Client may request one reduction in training frequency during the term. <strong>Twelve-month agreement:</strong> After the first 90 days, the Client may request up to two reductions in frequency during the term. Downgrades require written approval, take effect on a future billing cycle, do not shorten the agreement, and change future charges to the current rate for the lower frequency.</p>
 
             <h3>6. Early Termination</h3>
-            <p>A Client ending a six- or twelve-month agreement before the scheduled end date must provide written notice and pay an early termination fee equal to <strong>one final biweekly payment at the Client’s then-current rate</strong>. JP Fit may waive or modify the fee in writing for documented medical inability, permanent relocation, death, or another exceptional circumstance.</p>
+            <p>A Client ending a six- or twelve-month agreement before the scheduled end date must provide written notice and pay an early termination fee equal to <strong>two additional biweekly payments at the Client’s then-current rate</strong>. JP Fit may waive or modify the fee in writing for documented medical inability, permanent relocation, death, or another exceptional circumstance.</p>
 
             <h3>7. Sessions, Rescheduling, and Expiration</h3>
             <ul><li>At least 24 hours’ notice is required to cancel or reschedule a live session.</li><li>Late cancellations and no-shows may result in forfeiture of that session.</li><li>Emergencies may be reviewed at JP Fit’s discretion.</li><li>Unused sessions generally expire within the applicable billing period unless JP Fit approves an extension in writing.</li><li>JP Fit may reschedule a session and will provide a replacement opportunity when reasonably possible.</li></ul>
@@ -317,8 +317,8 @@ function buildFrequencies(){
 function currentPrice(){if(!state.service)return 0;if(state.service==="online"&&state.term)return plans.online.termPrices[state.term]||60;return plans[state.service].prices[state.frequency]||0}
 function termClause(){
  if(state.term==="Month-to-Month")return "<strong>Month-to-Month:</strong> The arrangement has no fixed minimum term. The Client may cancel with 30 days’ written notice, and billing continues during that notice period.";
- if(state.term==="6-Month Agreement")return "<strong>Six-Month Agreement:</strong> The Client accepts a six-month minimum commitment. Early termination requires written notice and one final biweekly payment. One downgrade may be requested after 60 days.";
- return "<strong>Twelve-Month Agreement:</strong> The Client accepts a twelve-month minimum commitment. Early termination requires written notice and one final biweekly payment. Up to two downgrades may be requested after 90 days.";
+ if(state.term==="6-Month Agreement")return "<strong>Six-Month Agreement:</strong> The Client accepts a six-month minimum commitment. Early termination requires written notice and two additional biweekly payments. One downgrade may be requested after 60 days.";
+ return "<strong>Twelve-Month Agreement:</strong> The Client accepts a twelve-month minimum commitment. Early termination requires written notice and two additional biweekly payments. Up to two downgrades may be requested after 90 days.";
 }
 function updateReview(){
  state.price=currentPrice();

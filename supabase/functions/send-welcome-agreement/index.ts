@@ -147,7 +147,7 @@ Deno.serve(async (request: Request) => {
         <p>For a six-month agreement, the client may request one reduction in training frequency after the first sixty days. For a twelve-month agreement, the client may request up to two reductions after the first ninety days. A downgrade requires written approval, applies to a future billing cycle, does not shorten the agreement term, and changes future charges to the then-current rate for the lower frequency.</p>
 
         <h3>7. Early Termination</h3>
-        <p>A client ending a six-month or twelve-month agreement before its scheduled end must provide written notice and pay an early termination fee equal to one final biweekly payment at the client’s then-current rate. JP Fit may waive or modify the fee in writing for documented medical inability, permanent relocation, death, or another exceptional circumstance.</p>
+        <p>A client ending a six-month or twelve-month agreement before its scheduled end must provide written notice and pay an early termination fee equal to two additional biweekly payments at the client’s then-current rate. JP Fit may waive or modify the fee in writing for documented medical inability, permanent relocation, death, or another exceptional circumstance.</p>
 
         <h3>8. Health, Risk, and Medical Clearance</h3>
         <p>The client confirms that relevant health conditions have been disclosed and understands that exercise involves inherent risks. The client should obtain medical clearance when appropriate and must stop exercising and seek appropriate help if unusual pain, dizziness, shortness of breath, or other concerning symptoms occur.</p>

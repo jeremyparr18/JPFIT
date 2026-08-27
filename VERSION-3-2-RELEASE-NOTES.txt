@@ -1,0 +1,11 @@
+JP Fit Version 3.2
+
+- Fixed intermittent Coach Studio authorization race/connection issue with retry-aware role verification.
+- Coach accounts can open Client Portal and use a dedicated Coach Studio link.
+- Coach account is excluded from client roster.
+- Added client Quick Actions: Profile, Workout, Check-In, Progress, Notes.
+- Expanded Client Profile with overview, progress, check-ins, nutrition, private notes, and messages shortcuts.
+- Added Needs Attention dashboard for overdue/missing check-ins and progress.
+- Homepage starting price updated to $100/month.
+- Added expandable View More Transformations gallery and four new transformation images.
+- Fixed-term early termination language updated from one final biweekly payment to two additional biweekly payments in checkout and agreement email templates.

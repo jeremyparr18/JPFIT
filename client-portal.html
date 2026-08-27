@@ -54,6 +54,18 @@ body{background:#f7f8f5;color:#151814}
 .mobile-bottom-nav{background:rgba(255,255,255,.96)!important;border-color:#d8ded4!important;box-shadow:0 15px 40px rgba(25,35,20,.16)!important}.mobile-bottom-nav button{color:#687064!important}.mobile-bottom-nav button.active{background:#edf2e8!important;color:#151814!important}
 @media(max-width:620px){.hero{background:linear-gradient(180deg,rgba(8,10,8,.91) 0%,rgba(8,10,8,.58) 48%,rgba(8,10,8,.18) 100%),url('assets/jeremy-front-flex-v2.jpg') center bottom/cover}}
 
+
+/* VERSION 3.1 — UNIFIED CLIENT LIGHT EXPERIENCE */
+:root{--lime:#c8ff35;--ink:#151914;--muted:#727a6f;--surface:#fff;--soft:#f3f6f0;--line:#dfe5da;--shadow:0 12px 34px rgba(31,42,27,.07)}
+body{background:#f7f9f5;color:var(--ink)}.loading{background:#f7f9f5;color:var(--ink)}
+.shell{grid-template-columns:272px minmax(0,1fr)}.sidebar{background:#fff;border-right:1px solid var(--line);box-shadow:8px 0 30px rgba(31,42,27,.035)}.brand strong{color:#111}.nav button{color:#667061}.nav button.active,.nav button:hover{background:#edf3e8;color:#10140f}.signout{border-color:#d6ddd1;color:#586053;background:#fafcf8}
+.main{padding:32px 34px 90px;max-width:1600px;width:100%;margin:auto}.topbar{padding:4px 0 14px;border-bottom:1px solid var(--line)}.topbar h1{color:#10140f;letter-spacing:-.02em}.profile-pill{background:#fff;border-color:var(--line);color:#30372d;box-shadow:var(--shadow)}
+.hero{box-shadow:0 20px 52px rgba(24,34,20,.16);border:0}.dashboard-strip{gap:14px}.dash-stat,.today-card,.coach-note,.card,.form-card,.list-item,.macro,.client-program{box-shadow:var(--shadow);border-color:var(--line)}
+.section-title{color:#141813}.field input,.field textarea,.message-compose input{background:#fff;color:#151914;border-color:#cfd8ca}.field input:focus,.field textarea:focus,.message-compose input:focus{outline:3px solid rgba(200,255,53,.22);border-color:#a8d626}.message-box{background:#f3f6f0}.client-program{overflow:hidden}.client-program-head{background:#eef3e9}.btn.dark{background:#171b16}
+.client-welcome-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px;margin-top:18px}.client-mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.client-mini-card h3{margin:0 0 8px}.habit-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #edf0eb}.habit-row:last-child{border-bottom:0}.habit-check{width:22px;height:22px;border-radius:7px;background:#e7eddf;display:grid;place-items:center;color:#4d5c43;font-weight:900}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.main{padding:24px 24px 90px}.client-welcome-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.main{padding:18px 16px 92px}.topbar h1{font-size:2.45rem}.hero{border-radius:20px}.dashboard-strip{grid-template-columns:1fr 1fr}}
+
 </style>
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -79,7 +91,7 @@ body{background:#f7f8f5;color:#151814}
   <button data-panel="nutrition">Nutrition</button>
   <button data-panel="progress">Progress</button>
   <button data-panel="checkins">Check-Ins</button>
-  <button data-panel="messages">Messages</button><button type="button" onclick="location.href=&quot;changelog.html&quot;">What’s New</button>
+  <button data-panel="messages">Messages</button><button id="coach-studio-link" type="button" style="display:none" onclick="location.href=&quot;coach-dashboard.html&quot;">Coach Studio ↗</button><button type="button" onclick="location.href=&quot;changelog.html&quot;">What’s New</button>
  </nav>
  <div class="sidebar-bottom"><button class="signout" id="signout">Sign Out</button></div>
 </aside>
@@ -97,6 +109,10 @@ body{background:#f7f8f5;color:#151814}
   <div class="today-layout">
     <article class="today-card"><span class="eyebrow">TODAY</span><h3>YOUR TRAINING PLAN</h3><div class="exercise-preview"><div><b>01</b><span id="next-workout-copy">No workout assigned yet.</span><em id="next-workout-status">Pending</em></div><div><b>02</b><span>Log nutrition and water</span><em>Daily target</em></div><div><b>03</b><span>Complete your habits</span><em>Build consistency</em></div></div><button class="btn dark" style="margin-top:16px" onclick="document.querySelector('[data-panel=workouts]').click()">VIEW FULL WORKOUT</button></article>
     <article class="coach-note"><div class="coach-mini"><img src="assets/jeremy-classic-v2.jpg" alt="Coach Jeremy"><div><span class="eyebrow">COACH MESSAGE</span><h3 style="margin:3px 0 0">Jeremy's Note</h3></div></div><blockquote id="coach-message">Welcome to JP Fit. Coach Jeremy will update your dashboard soon.</blockquote><div style="margin-top:18px;color:#8f978b;font-size:.75rem"><span id="message-count">0 New</span> · Direct coach support</div></article>
+  </div>
+  <div class="client-welcome-grid">
+    <article class="client-mini-card"><span class="eyebrow">DAILY FOCUS</span><h3>Win the basics today.</h3><div class="habit-row"><span>Complete assigned training</span><span class="habit-check">✓</span></div><div class="habit-row"><span>Hit protein and calorie targets</span><span class="habit-check">○</span></div><div class="habit-row"><span>Log progress or check-in</span><span class="habit-check">○</span></div></article>
+    <article class="client-mini-card"><span class="eyebrow">COACHING SUPPORT</span><h3>Need Jeremy?</h3><p style="color:var(--muted);line-height:1.65">Use Messages for training questions or book your next session directly from the portal.</p><button class="btn dark" type="button" onclick="document.querySelector('[data-panel=messages]').click()">MESSAGE COACH</button></article>
   </div>
   <div class="section-head"><h2 class="section-title">Your Plan</h2></div>
   <div class="grid">
@@ -182,6 +198,7 @@ body{background:#f7f8f5;color:#151814}
    jpSupabase.from("messages").select("*").eq("client_id",user.id).order("created_at",{ascending:true})
  ]);
 
+ if(["coach","admin"].includes(profile?.role)){const coachLink=$("coach-studio-link");if(coachLink)coachLink.style.display="block";}
  const name=profile?.full_name||user.user_metadata?.full_name||user.email.split("@")[0];
  $("profile-name").textContent=name;$("avatar").textContent=name[0].toUpperCase();$("welcome-name").textContent=`Welcome, ${name.split(" ")[0]}.`;
  const enrollment=enrollments?.[0];

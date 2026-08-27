@@ -1,0 +1,20 @@
+JP FIT VERSION 3.1 SETUP AND TESTING
+
+1. Extract this ZIP and upload the files inside JPFIT-main to GitHub.
+2. Allow Vercel to deploy the update.
+3. No new Version 3.1 SQL migration is required. If Version 3.0.2 workouts were not installed, run SUPABASE-V3-0-SIGNATURE-TRAINING-SYSTEM.sql once.
+4. Hard refresh both portals with Ctrl+Shift+R.
+
+COACH TEST
+- Sign in and confirm white background/sidebar.
+- Test Enroll Client, Client Hub, Program Studio, Exercise Library, Check-Ins and Inbox.
+- Confirm all forms and tables remain readable.
+
+CLIENT TEST
+- Sign in and confirm white/light portal.
+- Test Workouts, Nutrition, Progress, Check-Ins and Messages.
+- Confirm mobile bottom navigation works.
+
+REGRESSION
+- Test enrollment email, Stripe mapping and Supabase saves.
+- Confirm 38 signature templates remain visible after the V3.0 migration.
