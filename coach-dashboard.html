@@ -798,7 +798,7 @@ function normalizeExercise(x){
      <section class="folder-group"><div class="folder-title"><h3>📁 ${folder}</h3><span class="empty">${grouped[folder].length} workouts</span></div>
      <div class="visual-template-grid">${grouped[folder].map(t=>`
        <article class="visual-template-card">
-         <div class="template-cover">${t.cover_url?`<img src="${t.cover_url}" alt="${t.name}">`:`<strong>${t.name}</strong>`}</div>
+         <div class="template-cover">${t.cover_url?`<img src="${t.cover_url}" alt="${t.name}">`:`<strong>${(t.workout_type||t.goal||"WORKOUT").toUpperCase()}</strong>`}</div>
          <div class="template-info"><strong>${t.name}</strong><span>${t.workout_type||t.goal||"Regular"} · ${(t.exercises||[]).length} exercises · ${t.estimated_minutes?`${t.estimated_minutes} min`:"No time set"}</span>
          <div class="template-actions"><button class="btn dark use-template" data-id="${t.id}">Open</button><button class="btn dark assign-template" data-id="${t.id}">Assign</button><button class="btn dark delete-template" data-id="${t.id}">Delete</button></div></div>
        </article>`).join("")}</div></section>`).join("")||'<div class="empty">No saved templates yet.</div>';
