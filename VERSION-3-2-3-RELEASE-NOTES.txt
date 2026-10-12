@@ -1,0 +1,17 @@
+JP FIT VERSION 3.2.3 — CLIENT WORKOUT TRACKING
+
+WHAT CHANGED
+- Client portal now displays prescribed sets and reps in the assigned workout view.
+- Clients can start a workout and log each set's weight, reps, and completion.
+- Set entries and workout notes save to Supabase when a field changes; the Save Workout button provides an explicit save action.
+- Clients can complete a session, start another session later, and review completed-session dates and set counts.
+- Workout session rows are protected by Supabase Row Level Security so clients can only access sessions associated with their own account and assigned workouts. Coaches can read session history.
+
+DEPLOYMENT
+1. Back up the current site/repository.
+2. In Supabase Dashboard → SQL Editor, run SUPABASE-V32-3-WORKOUT-TRACKING.sql.
+3. Deploy the updated client-portal.html and the rest of this ZIP's site files to the same Vercel project, preserving the existing configuration.
+4. Test with a real client login: open an assigned workout, start it, enter weight/reps, mark a set complete, refresh, verify the values remain, then complete and review history.
+
+NOTE
+This adds the database table and client-side logging. The coach dashboard is not yet updated with a dedicated workout-session history viewer; coach access is permitted by the migration so that can be added next. Existing assigned exercise details are retained as prescribed in workout_assignments.exercises.

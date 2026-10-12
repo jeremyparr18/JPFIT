@@ -66,6 +66,10 @@ body{background:#f7f9f5;color:var(--ink)}.loading{background:#f7f9f5;color:var(-
 @media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.main{padding:24px 24px 90px}.client-welcome-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.main{padding:18px 16px 92px}.topbar h1{font-size:2.45rem}.hero{border-radius:20px}.dashboard-strip{grid-template-columns:1fr 1fr}}
 
+
+/* VERSION 3.2.3 — CLIENT WORKOUT TRACKING */
+.workout-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.workout-action{border:1px solid #dfe5da;background:#fff;color:#151914;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.workout-action.primary{background:var(--lime);border-color:var(--lime)}.workout-action:disabled{opacity:.55;cursor:wait}.tracker-exercise{padding:16px;border-top:1px solid #e1e5de}.tracker-exercise h4{margin:0 0 5px;font-size:1rem}.tracker-meta{font-size:.78rem;color:#626b5d;margin-bottom:10px}.set-table{width:100%;border-collapse:collapse;font-size:.8rem}.set-table th,.set-table td{text-align:left;padding:7px 5px;border-bottom:1px solid #edf0e9}.set-table input{width:100%;min-width:48px;border:1px solid #d4dbcf;border-radius:7px;padding:8px;background:#fff;color:#151914}.set-table input[type=checkbox]{width:18px;min-width:18px;height:18px;accent-color:#91bd18}.tracker-status{font-size:.78rem;color:#526148;margin-top:8px}.workout-history{background:#f4f6f1;border-radius:10px;padding:12px;margin:12px 0;font-size:.8rem}.workout-history summary{font-weight:800;cursor:pointer}.session-note{width:100%;margin-top:12px;min-height:60px;border:1px solid #d4dbcf;border-radius:8px;padding:10px;background:#fff;color:#151914}
+
 </style>
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -188,7 +192,7 @@ body{background:#f7f9f5;color:var(--ink)}.loading{background:#f7f9f5;color:var(-
  });
  $("signout").onclick=jpSignOut;
 
- const [{data:profile},{data:enrollments},{data:progress},{data:checkins},{data:nutrition},{data:workouts},{data:messages}] = await Promise.all([
+ const [{data:profile},{data:enrollments},{data:progress},{data:checkins},{data:nutrition},{data:workouts},{data:messages},{data:workoutSessions,error:sessionLoadError}] = await Promise.all([
    jpSupabase.from("profiles").select("*").eq("id",user.id).maybeSingle(),
    jpSupabase.from("enrollments").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(1),
    jpSupabase.from("progress_entries").select("*").eq("user_id",user.id).order("entry_date",{ascending:false}).limit(20),
@@ -214,26 +218,34 @@ body{background:#f7f9f5;color:var(--ink)}.loading{background:#f7f9f5;color:var(-
    $("checkin-list").innerHTML=rows.length?rows.map(r=>`<div class="list-item"><strong>${new Date(r.checkin_date+"T12:00:00").toLocaleDateString()} · ${r.adherence}% adherence</strong><span>Mood ${r.mood}/10 · Stress ${r.stress}/10 · Status: ${r.status}</span>${r.coach_response?`<p>Coach: ${r.coach_response}</p>`:""}</div>`).join(""):'<div class="empty">No check-ins submitted yet.</div>';
    $("adherence-score").textContent=rows[0]?`${rows[0].adherence}%`:"0%";$("checkin-status").textContent=rows[0]?.status||"Pending";$("checkin-copy").textContent=rows[0]?`Submitted ${new Date(rows[0].checkin_date+"T12:00:00").toLocaleDateString()}`:"No check-in submitted yet.";
  }
+ let sessions=workoutSessions||[];
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function setCount(x){const n=parseInt(x.sets,10);return Number.isFinite(n)?Math.max(1,Math.min(n,12)):3}
+ function initSession(w){return {user_id:user.id,assignment_id:w.id,workout_title:w.title,status:"in_progress",started_at:new Date().toISOString(),logs:(Array.isArray(w.exercises)?w.exercises:[]).map((x,i)=>({exercise_index:i,exercise_name:x.name||`Exercise ${i+1}`,sets:Array.from({length:setCount(x)},()=>({weight:"",reps:"",completed:false}))})),notes:""}}
+ function latestSession(w){return sessions.filter(s=>s.assignment_id===w.id).sort((a,b)=>new Date(b.started_at)-new Date(a.started_at))[0]}
  function renderWorkouts(rows=workouts||[]){
    $("workout-list").innerHTML=rows.length?rows.map(w=>{
-     const exerciseRows=(Array.isArray(w.exercises)?w.exercises:[]).map(x=>`
-       <div class="client-program-row">
-         <div class="client-program-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${x.mediaUrl}"></video>`:`<img src="${x.mediaUrl}" alt="${x.name||"Exercise"}">`):"<span>No media</span>"}</div>
-         <div class="client-program-name">${x.name||"Exercise"}</div>
-         <div class="client-program-desc">${x.description||`${x.sets||"—"} sets × ${x.reps||"—"}`}</div>
-         <div class="client-program-rest">${x.rest?`✋ Rest ${x.rest}`:""}</div>
-       </div>`).join("");
-     return `<div class="client-program">
-       <div class="client-program-head">
-         <strong>${w.title}</strong>
-         <span>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${w.status}</span>
-         ${w.coach_notes?`<p>${w.coach_notes}</p>`:""}
-       </div>
-       ${exerciseRows}
-     </div>`;
+     const xs=Array.isArray(w.exercises)?w.exercises:[],session=latestSession(w),active=session?.status==="in_progress";
+     const history=sessions.filter(s=>s.assignment_id===w.id&&s.status==="completed").map(s=>`<div>${new Date(s.completed_at||s.started_at).toLocaleDateString()} · ${((s.logs||[]).reduce((n,e)=>n+(e.sets||[]).filter(q=>q.completed).length,0))} sets completed</div>`).join("");
+     const exerciseRows=xs.map((x,i)=>{
+       const logged=session?.logs?.[i],n=setCount(x),rowsHtml=Array.from({length:n},(_,j)=>{const q=logged?.sets?.[j]||{};return `<tr><td>${j+1}</td><td><input type="number" min="0" step="0.5" aria-label="${esc(x.name)} set ${j+1} weight" data-log="weight" data-w="${w.id}" data-e="${i}" data-s="${j}" value="${esc(q.weight)}" ${active?"":"disabled"} placeholder="lb"></td><td><input type="number" min="0" step="1" aria-label="${esc(x.name)} set ${j+1} reps" data-log="reps" data-w="${w.id}" data-e="${i}" data-s="${j}" value="${esc(q.reps)}" ${active?"":"disabled"} placeholder="reps"></td><td><input type="checkbox" aria-label="Complete ${esc(x.name)} set ${j+1}" data-log="completed" data-w="${w.id}" data-e="${i}" data-s="${j}" ${q.completed?"checked":""} ${active?"":"disabled"}></td></tr>`}).join("");
+       return `<div class="tracker-exercise"><h4>${esc(x.name||`Exercise ${i+1}`)}</h4><div class="tracker-meta">Prescribed: ${esc(x.sets||n)} sets × ${esc(x.reps||"See instructions")} ${x.rest?` · Rest ${esc(x.rest)}`:""}</div>${x.description?`<p>${esc(x.description)}</p>`:""}<div style="overflow-x:auto"><table class="set-table"><thead><tr><th>Set</th><th>Weight (lb)</th><th>Reps</th><th>Done</th></tr></thead><tbody>${rowsHtml}</tbody></table></div></div>`;
+     }).join("");
+     return `<div class="client-program" data-assignment="${w.id}"><div class="client-program-head"><strong>${esc(w.title)}</strong><p>${w.scheduled_date?new Date(w.scheduled_date+"T12:00:00").toLocaleDateString():"Unscheduled"} · ${esc(w.status)}</p>${w.coach_notes?`<p>${esc(w.coach_notes)}</p>`:""}<div class="workout-actions">${!active?`<button class="workout-action primary" data-session-start="${w.id}">${session?.status==="completed"?"Start Another Session":"Start Workout"}</button>`:`<button class="workout-action primary" data-session-complete="${session.id}">Complete Workout</button><button class="workout-action" data-session-save="${session.id}">Save Workout</button>`}</div><div class="tracker-status" data-session-status="${w.id}">${active?"Workout in progress · changes save when you leave a field.":session?.status==="completed"?"Last session completed. Start another session whenever you're ready.":"Start your workout to log weights, reps, and completed sets."}</div></div>${active?`${exerciseRows}<div style="padding:12px 16px"><label style="font-weight:700;font-size:.8rem">Workout notes<textarea class="session-note" data-session-notes="${session.id}" placeholder="How did the workout feel? Any PRs or adjustments?">${esc(session.notes||"")}</textarea></label></div>`:xs.map((x,i)=>`<div class="client-program-row"><div class="client-program-thumb">${x.mediaUrl?((x.mediaType||"").startsWith("video")?`<video muted preload="metadata"><source src="${esc(x.mediaUrl)}"></video>`:`<img src="${esc(x.mediaUrl)}" alt="${esc(x.name||"Exercise")}">`):"<span>Exercise</span>"}</div><div class="client-program-name">${esc(x.name||"Exercise")}</div><div class="client-program-desc"><strong>${esc(x.sets||setCount(x))} sets × ${esc(x.reps||"See instructions")}</strong><br>${esc(x.description||"")}</div><div class="client-program-rest">${x.rest?`Rest ${esc(x.rest)}`:""}</div></div>`).join("")}${history?`<details class="workout-history"><summary>Completed session history (${sessions.filter(s=>s.assignment_id===w.id&&s.status==="completed").length})</summary>${history}</details>`:""}</div>`;
    }).join(""):'<div class="empty">No workouts assigned yet.</div>';
    if(rows.length){$("next-workout-copy").textContent=rows[0].title;$("next-workout-status").textContent=rows[0].status}
  }
+ async function persistSession(session,noticeId){const {data,error}=await jpSupabase.from("workout_sessions").update({logs:session.logs,notes:session.notes||"",status:session.status,completed_at:session.completed_at||null}).eq("id",session.id).eq("user_id",user.id).select().single();if(error){console.error(error);const el=noticeId?$(noticeId):null;if(el){el.textContent="Could not save workout. Please try again.";el.style.color="#b42318"}return false}Object.assign(session,data);return true}
+ $("workout-list").addEventListener("click",async e=>{
+   const start=e.target.closest("[data-session-start]");if(start){const w=(workouts||[]).find(x=>x.id===start.dataset.sessionStart);if(!w)return;start.disabled=true;const payload=initSession(w);const {data,error}=await jpSupabase.from("workout_sessions").insert(payload).select().single();if(error){alert("Couldn't start workout: "+error.message);start.disabled=false;return}sessions.unshift(data);renderWorkouts();return}
+   const save=e.target.closest("[data-session-save]");if(save){const session=sessions.find(x=>x.id===save.dataset.sessionSave);if(session&&await persistSession(session)){const status=document.querySelector(`[data-session-status="${session.assignment_id}"]`);if(status)status.textContent="Workout saved securely."}return}
+   const complete=e.target.closest("[data-session-complete]");if(complete){const session=sessions.find(x=>x.id===complete.dataset.sessionComplete);if(!session)return;if(!confirm("Finish and save this workout? You can review it later, but this session will be marked complete."))return;session.status="completed";session.completed_at=new Date().toISOString();if(await persistSession(session)){await jpSupabase.from("workout_assignments").update({status:"completed",completed_at:session.completed_at}).eq("id",session.assignment_id).eq("user_id",user.id);const w=workouts.find(x=>x.id===session.assignment_id);if(w)w.status="completed";renderWorkouts()}else session.status="in_progress";return}
+ });
+ let saveTimers={};
+ $("workout-list").addEventListener("change",async e=>{
+   const el=e.target,kind=el.dataset.log;if(kind){const session=latestSession({id:el.dataset.w});if(!session||session.status!=="in_progress")return;const exercise=session.logs?.[+el.dataset.e],set=exercise?.sets?.[+el.dataset.s];if(!set)return;set[kind]=kind==="completed"?el.checked:el.value;const status=document.querySelector(`[data-session-status="${session.assignment_id}"]`);if(status)status.textContent="Saving workout…";const ok=await persistSession(session);if(status)status.textContent=ok?"Workout saved securely.":"Save failed — check your connection and try again.";return}
+   if(el.matches("[data-session-notes]")){const session=sessions.find(x=>x.id===el.dataset.sessionNotes);if(session){session.notes=el.value;await persistSession(session)}}
+ });
  function renderMessages(rows=messages||[]){
    $("message-box").innerHTML=rows.length?rows.map(m=>`<div class="bubble ${m.sender_id===user.id?"mine":""}">${m.body}<small>${new Date(m.created_at).toLocaleString()}</small></div>`).join(""):'<div class="empty">No messages yet.</div>';
    $("message-count").textContent=`${rows.filter(m=>m.sender_id!==user.id&&!m.read_at).length} New`;
