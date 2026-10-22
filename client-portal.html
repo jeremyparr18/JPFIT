@@ -199,7 +199,8 @@ body{background:#f7f9f5;color:var(--ink)}.loading{background:#f7f9f5;color:var(-
    jpSupabase.from("checkins").select("*").eq("user_id",user.id).order("checkin_date",{ascending:false}).limit(20),
    jpSupabase.from("nutrition_targets").select("*").eq("user_id",user.id).maybeSingle(),
    jpSupabase.from("workout_assignments").select("*").eq("user_id",user.id).order("scheduled_date",{ascending:true}),
-   jpSupabase.from("messages").select("*").eq("client_id",user.id).order("created_at",{ascending:true})
+   jpSupabase.from("messages").select("*").eq("client_id",user.id).order("created_at",{ascending:true}),
+   jpSupabase.from("workout_sessions").select("*").eq("user_id",user.id).order("created_at",{ascending:false})
  ]);
 
  if(["coach","admin"].includes(profile?.role)){const coachLink=$("coach-studio-link");if(coachLink)coachLink.style.display="block";}
